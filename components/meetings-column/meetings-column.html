@@ -1,0 +1,43 @@
+<div class="filter-box live-events" #mainBox>
+    <h3>Meetings</h3>
+    <div class="button-create-container">
+        <a href="#" (click)="openLiveSetupFormLeft()" class="c-button-white">Create Meeting
+            <svg *ngIf="sectorService.createMeetingTipShow" class='pulse-svg' height='58px' version='1.1'
+                 viewBox='0 0 58 58' width='58px' xmlns='http://www.w3.org/2000/svg'>
+                <circle class='circle first-circle' cx='29' cy='29' opacity='0' r='25'></circle>
+                <circle class='circle second-circle' cx='29' cy='29' opacity='0' r='25'></circle>
+                <circle class='circle third-circle' cx='29' cy='29' opacity='0' r='25'></circle>
+                <g>
+                    <circle cx='29' cy='29' r='29'></circle>
+                </g>
+            </svg>
+        </a>
+    </div>
+    <!-- Show this content if there is event to be displayed -->
+    <!-- Live events list displaying -->
+    <!--<perfect-scrollbar *ngIf="liveService.upcomingEvents.length" class="scrollbar-element"-->
+                       <!--(ps-y-reach-end)="onAutoLoadUpcomingEvents($event)">-->
+        <ul class="live-event-lc-list">
+            <li *ngFor="let event of liveService.upcomingEvents; let i = index;"
+                [ngClass]="{'live':event.live.isLive, 'upcoming':event.live.isUpcoming, 'passed':event.live.isEnded}">
+                <!--<a href="{{event.url}}" class="live-event-lc-list-a">-->
+                <span class="event name">{{event.name}}</span>
+                <a *ngIf="event.isOwner" href="javascript:;" class="open-options-box open-files-operation"
+                   (click)="onOpenOptionEvent(i)">&bull;&bull;&bull;</a>
+                <ul *ngIf="optionEventVisible == i" class="option-box">
+                    <li (click)="onEditLive(event)"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</li>
+                    <li (click)="onDeleteLive(event)"><i class="fa fa-trash" aria-hidden="true"></i> Delete</li>
+                </ul>
+                <span class="event countdown">{{event.countdown}}</span>
+                <!--<span *ngIf="event.live.isUpcoming" class="event live time">Day  Hrs  Min  Sec</span>-->
+                <span *ngIf="event.live.isLive" class="event status">LIVE</span>
+                <a href="{{event.url}}" class="event url">{{event.url}}</a>
+                <a *ngIf="event.live.isUpcoming && event.isOwner" href="{{event.url}}" class="start">Start the Event</a>
+                <!--</a>-->
+            </li>
+        </ul>
+    <!--</perfect-scrollbar>-->
+    <div class="past-events">
+        <a href="javascript:;" (click)="onFeedFilterPassed()">Past Events ({{liveService.pastPaginationTotalCount}})</a>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+<div class="folder-container" [ngClass]="{active: vaultService.activeFolder === folder.folder.id}">
+    <a class="vault-folder" href="#" (click)="openFolder(folder.folder.id)">
+        <i *ngIf="isOpen && folder.subfolders.length" (click)="toggleFolder()" click-stop-propagation class="fa fa-caret-down" aria-hidden="true"></i>
+        <i *ngIf="!isOpen && folder.subfolders.length" (click)="toggleFolder()" click-stop-propagation class="fa fa-caret-right" aria-hidden="true"></i>
+        {{folder.folder.name}}</a>
+</div>
+<div *ngIf="isOpen" class="subfolders-container">
+    <app-vault-folder *ngFor="let subfolder of folder.subfolders" [folder]="subfolder" [path]="newPath"></app-vault-folder>
+</div>

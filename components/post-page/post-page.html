@@ -1,0 +1,83 @@
+<router-outlet></router-outlet>
+<div class="main-page-inner feed-page single-post-page">
+    <left-column></left-column>
+    <!-- Main column -->
+    <div class="right-column">
+        <!-- Main feed page -->
+        <div class="main-feed-content clearfix">
+            <!-- First main column -->
+            <div class="third-column columns">
+               <!-- Single post container -->
+                <div class="pp-post-container single-feed-post">
+                    <!-- Left container -->
+                    <div class="pp-post-container-left">
+                        <div class="user-image" [userImage]="postService.post.user"><span>R</span></div>
+                    </div>
+                    <!-- Right container -->
+                    <div class="pp-post-container-right">
+                        <!-- Top user info -->
+                        <div class="single-feed-user-top-line">
+                            <a class="name" href="/profile/{{postService.post.user.id}}">{{postService.post.user.username}}</a>
+                            <p [diffTime]="postService.post.create_time" class="time-posted"></p>
+                        </div>
+                        <!-- Simple post -->
+                        <div class="pp-post-container-main">
+                            <p class="pp-post-container-main-desc" #postContainerMainDesc></p>
+                            <!-- Bottom social share content -->
+                            <!--<div class="bottom-content">
+                                <div class="add-commnet">
+                                    <a href="javascript:;">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i> Comment
+                                    </a>
+                                </div>
+                                <div class="social-share">
+                                    <a class="heart" href="javascript:;">
+                                        <i class="fa fa-heart" aria-hidden="true"></i>Like(1)
+                                    </a>
+                                    <a href="javascript:;" class="share">
+                                        <i class="fa fa-share-alt" aria-hidden="true"></i>Share(1)
+                                    </a>
+                                </div>
+                            </div>-->
+                            <!-- Add new comment -->
+                            <div class="pp-post-comment">
+                                <!-- Add new comment -->
+                                <form (ngSubmit)="commentSubmitPost()" #comment="ngForm" name="comments-add" novalidate>
+                                    <div class="pp-post-add-comment-form-field">
+                                        <input [(ngModel)]="message" [disabled]="!globalService.login" name="message" class="pp-post-add-comment-form-field-text" [placeholder]="globalService.login ? 'Add your comment...' : 'Please sign in'"/>
+                                        <input [disabled]="!globalService.login" type="submit" class="pp-post-add-comment-form-field-submit" value="Submit"/>
+                                    </div>
+                                </form>
+                                <div *ngIf="showProgressPost"  class="load-icon-center">
+                                    <img src='images/preloader.gif' class="preload-icon-small">
+                                </div>
+                                <!-- List all comments here -->
+                                <div class="pp-post-comment-list">
+                                    <!-- Single comment here -->
+                                    <div *ngFor="let comment of comments; let i = index" class="pp-post-container single-feed-post">
+                                        <!-- Left container -->
+                                        <div class="pp-post-container-left">
+                                            <div class="user-image" [userImage]="comment.user"></div>
+                                        </div>
+                                        <!-- Right container -->
+                                        <div class="pp-post-container-right">
+                                            <!-- Top user info -->
+                                            <div class="single-feed-user-top-line">
+                                                <a class="name" href="/profile/{{comment.user.id}}">{{comment.user.username}}</a>
+                                                <p class="time-posted" [diffTime]="comment.created_at"></p>
+                                            </div>
+                                            <!-- Simple post -->
+                                            <div class="pp-post-container-main">
+                                                <p class="pp-post-container-main-desc">{{comment.message}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

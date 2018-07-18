@@ -1,0 +1,44 @@
+<div class="follow-container">
+    <!-- Follow Box Channels-->
+    <div class="follow-box">
+        <h2 class="follow-box-title">Organization Channels</h2>
+        <p class="follow-box-desc">These channels are default followed by new users</p>
+        <!-- Adding form -->
+        <p class="create-cf-submit" (click)="openCreateChannel()">Create Channel</p>
+        <!-- Follow box container -->
+        <div *ngFor="let channel of channels;let i = index;" class="follow-box-settings-single">
+            <p class="follow-box-settings-single-name">
+                <i class="fa fa-hashtag" aria-hidden="true"></i>{{channel.name}}</p>
+            <div class="action-links">
+                <!--<a>Followers({{channel.subscribers}})</a>-->
+                <a (click)="editChannel(i)" class="edit">Edit</a>
+                <a (click)="clickDelete(i)" class="fa fa-trash remove" aria-hidden="true"></a>
+            </div>
+        </div>
+    </div>
+    <!--&lt;!&ndash; Follow Box Folders&ndash;&gt;-->
+    <!--<div class="follow-box">-->
+        <!--<h2 class="follow-box-title">Default Folders</h2>-->
+        <!--<p class="follow-box-desc">These folders are default followed by new users</p>-->
+        <!--&lt;!&ndash; Adding form &ndash;&gt;-->
+        <!--<p class="create-cf-submit">Create Folder</p>-->
+        <!--&lt;!&ndash; Follow box container &ndash;&gt;-->
+        <!--<div class="follow-box-settings-single">-->
+            <!--<p class="follow-box-settings-single-name"><i class="fa fa-folder" aria-hidden="true"></i>Home</p>-->
+            <!--<a href="javascript:;" class="fa fa-times remove" aria-hidden="true"></a>-->
+        <!--</div>-->
+        <!--&lt;!&ndash; Follow box container &ndash;&gt;-->
+        <!--<div class="follow-box-settings-single">-->
+            <!--<p class="follow-box-settings-single-name"><i class="fa fa-folder" aria-hidden="true"></i>Work</p>-->
+            <!--<a href="javascript:;" class="fa fa-times remove" aria-hidden="true"></a>-->
+        <!--</div>-->
+        <!--&lt;!&ndash; Follow box container &ndash;&gt;-->
+        <!--<div class="follow-box-settings-single">-->
+            <!--<p class="follow-box-settings-single-name"><i class="fa fa-folder" aria-hidden="true"></i>Shared</p>-->
+            <!--<a href="javascript:;" class="fa fa-times remove" aria-hidden="true"></a>-->
+        <!--</div>-->
+        <!--&lt;!&ndash; Follow box container &ndash;&gt;-->
+    <!--</div>-->
+</div>
+<add-new-channel (closeAddChannel)=closeAddChannelChild($event) [channelIndex]="channelIndex" [channel]="channel" *ngIf="addNewChannelVarVisible"></add-new-channel>
+<delete-dialog *ngIf="deleteDialog" (closeDeleteDialog)="closeDeleteDialog($event)" (okCallBack)="deleteConfirmed($event)" [deleteText]="channel.name"></delete-dialog>

@@ -1,0 +1,151 @@
+<div class="bottom-target-upload-files">
+    <div ng2FileDrop
+         [uploader]="uploader"
+         (onFileDrop)="addDataToObject($event)"
+         (fileOver)="fileOverBase($event)"
+         [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+         class="modal-drop-files">
+        <p *ngIf="files.length === 0">Drag and drop files here or click the button below</p>
+        <div *ngIf="files.length !== 0" class="form-field-bottom added-files-upload-form">
+            <div *ngFor="let file of files; let index = index" class="single-added-files">
+                <span>{{ file.name }}</span>
+                <i *ngIf="file.isVideo" (click)="openUploadPreview(index)" class="fa fa-file-image-o"
+                   aria-hidden="true"></i>
+                <div *ngIf="file.isVideo && uploadPreview === index" class="preview-popup">
+                    <div class="top-save">
+                        <input type="file" hidden id="coverPhoto" (change)="addCoverPhoto($event, index)">
+                        <label for="coverPhoto">Select Cover Photo</label>
+                        <span *ngIf="file.preview_image && previewError === ''">{{file.preview_image.name}} <i
+                                (click)="removePreviewFile(index)" aria-hidden="true" class="fa fa-times"></i></span>
+                        <span class="preview-error" *ngIf="previewError !== ''">{{previewError}}</span>
+                    </div>
+                    <div class="bottom-save">
+                        <span (click)="savePreview(index)">Save</span>
+                    </div>
+                </div>
+                <i (click)="removeFile(index)" aria-hidden="true" class="fa fa-times"></i>
+            </div>
+        </div>
+        <input (change)="onChangeMultipleFile($event)" multiple type="file" name="file" id="add-files"
+               class="styled_input_file"/>
+        <label for="add-files" class="c-button-white"><i class="fa fa-cloud-upload" aria-hidden="true"></i> Add
+            Files</label>
+    </div>
+    <div class="bottom-panel">
+        <input type="text" class="text-input" [(ngModel)]="note" name="note" placeholder="Add a note...">
+        <div class="form-field-bottom">
+            <input class="submituploadform post" (click)="createPost()" type="submit" value="POST">
+        </div>
+        <!-- Select fields -->
+        <div class="form-field-bottom">
+            <!-- Privacy popup -->
+            <div *ngIf="selectPrivacyVar" class="list-pp list-pp-users list-pp-channel-post privacy"
+                 [ngClass]="{full: privacy_id == 1}">
+                <!-- Select privacy -->
+                <ul class="styled-radio-sec">
+                    <li>
+                        <input type="radio" id="private" name="privacy_id" [(ngModel)]="privacy_id"
+                               [value]="1">
+                        <label for="private">Private</label>
+                        <div class="check"></div>
+                    </li>
+                    <li>
+                        <input type="radio" id="organization" name="privacy_id" [(ngModel)]="privacy_id"
+                               [value]="2">
+                        <label for="organization">Within Organisation</label>
+                        <div class="check">
+                            <div class="inside"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <input type="radio" id="public" name="privacy_id" [(ngModel)]="privacy_id" [value]="3">
+                        <label for="public">Public</label>
+                        <div class="check">
+                            <div class="inside"></div>
+                        </div>
+                    </li>
+                </ul>
+                <!-- Show container if privacy is selected -->
+                <ng-container *ngIf="privacy_id == 1">
+                    <!-- Top part -->
+                    <div class="list-pp-top">
+                        <input [(ngModel)]="searchContactInput" name="search" class="filter-search"
+                               placeholder="Share with individuals"/>
+                    </div>
+                    <!-- Participants listing -->
+                    <div class="list-listing">
+                        <perfect-scrollbar class="scrollbar-element">
+                            <ul>
+                                <li *ngFor="let contacts of globalService.contacts | filter:searchContactInput">
+                                    <div class="checkboxInput popups-users-listing">
+                                        <input [checked]="selectContacts.indexOf(contacts) > -1"
+                                               (click)="selectContactsArray($event.target.checked, contacts)"
+                                               id="firstpresenters{{contacts.contact_user.id}}" name="participant"
+                                               type="checkbox">
+                                        <label for="firstpresenters{{contacts.contact_user.id}}">
+                                            <div [userImage]="contacts.contact_user"
+                                                 class="list-listing-contact"></div>
+                                            <span class="popups-users-listing-username">{{contacts.contact_user.fullname}}</span>
+                                        </label>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <span *ngIf="!globalService.contacts.length"
+                                  class="no-contacts">You don't have contacts yet</span>
+                        </perfect-scrollbar>
+                    </div>
+                    <!-- Add new user -->
+                    <div class="add-new-user-list-listing">
+                        <form>
+                                <textarea [(ngModel)]="emails" [ngModelOptions]="{standalone: true}" class="form-input"
+                                          placeholder="Invite others to view and comment by adding their email address.  Separate with commas."
+                                          rows="2" cols="35"></textarea>
+                        </form>
+                    </div>
+                </ng-container>
+                <!-- Bottom part -->
+                <div class="list-pp-channel-post-bottom">
+                    <span (click)="selectPrivacy()">Save</span>
+                </div>
+            </div>
+            <a href="javascript:;" class="submituploadform link"
+               [ngClass]="{'shield': privacy_id === 1, 'people': privacy_id === 2, 'planet': privacy_id === 3}"
+               (click)="selectPrivacy()">
+                <i class="fa fa-shield" *ngIf="privacy_id === 1" aria-hidden="true"></i>
+                <i class="fa fa-users" *ngIf="privacy_id === 2" aria-hidden="true"></i>
+                <i class="fa fa-globe" *ngIf="privacy_id === 3" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div class="form-field-bottom">
+            <div *ngIf="selectChannelsVar" class="list-pp list-pp-channel list-pp-channel-post">
+                <!-- Top part -->
+                <div class="list-pp-top">
+                    <input [(ngModel)]="searchChannelsInput" name="search" class="filter-search"
+                           placeholder="Add to channels..."/>
+                </div>
+                <!-- Participants listing -->
+                <div class="list-listing">
+                    <perfect-scrollbar class="scrollbar-element">
+                        <ul>
+                            <li *ngFor="let channel of channelService.getAllChannel() | filterChannels:searchChannelsInput; let i = index">
+                                <div class="list-listing-channels">
+                                    <i class="fa fa-hashtag" aria-hidden="true"></i>
+                                    <span (click)="inviteChannel(channel)" class="list-listing-channels-name">{{channel.name}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                        <span *ngIf="!channelService.getAllChannel().length" class="no-contacts">You don't have subscribed channels yet</span>
+                    </perfect-scrollbar>
+                </div>
+            </div>
+            <a href="javascript:;" class="submituploadform link" (click)="selectChannels()"><i class="fa fa-hashtag"
+                                                                                               aria-hidden="true"></i>{{channel}}</a>
+        </div>
+        <p class="small text-center secure">
+            <a (click)="showSecurity()"><i class="fa fa-lock"></i> Secure Content</a>
+        </p>
+        <i (click)="toggleFilePostFormEmit(false)" class="fa fa-times close" aria-hidden="true"></i>
+    </div>
+</div>
+<security (closeSecurityModal)="closeSecurity($event)" *ngIf="securityModalStatus"></security>

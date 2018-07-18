@@ -1,0 +1,20 @@
+<ng-container *ngIf="feedService.searchResult.channels.count">
+    <div class="serp-href"><a href="#">Channels ({{feedService.searchResult.channels.count}})</a></div>
+    <div class="channel-div">
+        <figure *ngFor="let item of feedService.searchResult.channels.data; let i = index">
+            <div class="inside">
+                <img class="image" [channelImage]="item"/>
+                <h2>{{item.name}}</h2>
+    <!--            <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </div>-->
+                <div class="bottom">
+                    <ul class="list-inline">
+                        <!--<li><a href="#">Un-Subscribe</a></li>-->
+                        <li>{{item.subscribers}} subscriber{{item.subscribers.length <= 1 ? '' : 's'}}</li>
+                    </ul>
+                </div>
+            </div>
+        </figure>
+        <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+</ng-container>

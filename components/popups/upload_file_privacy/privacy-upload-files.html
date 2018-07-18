@@ -1,0 +1,30 @@
+<div id="opacity-container" class="delete-folder"></div>
+<div id="popupcontainer" class="delete-folder">
+   <div class="popup-header">Privacy<i (click)="hidePopup()" class="fa fa-times" aria-hidden="true"></i></div>
+    <div class="popup-content">
+        <div class="form-field no-padding">
+            <!-- Privacy -->
+            <div class="select-field privacy-select-dropdown-field">
+                <label for="privacy" class="field-label">Privacy</label>
+                <div class="form-select">
+                    <select id="privacy" name="privacy">
+                        <option [selected]="file.privacy.name == 'Private'" value="Private">Private</option>
+                        <option [selected]="file.privacy.name == 'Public'" value="Public">Public</option>
+                        <option [selected]="file.privacy.name == 'PIN Protected'" value="PIN Protected">PIN Protected</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Privacy pin -->
+            <div *ngIf="showPin == 'PIN Protected'" class="half-field pin-input">
+                <label class="field-label">Enter PIN</label>
+                <div class="wrapper">
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    <input type="text" class="text-input"  name="privacy_pin">
+                </div>
+            </div>
+        </div>
+        <div class="buttons">
+            <input (click)="savePrivacy()" class="btn-privacy-popup" type="submit" name="delete" value="Save" />
+        </div>
+    </div>
+</div>

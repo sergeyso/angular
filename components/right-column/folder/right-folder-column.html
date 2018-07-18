@@ -1,0 +1,139 @@
+<div class="details-box share share-folder">
+    <div (click)="globalService.hideFourthColumn()" class="details-header padding-left">
+        <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+        <p>Share Folder</p>
+    </div>
+    <div class="grey_sepparator"></div>
+    <!-- Share links -->
+    <div class="share-links padding-left">
+        <div class="field">
+            <p class="title">Folder name</p>
+            <p class="folder-name">{{ globalService.folderObject.folder.name ? globalService.folderObject.folder.name : null }}</p>
+        </div>
+        <div class="field">
+            <p class="title">Folder Link</p>
+            <input readonly value="{{ globalService.folderObject.folder.short_url }}" name="content-link" />
+        </div>
+    </div>
+    <!-- Shared people -->
+    <form novalidate (ngSubmit)="addNewUserFunc()" [formGroup]="templateOption">
+        <!-- Choose template  -->
+        <div class="form-field padding-left">
+            <label class="field-label">Choose template</label>
+            <div class="select upload-select share-field">
+                <select class="choose_template" name="choose_template" formControlName="view_type">
+                    <option [selected]="value == templateOption.controls.view_type.value" *ngFor="let value of templates" [value]="value">{{value == 'list'?'Large Thumbnails':'Grid'}}</option>
+                </select>
+            </div>
+        </div>
+        <!-- Show more option -->
+        <p class="more_opt" (click)="openMoreOption()">More options</p>
+        <div class="more_opt_cont" [ngClass]="{active:moreOptionVar}">
+            <!-- Template font  -->
+            <div class="form-field">
+                <label class="field-label">Template font</label>
+                <div class="select upload-select share-field">
+                    <select class="template_font" name="template_font" formControlName="font">
+                        <option [selected]="value == templateOption.controls.font.value" *ngFor="let value of fonts" [value]="value">{{value}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-field padding-left color-input">
+                <label class="field-label">Template colour</label>
+                <div class="input-container">
+                    <div class="color-box" [style.background]="color"></div>
+                    <input [(colorPicker)]="color"  [value]="color" />
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+        <div class="shared-people padding-left">
+            <p *ngIf="sharedService.sharedWith.length" class="title">Shared with</p>
+            <img *ngIf="sharedService.loadSharedUser" class="preload-icon-small centered" src="images/preloader.gif" />
+            <div *ngFor="let user of sharedService.sharedWith" class="single-box shared-person">
+                <div *ngIf="user.status == 'active'" class="user-image" [userImage]="user"></div>
+                <a [ngClass]="{'shared-italic': user.status == 'pending'}" href="#">{{ user.email }}</a>
+                <span (click)="deleteUser(user)" class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+            </div>
+        </div>
+        <!-- Form field share tag-->
+        <div class="form-field multiple-select padding-left">
+            <label class="field-label">Share with</label>
+            <div class="select upload-select share-field">
+                <select class="shareaccess" name="shareaccess"></select>
+            </div>
+        </div>
+        <!-- Allow contributions -->
+        <div class="checkbox padding-left">
+            <div class="checkbox-inner">
+                <!--<div class="checkboxInput">
+                    <input [checked]="sharedService.checkPublic" (change)="sharedService.makePublicOrPrivate(folder, 'folder', 'contribute')" type="checkbox" value="None" id="allow_contributions" name="check" />
+                    <label for="allow_contributions"></label>
+                    <p class="check-title">Allow contributions</p>
+                </div>-->
+            </div>
+            <img *ngIf="sharedService.loadMakePublic" class="preload-icon-small" src="images/preloader.gif" />
+        </div>
+        <!-- Share to network part -->
+        <div class="share_to_network">
+            <p class="title padding-left">Share to network</p>
+            <div class="grey_sepparator"></div>
+            <!-- Youtube box -->
+            <div class="share_to_network_box">
+                <div class="share_to_network_box_social padding-left" (click)="openSocialCategory('youtube')">
+                    <span class="share_to_network_box_img youtube"></span>
+                    <p>YouTube</p>
+                </div>
+                <div class="share_to_network_box_field"  [ngClass]="{active:socialShareCategoryOpen == 'youtube'}">
+                    <div class="select">
+                        <select class="you_tube_category" name="you_tube_category">
+                            <option></option>
+                            <option>Youtube category One</option>
+                            <option>Youtube category Two</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- Vimeo box -->
+            <div class="share_to_network_box">
+                <div class="share_to_network_box_social padding-left" (click)="openSocialCategory('vimeo')">
+                    <span class="share_to_network_box_img vimeo"></span>
+                    <p>Vimeo</p>
+                </div>
+                <div class="share_to_network_box_field"  [ngClass]="{active:socialShareCategoryOpen == 'vimeo'}">
+                    <div class="select">
+                        <select class="vimeo_category" name="vimeo_category">
+                            <option></option>
+                            <option>Vimeo category One</option>
+                            <option>Vimeo category Two</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- Dailymotion box -->
+            <div class="share_to_network_box">
+                <div class="share_to_network_box_social padding-left" (click)="openSocialCategory('dailymotion')">
+                    <span class="share_to_network_box_img dailymotion"></span>
+                    <p>Dailymotion</p>
+                </div>
+                <div class="share_to_network_box_field" [ngClass]="{active:socialShareCategoryOpen == 'dailymotion'}">
+                    <div class="select">
+                        <select class="dailymotion_category" name="dailymotion_category">
+                            <option></option>
+                            <option>Dailymotion category One</option>
+                            <option>Dailymotion category Two</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grey_sepparator"></div>
+        <div class="field padding-left">
+            <p class="title">Add a comment</p>
+            <textarea formControlName="sharecomment" class="text-input"></textarea>
+        </div>
+        <div class="field padding-left submit">
+            <input type="submit" [disabled]="sharedService.loadMakePublic" placeholder="Type name or email" name="submit" value="Post" class="default-button" />
+        </div>
+    </form>
+</div>

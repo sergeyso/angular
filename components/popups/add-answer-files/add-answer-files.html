@@ -1,0 +1,94 @@
+<div id="opacity-container" class="live-setup" (click)="hidePopup()"></div>
+<div id="popupcontainer" class="live-setup">
+    <div class="popup-header">Add Files<i class="fa fa-times" aria-hidden="true" (click)="hidePopup()"></i></div>
+    <div class="popup-content afa-tabs">
+        <!-- Popup content tabs header -->
+        <div class="afa-tabs-header">
+            <span [ngClass]="{'active': selectedTab == 1}" (click)="selectedTab = 1">From the Cloud</span>
+            <span [ngClass]="{'active': selectedTab == 2}" (click)="selectedTab = 2">Attach from Computer</span>
+            <span [ngClass]="{'active': selectedTab == 3}" (click)="selectedTab = 3">Record a Video</span>
+        </div>
+        <!-- Tabs content  -->
+        <div class="afa-tabs-content">
+            <!-- From the cloud content -->
+            <div class="afa-tabs-content-div first" [ngClass]="{'active': selectedTab == 1}">
+               <form>
+                   <div class="form-field-search-afa-tabs">
+                       <input type="text" name="search-files" placeholder="Filter by name" />
+                   </div>
+                   <!-- Files listing -->
+                   <div class="afa-files-listing">
+                       <perfect-scrollbar>
+                           <!-- Repeatable checkbox -->
+                           <div class="checkboxInput">
+                               <input id="file" name="check_all" type="checkbox">
+                               <label for="file"></label>
+                               <span class="checkbox-text">filename1</span>
+                           </div>
+                           <!-- Repeatable checkbox -->
+                           <div class="checkboxInput">
+                               <input id="file1" name="check_all" type="checkbox">
+                               <label for="file1"></label>
+                               <span class="checkbox-text">filename1</span>
+                           </div>
+                       </perfect-scrollbar>
+                   </div>
+                   <!-- Submit form button -->
+                   <div class="form-field form-field-submit">
+                       <input type="submit" name="search-participant" class="filter-search-submit" value="Add to Post"/>
+                   </div>
+               </form>
+            </div>
+            <!-- Attach from computer -->
+            <div class="afa-tabs-content-div second" [ngClass]="{'active': selectedTab == 2}">
+                <form>
+                    <div class="add-files-button">
+                        <input type="file" name="file" id="add-files" class="styled_input_file" />
+                        <label for="add-files"><i class="fa fa-cloud-upload" aria-hidden="true"></i>Attach Files</label>
+                    </div>
+                    <!-- Added files listing here -->
+                    <div class="added-files-upload-form">
+                        <!-- Single added file -->
+                        <div class="single-added-files">
+                            <span>IMG_121234.JPG</span>
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </div>
+                        <!-- Single added file -->
+                        <div class="single-added-files">
+                            <span>IMG_121234.JPG</span>
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </div>
+                        <!-- Single added file -->
+                        <div class="single-added-files">
+                            <span>IMG_121234.JPG</span>
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </div>
+                        <!-- Single added file -->
+                        <div class="single-added-files">
+                            <span>IMG_121234.JPG</span>
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <!-- Submit form button -->
+                    <div class="form-field form-field-submit">
+                        <input type="submit" name="search-participant" class="filter-search-submit" value="Add to Post"/>
+                    </div>
+                </form>
+            </div>
+            <!-- Record a video -->
+            <div class="afa-tabs-content-div third" [ngClass]="{'active': selectedTab == 3}">
+                <div class="stream-video-container">
+                    <div class="stream-video"></div>
+                    <div class="stream-video-recording">
+                        <button class="start-recording">Start Recording</button>
+                        <span class="recording-time">0:12</span>
+                    </div>
+                </div>
+                <!-- Submit form button -->
+                <div class="form-field form-field-submit">
+                    <input type="submit" name="search-participant" class="filter-search-submit" value="Add to Post"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

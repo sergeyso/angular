@@ -1,0 +1,38 @@
+<!-- Cluster attached -->
+<div class="single-feed-top">
+    <div class="left user-name-picture">
+        <div class="user-image">
+            <img src="/images/contact-img.png">
+        </div>
+        <div class="single-feed-user">
+            <p class="name">test</p>
+            <p class="folder">Title</p>
+        </div>
+    </div>
+    <p class="right">19h</p>
+</div>
+<div class="cluster channel-cluster">
+    <div class="inside">
+        <div class="cluster-images">
+            <div class="single-img"><img src="images/wedding1.jpg" /></div>
+            <div class="single-img"><img src="images/wedding2.jpg" /></div>
+            <div class="single-img"><img src="images/wedding3.jpg" /></div>
+            <div class="single-img"><img src="images/wedding4.jpg" /></div>
+            <div class="single-img"><img src="images/wedding1.jpg" /></div>
+            <div class="single-img"><img src="images/wedding2.jpg" /></div>
+            <div class="single-img"><img src="images/wedding3.jpg" /></div>
+            <div class="single-img"><img src="images/wedding4.jpg" /></div>
+            <div class="single-img"><img src="images/wedding1.jpg" /></div>
+            <div class="single-img"><img src="images/wedding2.jpg" /></div>
+            <div class="single-img"><img src="images/wedding3.jpg" /></div>
+            <div class="single-img cluster-popup" (click)="openClusterAlbum()"><a>+58 more</a></div>
+        </div>
+        <div class="bottom">
+            <p [ngClass]="{'subscribe': !channelSubscribed, 'unsubscribe': channelSubscribed, 'save-btn': true}" (click)="subscribeChannel()">
+                <i [ngClass]="{'fa': true, 'fa-plus': !channelSubscribed, 'fa-minus': channelSubscribed}" aria-hidden="true"></i>
+                {{channelSubscribeText}}
+            </p>
+            <p class="dont-show">30k subscribers</p>
+        </div>
+    </div>
+</div>

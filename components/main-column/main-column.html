@@ -1,0 +1,50 @@
+<div class="main-page-inner feed-page feeds" [ngClass]="{ 'explanation-step-one': global.explanationStepOneVisible, 'explanation-step-two': global.explanationStepTwoVisible,'explanation-step-three': global.explanationStepThreeVisible }">
+    <left-column
+            [scrollToMeetings]="sectorService.createMeetingTipShow"
+            [scrollToContacts]="sectorService.inviteTipShow"
+            [scrollToFolders]="sectorService.foldersTipShow"
+            [scrollToVault]="sectorService.connectVaultTipShow"
+            [channelsLoaded]="channelService.channelsLoaded"
+            *ngIf="global.leftColumnVisibile"
+    ></left-column>
+    <!-- Main column -->
+    <div class="right-column" [ngClass]="{ 'explanation-step-one': global.explanationStepOneVisible, 'explanation-step-three': global.explanationStepThreeVisible, 'fullwidth': !global.leftColumnVisibile }" onload="onResize($event)">
+        <!-- Main feed page -->
+        <div class="main-feed-content clearfix">
+            <!-- First main column -->
+            <div class="third-column columns" [ngClass]="{'upload-form-content': global.showUploadForm }">
+                <div class="header-bottom-part" *ngIf="!global.notificationPageVisible">
+                    <!-- Filter buttons --->
+                    <div class="supported-files">
+                        <p (click)="folderService.filterFeeds('all')" class="supported-files-link" [ngClass]="{active: feedServices.filter == 'all' }">Everything</p>
+                        <p (click)="folderService.filterFeeds('image')" class="supported-files-link" [ngClass]="{active: feedServices.filter == 'image' }">Photos</p>
+                        <p (click)="folderService.filterFeeds('video')" class="supported-files-link" [ngClass]="{active: feedServices.filter == 'video' }">Videos</p>
+                        <p (click)="folderService.filterFeedsLiveFilter()" class="supported-files-link" [ngClass]="{active: feedServices.filter == 'live' }">Live Streams</p>
+                        <p (click)="folderService.filterFeeds('office')" class="supported-files-link" [ngClass]="{active: feedServices.filter == 'office'}">Text Documents</p>
+                        <p (click)="folderService.filterFeeds('pdf')" class="supported-files-link" [ngClass]="{active: feedServices.filter == 'pdf'}">PDFs</p>
+                        <p (click)="folderService.filterFeeds('posts')" class="supported-files-link" [ngClass]="{active: feedServices.filter == 'posts' }">Posts</p>
+                    </div>
+                    <!--Channels completeness visible only when user is on channel -->
+                    <!--<div class="channel-completeness">-->
+                    <!--<div class="channel-completeness-cont tooltips">-->
+                    <!--<span class="completeness-perc" style="width: 50%;"></span>-->
+                    <!--<span class="tooltiptext channel-comple">Channel Completeness</span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                </div>
+                <!-- Notificartions  content -->
+                <notifications-container *ngIf="global.notificationPageVisible"></notifications-container>
+                <!-- Main feed content -->
+                <!--<a style="position: absolute; top: 70px; right:350px; z-index: 1000" [routerLink]="'explanation'">Test</a>-->
+                <feeds *ngIf="(global.showUploadForm && global.showProgress ) || (!global.showUploadForm && !global.showProgress && !global.notificationPageVisible)"></feeds>
+                <!-- Bottom target post bar ADDED NEW -->
+                <bottom-target></bottom-target>
+            </div>
+        </div>
+    </div>
+    <!-- REMOVE RIGHT COLUMN -->
+    <!--&lt;!&ndash; Right column &ndash;&gt;-->
+    <!--<right-column [ngClass]="{'explanation-step-three': global.explanationStepThreeVisible }"></right-column>-->
+    <!-- Popups -->
+    <router-outlet></router-outlet>
+</div>

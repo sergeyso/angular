@@ -1,0 +1,89 @@
+<div class="transactions-container">
+    <div class="full-width-container">
+        <!-- Balance part -->
+        <div class="transaction-balance-top-bar">
+            <p>Ballance</p>
+            <span>$50000</span>
+        </div>
+        <!-- Transactions filter -->
+        <div class="transactions-filter">
+            <!-- Filter box -->
+            <div class="transactions-filter-box">
+                <form>
+                    <div class="form-field">
+                        <input class="text-input" name="search" placeholder="Search" type="text">
+                    </div>
+                </form>
+            </div>
+            <!-- Filter box -->
+            <div class="transactions-filter-box">
+                <a href="javascript:;" class="filter-link-btn active">All Time</a>
+                <a href="javascript:;" class="filter-link-btn">Today</a>
+                <a href="javascript:;" class="filter-link-btn">Last Week</a>
+                <a href="javascript:;" class="filter-link-btn">Last Month</a>
+            </div>
+            <!-- Filter box -->
+            <div class="transactions-filter-box">
+                <!-- Date -->
+                <div class="date-live-stream">
+                    <span class="choosen-date">{{choosenDate}}</span>
+                    <my-date-picker name="mydate" [options]="myDatePickerOptions"  (dateChanged)="onDateChanged($event)"class="datepicker"></my-date-picker>
+                </div>
+            </div>
+            <!-- Filter box -->
+            <div class="transactions-filter-box checbox">
+                <div class="checkboxInput">
+                    <input id="check_all" name="check_all" type="checkbox">
+                    <label for="check_all"><span>Show Only Earnings</span></label>
+                </div>
+            </div>
+        </div>
+        <!-- Transactions table -->
+        <div class="transactions-table">
+            <!-- Table header -->
+            <div class="transactions-row header-row">
+                <span class="transactions-col first">Date</span>
+                <span class="transactions-col second">Description</span>
+                <span class="transactions-col third">Opposite Party	</span>
+                <span class="transactions-col fourth">Amount</span>
+                <span class="transactions-col last"></span>
+            </div>
+            <!-- Table body  -->
+            <div class="transactions-row body-row">
+                <span class="transactions-col first">May 19</span>
+                <span class="transactions-col second">Plus – Monthly</span>
+                <span class="transactions-col third">NOVP Inc</span>
+                <span class="transactions-col fourth minus">- $10</span>
+                <span class="transactions-col last"><a href="javascript:;" class="download-rec">Download Receipt</a></span>
+            </div>
+            <div class="transactions-row body-row">
+                <span class="transactions-col first">May 19</span>
+                <span class="transactions-col second">Plus – Monthly</span>
+                <span class="transactions-col third">NOVP Inc</span>
+                <span class="transactions-col fourth minus">- $10</span>
+                <span class="transactions-col last"><a href="javascript:;" class="download-rec">Download Receipt</a></span>
+            </div>
+            <div class="transactions-row body-row">
+                <span class="transactions-col first">May 19</span>
+                <span class="transactions-col second">Plus – Monthly</span>
+                <span class="transactions-col third">NOVP Inc</span>
+                <span class="transactions-col fourth plus">+ $10</span>
+                <span class="transactions-col last"><a href="javascript:;" class="download-rec">Download Receipt</a></span>
+            </div>
+            <div class="transactions-row body-row">
+                <span class="transactions-col first">May 19</span>
+                <span class="transactions-col second">Plus – Monthly</span>
+                <span class="transactions-col third">NOVP Inc</span>
+                <span class="transactions-col fourth plus">+ $30</span>
+                <span class="transactions-col last"><a href="javascript:;" class="download-rec">Download Receipt</a></span>
+            </div>
+            <div class="transactions-row body-row">
+                <span class="transactions-col first">May 19</span>
+                <span class="transactions-col second">Plus – Monthly</span>
+                <span class="transactions-col third">NOVP Inc</span>
+                <span class="transactions-col fourth minus">- $10</span>
+                <span class="transactions-col last"><a href="javascript:;" class="download-rec">Download Receipt</a></span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+<main-header class="profile-header">
+    <div class="user-name-picture">
+        <div [userImage]="globalService.currentUser" class="user-image"></div>
+        <div class="single-feed-user header-breadcrupms">
+            <h1 (click)="folderService.select(value.index, value.key, value.type, value.object)"
+                [ngClass]="{ last: last, breaditem: folderService.arrayBreadCump.length > 1 && !last  }" *ngFor="let value of folderService.arrayBreadCump; let i = index;let last = last">{{ value.name }}</h1>
+        </div>
+    </div>
+    <div class="header-right-parts">
+        <!-- Search Form -->
+        <header-search-form></header-search-form>
+        <!--<div class="right-cont" [ngClass]="{myprofile: globalService.showMyContent}">-->
+            <!--<ng-container *ngIf="!globalService.showMyContent">-->
+                <!--<p class="profile-header-buttons send-file" (click)="sendFile()"><i class="send-file-icon" aria-hidden="true"></i>Send file</p>-->
+                <!--<p class="profile-header-buttons follow" (click)="changeFriend()"><i class="fa fa-user-plus" aria-hidden="true"></i>{{caseFriend}}</p>-->
+            <!--</ng-container>-->
+        <!--</div>-->
+    </div>
+    <!-- CHANGED LOCATION OF THIS BUTTONS -->
+</main-header>
+<send-file *ngIf="globalService.sendFilePopupVisible"></send-file>
+

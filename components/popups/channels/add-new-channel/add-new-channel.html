@@ -1,0 +1,146 @@
+<!-- Add new channel popup -->
+<div id="opacity-container" class="add-new-channel" (click)="hidePopup()"></div>
+<div id="popupcontainer" class="add-new-channel">
+    <div class="popup-header">{{title}}<i class="fa fa-times" aria-hidden="true" (click)="hidePopup()"></i></div>
+    <div class="popup-content" (click)="closeMonetizationBlock($event)">
+        <!-- Add new channel form -->
+        <div class="default-popup-form add-new-channel-form">
+            <form (submit)="createNewChannel(form)" novalidate #form="ngForm">
+                <!-- Form field title -->
+                <div class="form-field">
+                    <label class="form-field-label">Name</label>
+                    <input #nameInput="ngModel" required [(ngModel)]="name" name="title" class="form-input" />
+                    <p class="error-msg-small" [hidden]="!nameInput.control.hasError('required') || nameInput.pristine">Name is required</p>
+                </div>
+                <!-- Form field description -->
+                <div class="form-field textarea">
+                    <label class="form-field-label">Description</label>
+                    <textarea name="question" class="form-input"></textarea>
+                </div>
+                <!-- Form field public url -->
+                <!--<div class="form-field public-url">-->
+                    <!--<p class="form-field-label">Public URL</p>-->
+                    <!--<div class="publuc-url-field">-->
+                        <!--<p class="publuc-url-field-domain">http://novp.knowlocker.com/</p>-->
+                        <!--<input #routeInput="ngModel" [(ngModel)]="route" name="route" class="form-input" />-->
+                        <!--<p class="error-msg-small" *ngIf="errorRouteUnuique">Route is taken</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!-- Form field monetization type -->
+<!--                <div class="form-field monetization-type">
+                    <p class="form-field-label">Monetization</p>
+                    &lt;!&ndash; Radio buttons &ndash;&gt;
+                    <ul class="styled-radio">
+                        <li>
+                            <input type="radio" id="free" name="view_type">
+                            <label for="free">Free for Everyone</label>
+                            <div class="check"></div>
+                        </li>
+                        <li>
+                            <input type="radio" id="paid" name="view_type">
+                            <label for="paid">Paid for Everyone</label>
+                            <div class="check"><div class="inside"></div></div>
+                        </li>
+                        <li>
+                            <input type="radio" id="public" name="view_type">
+                            <label for="public">Paid for Public Users</label>
+                            <div class="check"><div class="inside"></div></div>
+                        </li>
+                    </ul>
+                    &lt;!&ndash; Pay list &ndash;&gt;
+                    <div class="monetization-pay-list">
+                        <div class="monetization-pay-list-single">
+                            <p class="title">Weekly – 0.99 EUR </p>
+                            <p class="country">- United Kingdom</p>
+                            <div class="action-links">
+                                <a href="javascript:;" class="edit">Edit</a>
+                                <a href="javascript:;" class="fa fa-trash remove" aria-hidden="true"></a>
+                            </div>
+                        </div>
+                        <div class="monetization-pay-list-single">
+                            <p class="title">Monthly – 5.99 EUR</p>
+                            <p class="country">- Worldwide</p>
+                            <div class="action-links">
+                                <a href="javascript:;" class="edit">Edit</a>
+                                <a href="javascript:;" class="fa fa-trash remove" aria-hidden="true"></a>
+                            </div>
+                        </div>
+                        <div class="monetization-pay-list-single">
+                            <p class="title">Yearly – 29.99 EUR</p>
+                            <p class="country">- United Kingdom, United States, Sweden.</p>
+                            <div class="action-links">
+                                <a href="javascript:;" class="edit">Edit</a>
+                                <a href="javascript:;" class="fa fa-trash remove" aria-hidden="true"></a>
+                            </div>
+                        </div>
+                    </div>
+                    &lt;!&ndash; Add new monetization option &ndash;&gt;
+                    <div class="add-new-monetization add-new-monetization-c">
+                        <p (click)="showMonetizationBlock()" class="add-new-monetization-c"><i class="fa fa-plus-square" aria-hidden="true"></i>Add Monetization Option</p>
+                    </div>
+                </div>-->
+                <!-- Submit buttons -->
+                <div class="buttons">
+                    <input  class="popup-btn" type="submit" name="cancel" value="Save Channel" />
+                    <img *ngIf="loadingChannelNew" class="preload-icon-small" src="images/preloader.gif" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Monetization -->
+<!--<div *ngIf="monetizationBlockVisible" class="add-new-monetization-container">
+    <form>
+        &lt;!&ndash; Form field amount &ndash;&gt;
+        <div class="form-field">
+            &lt;!&ndash; Frequency field &ndash;&gt;
+            <div class="form-field-freq select">
+                <label class="form-field-label">Frequency</label>
+                <div class="select-form-field">
+                    <select name="frequency" class="form-input">
+                        <option>Weekly</option>
+                        <option>Yearly</option>
+                    </select>
+                </div>
+            </div>
+            &lt;!&ndash; Currency field &ndash;&gt;
+            <div class="form-field-currency select">
+                <label class="form-field-label">Currency</label>
+                <div class="select-form-field">
+                    <select name="currency" class="form-input">
+                        <option>EUR</option>
+                        <option>EUR</option>
+                    </select>
+                </div>
+            </div>
+            &lt;!&ndash; Currency field &ndash;&gt;
+            <div class="form-field-amount select">
+                <label class="form-field-label">Amount</label>
+                <input type="text" name="ammount" class="form-input" />
+            </div>
+        </div>
+        &lt;!&ndash; Form field region &ndash;&gt;
+        <div class="form-field multiple-select">
+            <label class="form-field-label">Region</label>
+            <div class="select upload-select share-field">
+                <select id="region" name="region"  multiple="tags"></select>
+            </div>
+        </div>
+        <p class="form-field-label">Allow In-app Purchase <i class="fa fa-info-circle" aria-hidden="true"></i></p>
+        <div class="form-field">
+            <div class="checkboxInput">
+                <input id="google" name="google" type="checkbox">
+                <label for="google"></label>
+                <p>Google</p>
+            </div>
+            <div class="checkboxInput">
+                <input id="iTunes" name="iTunes" type="checkbox">
+                <label for="iTunes"></label>
+                <p>iTunes</p>
+            </div>
+        </div>
+        <div class="form-field">
+            <input  class="popup-btn" type="submit" name="cancel" value="Save" />
+        </div>
+    </form>
+</div>-->

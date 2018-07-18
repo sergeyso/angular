@@ -1,0 +1,51 @@
+<div class="left-column columns" [ngClass]="{ 'explanation-step-one': global.explanationStepOneVisible }">
+    <!-- First column -->
+    <left-first-column></left-first-column>
+    <!-- Second column -->
+    <div class="second-column feed-column columns" [ngClass]="{ 'open': global.secondColumnvisible, 'not_loged': !global.login }">
+        <div class="second-column-inner">
+            <div class="quick-links">
+                <ul>
+                    <li><a href="#channel-section"><i class="fa fa-hashtag"></i></a></li>
+                    <li><a href="#live-section"><i class="fa fa-flash"></i></a></li>
+                    <li><a href="#folder-section"><i class="fa fa-folder"></i></a></li>
+                    <li><a href="#contact-section"><i class="fa fa-user"></i></a></li>
+                    <li><a href="#vault-section"><i class="fa fa-archive"></i></a></li>
+                </ul>
+            </div>
+            <div class="show-everything"><a href="#">Show everything</a></div>
+            <!-- Filter box channels-->
+            <perfect-scrollbar>
+                <div class="filter-box channel" id="channel-section">
+                    <h3>Channels</h3>
+                    <a *ngIf="global.login" href="javascript:;" class="folder-top-icons">
+                        <i *ngIf="global.login.data.company_owner" #clickOpenChannel (click)="showAddNewChannel()" class="fa fa-plus" aria-hidden="true"></i>
+                    </a>
+                    <ul class="channel-list-left">
+                        <li *ngFor="let channel of channelService.getAllChannel(); let i = index" [ngClass]="{active: channelService.channelSelected == i}">
+                            <a (click)="openChannel(channel, i)">{{ channel.name }}</a>
+                        </li>
+                    </ul>
+                    <span class="bottom">All channels</span>
+                    <!-- Show channel in popup-->
+                    <channels-preview *ngIf="global.channelPreviewPopup"></channels-preview>
+                    <!--<channel-subscribe></channel-subscribe>-->
+                </div>
+                <!-- Live events -->
+                <meetings-column #meetingsColumn *ngIf="global.login" id="live-section"></meetings-column>
+                <!-- Filter box content -->
+                <folder-column #foldersColumn id="folder-section" *ngIf="global.login"></folder-column>
+                <contact-column #contactColumn id="contact-section" *ngIf="global.login && global.login.data.company_id != 8"></contact-column>
+                <vault-column id="vault-section" *ngIf="global.login && global.login.data.company_id != 8" #vaultColumn></vault-column>
+                <!-- Filter box contacts -->
+                <div class="clear:both"></div>
+            </perfect-scrollbar>
+        </div>
+    </div>
+</div>
+<!-- Share file popup -->
+<app-share-file-popup *ngIf="global.sharePopupVisible"></app-share-file-popup>
+<add-new-channel (closeAddChannel)=closeAddChannelChild($event) *ngIf="addNewChannelVarVisible"></add-new-channel>
+<connect-vault *ngIf="vaultService.connectVaultPopupStatus"></connect-vault>
+<popup-settings-dropbox *ngIf="vaultService.settingsDropboxStatus"></popup-settings-dropbox>
+<popup-vault-modal *ngIf="vaultService.vaultPopupVisible"></popup-vault-modal>

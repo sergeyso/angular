@@ -1,0 +1,84 @@
+<div class="main-page-inner feed-page">
+    <left-column
+            [scrollToMeetings]="false"
+            [scrollToContacts]="false"
+            [scrollToFolders]="false"
+            [scrollToVault]="false"
+    ></left-column>
+    <!-- Main column -->
+    <div class="right-column">
+        <!-- Main feed page -->
+        <div class="main-feed-content clearfix">
+            <!-- First main column -->
+            <div class="third-column columns answers-page" [ngClass]="{shorten: global.fourthColumnvisible}">
+                <!-- Question listing here -->
+                <div class="single-feed-post-answer">
+                    <!-- Question top content -->
+                    <div class="single-feed-top">
+                        <div  class="left user-name-picture">
+                            <div [userImage]="global.question.user" class="user-image"></div>
+                            <div  class="single-feed-user">
+                                <div  class="single-feed-user-top-line">
+                                    <a  class="name" href="/profile/{{global.question.user.id}}">{{global.question.user.username}}</a>
+                                    <p [diffTime]="global.question.created_at" class="time-posted"></p>
+                                </div>
+                                <div>
+                                    <p class="question-feed-title answer-view">{{global.question.title}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Question main content -->
+                    <div class="single-feed-post answer-view">
+                        <div class="single-feed-content question-feed">
+                            <div class="feed-question-body">
+                                <p>{{global.question.question}}</p>
+                                <img *ngIf="global.question.files.length" class="question-feed-img" [src]="global.question.files[0].link">
+                            </div>
+                            <!-- Bottom content -->
+                            <div class="bottom-content">
+                                <div class="social-share">
+                                    <p *ngIf="global.question.answers.length" class="answers-number">Answers ({{global.question.answers.length}})</p>
+                                    <a *ngIf="global.login" class="share" href="javascript:;" (click)="global.showSharePopoup(global.question)" ><i class="fa fa-share-alt" aria-hidden="true"></i>Share</a>
+                                    <!--<a class="heart" href="javascript:;"><i class="fa fa-heart" aria-hidden="true"></i>Like</a>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Answers listing here -->
+                <div class="answers-listing-container">
+                    <!-- Single answer -->
+                    <div *ngFor="let answer of global.question.answers" class="single-feed-top answers-container">
+                        <div  class="left user-name-picture">
+                            <!-- User avatar -->
+                            <div [userImage]="answer.user" class="user-image"></div>
+                            <div  class="single-feed-user">
+                                <!-- User name -->
+                                <div  class="single-feed-user-top-line">
+                                    <a  class="name" href="/profile/{{answer.user.id}}">{{answer.user.username}}</a>
+                                    <p [diffTime]="answer.created_at" class="time-posted"></p>
+                                </div>
+                                <!-- Answer -->
+                                <p class="answer-field">{{answer.text}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Bottom target -->
+                <div class="bottom-target-post-bar">
+                    <main-answer *ngIf="global.login;else unsignedTemplate"></main-answer>
+                    <ng-template #unsignedTemplate>
+                        <!-- Not loggedin user Login box -->
+                        <div class="answer-login-box" style="display:block;">
+                            <p>
+                                <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                Please <a href="/login">sign in</a> to add your answser.
+                            </p>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

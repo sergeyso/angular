@@ -1,0 +1,30 @@
+<div class="single-feed-post simple-text">
+    <div (click)="openLink()" class="single-feed-content simple-text-post" [ngClass]="[value.color]" #simpleTextPost></div>
+    <!-- Attachment files listing -->
+    <ul class="sp-files-listing">
+        <li *ngFor="let file of value.files">
+            <img (click)="global.showColumn(file, index, true)" src="{{file.filedata.link}}" alt="{{file.name}}" />
+        </li>
+    </ul>
+    <!-- Bottom content -->
+    <div class="bottom-content">
+        <div class="add-commnet">
+            <a [href]="value.short_url">
+                <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Read More
+            </a>
+        </div>
+        <div class="add-commnet">
+            <a [href]="value.short_url">
+                <i class="fa fa-pencil" aria-hidden="true"></i> Comment <span *ngIf="value.comments_count">({{value.comments_count}})</span>
+            </a>
+        </div>
+        <div class="social-share">
+            <!--<a class="heart" href="javascript:;">-->
+                <!--<i class="fa fa-heart" aria-hidden="true"></i>Like (1)-->
+            <!--</a>-->
+            <a *checkAuth="value" href="javascript:;" (click)="global.showSharePopoup(value)" class="share">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>Share<small [appShareNumb]="value.sharedWithUsers.length"></small>
+            </a>
+        </div>
+    </div>
+</div>

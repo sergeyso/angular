@@ -1,0 +1,207 @@
+<div id="opacity-container" class="live-setup" (click)="hidePopup()"></div>
+<div id="popupcontainer" class="live-setup">
+    <div class="popup-header">Ask a Question<i class="fa fa-times" aria-hidden="true" (click)="hidePopup()"></i></div>
+    <div (click)="closePopUpButton($event)" class="popup-content">
+        <p class="note-messages success-msg" *ngIf="message">{{message}}</p>
+        <!-- Ask question form -->
+        <form class="live-setup-form" (ngSubmit)="questionSubmit()" #questionForm="ngForm" novalidate enctype="multipart/form-data">
+            <!-- Form field title -->
+            <div class="form-field">
+                <label>Title</label>
+                <input required #title="ngModel" [(ngModel)]="questionModel.title" type="text" name="title" class="form-input" placeholder="Title" />
+                <p class="error-msg-small" [hidden]="!title.control.hasError('required') || title.pristine">Title is required</p>
+            </div>
+            <!-- Form field description -->
+            <div class="form-field textarea">
+                <label>Question</label>
+                <textarea required #question="ngModel" [(ngModel)]="questionModel.question" name="question" placeholder="Add your question" class="form-input"></textarea>
+                <p class="error-msg-small" [hidden]="!question.control.hasError('required') || question.pristine">Question is required</p>
+            </div>
+            <!-- Form field file -->
+            <div class="form-field">
+                <div class="file-input-container">
+                    <input #questionFile class="styled_input_file" id="file" name="file" type="file" (change)="onChangeFile($event)">
+                    <label for="file"><i aria-hidden="true" class="fa fa-cloud-upload"></i>Choose a file</label>
+                </div>
+                <div class="uploaded-files">
+                    <p>{{uploadedImage}}<i *ngIf="uploadedImage" (click)="removeSelectedImage()" class="fa fa-times" aria-hidden="true"></i></p>
+                </div>
+            </div>
+            <div class="live-stream-bottom-part">
+                <!-- Select channel -->
+                <div class="live-stream-bottom-part-single">
+                    <span class="live-stream-bottom-part-single-title" (click)="selectChannel()">Select Channel</span>
+                    <div class="live-stream-bottom-list-p">
+                        <!-- Added participant display here -->
+                        <div class="live-stream-bottom-list-p-added">
+                            <!-- single participant -->
+                            <div class="list-listing-contact">
+                                <p class="channel"> <i class="fa fa-hashtag" aria-hidden="true" *ngIf="channelName"></i>{{ channelName }}</p>
+                            </div>
+                        </div>
+                        <span class="live-stream-bottom-part-single-number" *ngIf="channelName"><i (click)="selectChannel()" class="fa fa-chevron-right" aria-hidden="true"></i></span>
+                        <!--<p class="error-msg-small" *ngIf="submitQuestionForm && !this.questionModel.channel_id">Please select channel</p>-->
+                    </div>
+                    <!--&lt;!&ndash; List of participants showing here &ndash;&gt;-->
+                    <!--<div *ngIf="selectChannelForm" class="list-pp">-->
+                        <!--&lt;!&ndash; Top part &ndash;&gt;-->
+                        <!--<div *ngIf="globalService.login.data.channelsSubscribed.length" class="list-pp-top">-->
+                            <!--<div class="checkboxInput">-->
+                                <!--<input (change)="searchChannel = !$event.target.checked" id="filter_channels" name="check_all" type="checkbox">-->
+                                <!--<label for="filter_channels"></label>-->
+                            <!--</div>-->
+                            <!--<input [disabled]="searchChannel" [(ngModel)]="searchChannelsInput" type="text" name="search" class="filter-search" placeholder="Filter by name"/>-->
+                            <!--<a class="filter-search-submit" (click)="inviteChannel()" href="javascript:;">Invite</a>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash; Participants listing &ndash;&gt;-->
+                        <!--<div class="list-listing">-->
+                            <!--<perfect-scrollbar class="scrollbar-element">-->
+                                <!--<ul>-->
+                                    <!--<li *ngFor="let channel of globalService.login.data.channelsSubscribed | filterChannels:searchChannelsInput; let i = index">-->
+                                        <!--<div class="checkboxInput">-->
+                                            <!--<input [checked]="selectedChannel == channel.id" (click)="changeChannels($event.target.checked, channel)" id="firstpresenters{{i}}" name="participant" type="checkbox">-->
+                                            <!--<label class="list-listing-contact" for="firstpresenters{{i}}">-->
+                                                <!--<img class="user-image label-channel-img"[channelImage]="channel"/>-->
+                                                <!--<span class="label-channel-name">{{channel.name}}</span>-->
+                                            <!--</label>-->
+                                        <!--</div>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+
+                                <!--<span *ngIf="!globalService.login.data.channelsSubscribed.length">You don't have subscribed channels yet</span>-->
+                            <!--</perfect-scrollbar>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+                <!-- Invite presenters -->
+                <div class="live-stream-bottom-part-single">
+                    <span class="live-stream-bottom-part-single-title" (click)="selectWhoToAsk()">Select Who to Ask</span>
+                    <div class="live-stream-bottom-list-p">
+                        <!-- Added participant display here -->
+                        <div class="live-stream-bottom-list-p-added">
+                            <!-- single participant -->
+                            <div *ngFor="let selectedContacts of selectedContacts | specificNumber:showSelectedContact" class="list-listing-contact">
+                                <a class="user-image" href="javascript:;" [userImage]="selectedContacts.contact_user"></a>
+                            </div>
+                        </div>
+                        <span *ngIf="selectedContacts.length > 2" class="live-stream-bottom-part-single-number">+{{ showCountSelectedContact() }} Other<i (click)="selectWhoToAsk()" class="fa fa-chevron-right" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+                <!-- Post to fb -->
+                <!--<div class="live-stream-bottom-part-single">-->
+                    <!--<span class="live-stream-bottom-part-single-title">Post to Facebook</span>-->
+                    <!--<div class="live-stream-bottom-list-p">-->
+                        <!--&lt;!&ndash; Added participant display here &ndash;&gt;-->
+                        <!--<div class="live-stream-bottom-list-p-added">-->
+                            <!--<a href="javascript:;" class="social-connect fb"><i class="fa fa-facebook" aria-hidden="true"></i>Connect Facebook</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!-- Post to twitter -->
+                <!--<div class="live-stream-bottom-part-single">-->
+                    <!--<span class="live-stream-bottom-part-single-title">Post to Twitter</span>-->
+                    <!--<div class="live-stream-bottom-list-p">-->
+                        <!--&lt;!&ndash; Added participant display here &ndash;&gt;-->
+                        <!--<div class="live-stream-bottom-list-p-added">-->
+                            <!--<a href="javascript:;" class="social-connect twitter"><i class="fa fa-twitter" aria-hidden="true"></i>Connect Twitter</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
+            <!-- Form field visibility -->
+            <div class="form-field" style="margin-top:15px;">
+                <label>Question Visibility</label>
+                <ul class="styled-radio-sec">
+                    <li>
+                        <input [(ngModel)]="questionModel.privacy_id" type="radio" id="individual" name="privacy_id" [value]="1">
+                        <label for="individual">Only Selected Individuals</label>
+                        <div class="check"></div>
+                    </li>
+                    <li>
+                        <input [(ngModel)]="questionModel.privacy_id" type="radio" id="organization" name="privacy_id" [value]="2">
+                        <label for="organization">Within Organisation</label>
+                        <div class="check"><div class="inside"></div></div>
+                    </li>
+                    <li>
+                        <input [(ngModel)]="questionModel.privacy_id" type="radio" id="public" name="privacy_id" [value]="3">
+                        <label for="public">Public</label>
+                        <div class="check"><div class="inside"></div></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="submit-question">
+                <input [disabled]="submited" type="submit" value="Ask a Question" class="default-button" name="submit" style="color: #1b1d20;">
+                <img *ngIf="loading" class="preload-icon-small" src="images/preloader.gif" />
+            </div>
+        </form>
+    </div>
+</div>
+<!-- List of participants showing here -->
+<div *ngIf="selectChannelForm" class="list-pp list-pp-channel">
+    <!--&lt;!&ndash; Top part &ndash;&gt;-->
+    <!--<div *ngIf="globalService.login.data.channelsSubscribed.length" class="list-pp-top">-->
+        <!--<div class="checkboxInput">-->
+            <!--<input (change)="searchChannel = !$event.target.checked" id="filter_channels" name="check_all" type="checkbox">-->
+            <!--<label for="filter_channels"></label>-->
+        <!--</div>-->
+        <!--<input [disabled]="searchChannel" [(ngModel)]="searchChannelsInput" type="text" name="search" class="filter-search" placeholder="Filter by name"/>-->
+        <!--<a class="filter-search-submit" (click)="inviteChannel()" href="javascript:;">Invite</a>-->
+    <!--</div>-->
+    <!-- Participants listing -->
+    <div class="list-listing">
+        <perfect-scrollbar class="scrollbar-element">
+            <ul>
+                <li *ngFor="let channel of channelService.getAllChannel() | filterChannels:searchChannelsInput; let i = index">
+                    <!--<div class="checkboxInput">-->
+                        <!--<input [checked]="selectedChannel == channel.id" (click)="changeChannels($event.target.checked, channel)" id="firstpresenters{{i}}" name="participant" type="checkbox">-->
+                        <!--<label class="list-listing-contact" for="firstpresenters{{i}}">-->
+                            <!--<i class="fa fa-hashtag" aria-hidden="true"></i>-->
+                            <!--<span class="label-channel-name">{{channel.name}}</span>-->
+                        <!--</label>-->
+                    <!--</div>-->
+                    <div class="list-listing-channels">
+                        <i class="fa fa-hashtag" aria-hidden="true"></i>
+                        <span (click)="inviteChannel(channel)" class="list-listing-channels-name">{{channel.name}}</span>
+                    </div>
+                </li>
+            </ul>
+            <span *ngIf="!channelService.getAllChannel().length" class="no-contacts">You don't have subscribed channels yet</span>
+        </perfect-scrollbar>
+    </div>
+</div>
+<!-- List of participants showing here -->
+<div *ngIf="selectWhoToAskForm" class="list-pp list-pp-users">
+    <!-- Top part -->
+    <div class="list-pp-top">
+        <!--<div class="checkboxInput">-->
+            <!--<input (change)="searchContat = !$event.target.checked" id="check_allpresenters" name="check_all" type="checkbox">-->
+            <!--<label for="check_allpresenters"></label>-->
+        <!--</div>-->
+        <input [(ngModel)]="searchContactInput" type="text" name="search" class="filter-search" placeholder="Filter by name"/>
+        <a class="filter-search-submit" (click)="inviteContacts()" href="javascript:;">Save</a>
+    </div>
+    <!-- Participants listing -->
+    <div class="list-listing">
+        <perfect-scrollbar class="scrollbar-element">
+            <ul>
+                <li *ngFor="let contacts of globalService.contacts | filter:searchContactInput">
+                    <div class="checkboxInput popups-users-listing">
+                        <input [checked]="selectContacts.indexOf(contacts) > -1" (click)="selectContactsArray($event.target.checked, contacts)" id="firstpresenters{{contacts.contact_user.id}}" name="participant" type="checkbox">
+                        <label for="firstpresenters{{contacts.contact_user.id}}">
+                            <div [userImage]="contacts.contact_user" class="list-listing-contact"></div>
+                            <span class="popups-users-listing-username">{{contacts.contact_user.fullname}}</span>
+                        </label>
+                    </div>
+                </li>
+            </ul>
+
+            <span *ngIf="!globalService.contacts.length" class="no-contacts">You don't have contacts yet</span>
+        </perfect-scrollbar>
+        <!-- Add new user -->
+        <div class="add-new-user-list-listing">
+            <form>
+                <textarea [(ngModel)]="emails" [ngModelOptions]="{standalone: true}" class="form-input" placeholder="Invite others to view and comment by adding their email address.  Separate with commas." rows="2" cols="35"></textarea>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+<div id="opacity-container" class="delete-folder" (click)="hidePopup()"></div>
+<div id="popupcontainer" class="delete-folder">
+    <div class="popup-header">Delete folder<i class="fa fa-times" aria-hidden="true" (click)="hidePopup()"></i></div>
+    <div class="popup-content">
+        <p class="title">This folder will be permanently deleted. Choose destination folder for the existing content:</p>
+        <div class="delete-form">
+            <select id="folder_delete" class="form-control" name="folder_delete">
+                <option value=""></option>
+            </select>
+            <div class="subfolder-move" [hidden]="!subfolderVisible">
+                <select id="subfolder-delete" class="form-control" name="folder_delete">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="buttons">
+                <input (click)="deleteFolder()" class="delete-btn" type="submit" name="delete" value="Delete" />
+                <input (click)="hidePopup()" class="cancel-btn" type="submit" name="cancel" value="Cancel" />
+            </div>
+            <div (click)="deleteFolderAll()" class="delete-all"><span>or</span> <p>Delete all content within the folder</p></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<!--<main-feed-file-operation [value]="value" [index]="index"></main-feed-file-operation>-->
+<div class="single-feed-content live hover-desc-cont">
+    <!--<div class="content-lock">-->
+        <!--<span class="content locked"><i class="fa fa-lock" aria-hidden="true"></i></span>-->
+        <!--<span class="content unlocked"><i class="fa fa-question" aria-hidden="true"></i></span>-->
+    <!--</div>-->
+    <!-- Edit image buttons -->
+    <h2>
+        <span *ngIf="live.isPassed" class="event-state passed">Passed</span>
+        <span *ngIf="live.isUpcoming" class="event-state upcoming">Upcoming</span>
+        <span *ngIf="live.isLive" class="event-state live">Live</span>
+        {{value.name}}
+    </h2>
+    <p><a href="{{url}}" class="text-black">{{url}}</a></p>
+    <p *ngIf="live.isPassed"><span class="event-passed-box">{{beginAtFormatted}} UTC</span></p>
+    <ul *ngIf="live.isUpcoming || live.isLive" class="timer-inline-div" [ngClass]="{'live':live.isLive}" [innerHtml]="countdown">
+    </ul>
+    <div class="clearfix"></div>
+    <ul class="inline-list user-list-a">
+        <li *ngFor="let participant of participants;">
+            <a *ngIf="participant.avatarSmall" href="javascript:;" class="user" [ngStyle]="{ 'background-image': 'url(' + participant.avatarSmall + ')'}"></a>
+            <a *ngIf="!participant.avatarSmall" href="javascript:;" class="user">{{participant.firstLetter}}</a>
+        </li>
+        <li *ngFor="let invite of invites;">
+            <a href="javascript:;" class="user" [ngStyle]="{ 'background-image': 'url(images/not-confirmed-user.png)'}"></a>
+        </li>
+    </ul>
+    <div class="bottom-content">
+<!--        <div class="add-commnet">
+            <a (click)="showComments(value, index)" href="javascript:;">
+                <i class="fa fa-pencil" aria-hidden="true"></i> Comment <span *ngIf="value.comments_count">({{value.comments_count}})</span>
+            </a>
+        </div>-->
+        <div class="social-share">
+            <!--<a class="heart" href="javascript:;">-->
+                <!--<i class="fa fa-heart" aria-hidden="true"></i>Like(1)-->
+            <!--</a>-->
+            <a href="javascript:;" (click)="global.showSharePopoup(value)" class="share">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>Share<small [appShareNumb]="value.sharedWithUsers.length"></small>
+            </a>
+        </div>
+    </div>
+    <!--<p class="hover-descriptions"><span>..</span>Double-click to open</p>-->
+</div>

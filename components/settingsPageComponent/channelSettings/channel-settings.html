@@ -1,0 +1,144 @@
+<form #submitChannel="ngForm" (submit)="submitFormChannel()" class="settings-form" novalidate>
+    <p class="note-messages error-msg" [hidden]="!channel_name.control.hasError('required') || channel_name.pristine">Name is required</p>
+    <p *ngIf="!errorExtensionFile" class="note-messages error-msg">File is not valid. Please make sure that file extension is (png, jpg, jpeg, mp4, flv, mov, avi, docx, xlsx, pptx, doc, xls, ppt)</p>
+    <p *ngIf="confirmMessage" class="note-messages success-msg">{{ confirmMessage }}</p>
+    <!-- CHANEL SETTINGS -->
+    <!-- General settings -->
+    <div class="full-width-container">
+        <div class="settings-sections channel">
+            <p class="title">Channel details</p>
+            <!-- Channel name -->
+            <div class="form-field">
+                <label class="field-label" for="channel_name">Channel name</label>
+                <input required [(ngModel)]="channelUpdate.name" class="text-input" id="channel_name" #channel_name="ngModel" name="channel_name"  type="text">
+            </div>
+            <!-- Channel owner -->
+            <div class="form-field">
+                <label class="field-label" for="channel_owner">Channel owner</label>
+                <input class="text-input" id="channel_owner" name="channel_owner"  type="text">
+            </div>
+            <!-- Profile image -->
+            <div class="form-field file-input">
+                <label class="field-label">Channel image / logo</label>
+                <input class="inputfile inputfile-6" id="file_content" name="channel_logo" type="file" (change)="onChangeFile($event)">
+                <label  for="file_content">
+                    <span>{{channelAvatarName}}</span>
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </label>
+            </div>
+            <!-- Preview avatar -->
+            <div *ngIf="url" class="form-field">
+                <label class="field-label">Preview avatar</label>
+                <div class="avatar-image">
+                    <img [src]="url"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Select content container -->
+    <div class="full-width-container">
+        <div class="settings-sections channel">
+            <div class="form-field">
+                <label class="field-label">Select content</label>
+                <div class="select-content-for-channel">
+                    <!-- Header part -->
+                    <div class="channel-header-tabs">
+                        <div class="header-tabs-inline">
+                            <span (click)="filterFeedsByType('')" [ngClass]="{active: feedService.filterTypeActive == ''}">All content</span>
+                            <span (click)="filterFeedsByType('image')" [ngClass]="{active: feedService.filterTypeActive == 'image'}">Images</span>
+                            <span (click)="filterFeedsByType('video')" [ngClass]="{active: feedService.filterTypeActive == 'video'}">Videos</span>
+                            <span (click)="filterFeedsByType('office')" [ngClass]="{active: feedService.filterTypeActive == 'office'}">Doc</span>
+                            <span (click)="filterFeedsByType('pdf')" [ngClass]="{active: feedService.filterTypeActive == 'pdf'}">Pdf</span>
+                        </div>
+                    </div>
+                    <!-- content listing here -->
+                    <div class="channel-tabs-content">
+                        <perfect-scrollbar id="scrollbar-element" class="scrollbar-element">
+                            <div *ngFor="let item of globalService.paginateFeeds" (click)="selectedFile(item)" class="file-content">
+                                <div class="file-content-inner image" [ngClass]="{active: channelService.filesIds.indexOf(item.id) > -1}">
+                                    <div class="image-holder">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                        <img [feedImage]="item" version="2"/>
+                                    </div>
+                                    <p class="desc">{{ item.name }}</p>
+                                </div>
+                            </div>
+                            <img *ngIf="loadNewChannel" src="images/preloader.gif" class="loading-icon" />
+                        </perfect-scrollbar>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Available region settings -->
+    <div class="full-width-container">
+        <div class="settings-sections channel half-field">
+            <!-- Available regions -->
+            <div class="form-field multiple-select">
+                <label class="field-label">Select available regions</label>
+                <div class="select upload-select share-field">
+                    <select id="regions" name="regions">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Monetization display -->
+    <div class="full-width-container">
+        <div class="settings-sections channel no-padding">
+            <!-- Available regions -->
+            <div class="form-field multiple-select">
+                <label class="field-label">Monetization</label>
+                <ul class="styled-radio orange">
+                    <li>
+                        <input type="radio" id="f-option" [value]="1" [(ngModel)]="channelUpdate.is_free" name="is_free">
+                        <label for="f-option">Free</label>
+                        <div class="check"></div>
+                    </li>
+                    <li>
+                        <input type="radio" id="p-option" [value]="0" [(ngModel)]="channelUpdate.is_free" name="is_free">
+                        <label for="p-option">Paid</label>
+                        <div class="check"><div class="inside"></div></div>
+                    </li>
+                </ul>
+                <div class="note-div">
+                    <div class="note blue">
+                        <i aria-hidden="true" class="fa fa-info-circle"></i>
+                        <p>For PPV purchases, you will receive 90% of the net amount paid by the purchaser</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Monetarization container -->
+    <div class="full-width-container">
+        <div class="settings-sections channel monetization">
+            <p class="title">Add monetization options</p>
+            <!-- monetization box container -->
+            <div class="monetization-block-cont">
+                <!-- Monetization block -->
+                <monetization-box></monetization-box>
+                <!-- Monetization block add -->
+                <div class="monetization-box">
+                    <div class="inside add-box">
+                        <div class="add-box-content">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            <p>Add new option</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SUBMIT BUTTON -->
+    <div class="full-width-container border">
+        <div class="settings-sections general">
+            <!-- Save -->
+            <div class="form-field">
+                <input type="submit" class="sbuttons save" value="Save Settings"/>
+                <img *ngIf="loadIconShow" class="preload-icon-small" src="images/preloader.gif" />
+            </div>
+        </div>
+    </div>
+</form>

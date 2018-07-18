@@ -1,0 +1,38 @@
+<ng-template #elseBlock>
+    <div class="load-icon-center">
+        <img src="images/preloader.gif" class="preload-icon-small"/>
+    </div>
+</ng-template>
+<div *ngIf="!loading; else elseBlock" class="details-box comments">
+    <div (click)="hideComments()" class="details-header">
+        <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+        <p>Comments</p>
+    </div>
+    <div class="comments-content">
+        <form (ngSubmit)="commentSubmit()" #comment="ngForm" name="comments-add" novalidate>
+            <div class="field">
+                <textarea name="message" [(ngModel)]="message" placeholder="Post your comment"></textarea>
+            </div>
+            <!-- Form field submit -->
+            <div class="field">
+                <input class="btn-default" type="submit" value="Comment">
+            </div>
+        </form>
+        <div *ngIf="showProgress"  class="load-icon-center">
+            <img src='images/preloader.gif' class="preload-icon-small">
+        </div>
+        <div class="scroll-pane">
+            <div *ngFor="let comment of comments; let i = index" class="single-box comments">
+                <div class="comments-info">
+                    <div class="user-image" [userImage]="comment.user"></div>
+                    <p class="user-name">
+                        {{comment.user.fullname}}
+                        <i class="fa fa-times" aria-hidden="true" *deleteComment="comment" (click)="deleteComment(i, comment)"></i>
+                    </p>
+                    <span [diffTime]="comment.created_at" class="time"></span>
+                </div>
+                <p class="comment">{{comment.message}}</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+<div class="filter-box contact" #mainBox>
+    <h3>Contacts</h3>
+    <!-- Add new contact -->
+    <p class="add-new-contact-error-msg">{{ text }}</p>
+    <form (submit)="submitEmail()" class="add-new-folder add-new-contact" novalidate>
+        <div class="form-field">
+            <input #emailInput="ngModel" [(ngModel)]="email" validateEmail  type="text" name="contact-email" placeholder="Invite by email" />
+            <button type="submit" #submitButton class="fa fa-arrow-right"></button>
+            <svg class='pulse-svg' *ngIf="this.sectorService.inviteTipShow"  height='58px' version='1.1' viewBox='0 0 58 58' width='58px' xmlns='http://www.w3.org/2000/svg'>
+                <circle class='circle first-circle' cx='29' cy='29' opacity='0' r='25'></circle>
+                <circle class='circle second-circle' cx='29' cy='29' opacity='0' r='25'></circle>
+                <circle class='circle third-circle' cx='29' cy='29' opacity='0' r='25'></circle>
+                <g>
+                    <circle cx='29' cy='29' r='29'></circle>
+                </g>
+            </svg>
+        </div>
+    </form>
+    <div class="contacts-list">
+        <!--<perfect-scrollbar>-->
+            <div class="contact-lc-list contact-lc-not-confirmed" *ngFor="let user of invitedUsersArray">
+                <img src="images/not-confirmed-user.png" />
+                <p #notConfirmedUser class="not-confirmed-user">{{user.email}}</p><a href="javascript:;" (click)="openNotConfirmedActions(user.id)"><b>...</b></a>
+                <!-- Not confirmed user actions -->
+                <div *ngIf="openPopup == user.id" class="not-confirmed-user-action">
+                    <a href="javascript:;" (click)="inviteAgain(user.id)"><i class="fa fa-refresh" aria-hidden="true"></i>Invite Again</a>
+                    <a href="javascript:;" (click)="withdrawInvitation(user.id)"><i class="fa fa-times" aria-hidden="true"></i>Withdraw Invitation</a>
+                </div>
+            </div>
+            <div class="contact-lc-list" *ngFor="let contact of global.contacts">
+                <a href="/profile/{{contact.contact_user.id}}" class="user-image" [userImage]="contact.contact_user"></a>
+                <span class="contact-lc-list-fullname">{{contact.contact_user.fullname}}</span>
+            </div>
+        <!--</perfect-scrollbar>-->
+        <!--<ng-container *ngIf="global.contacts.length == 9">-->
+        <!--<div class="load-more-contacts" (click)="loadMoreContacts()">-->
+        <!--<span>More</span>-->
+        <!--</div>-->
+        <!--</ng-container>-->
+    </div>
+    <span class="bottom">All contacts</span>
+</div>
+<!-- List all users up -->
+<!--&lt;!&ndash; More contacts loaded here &ndash;&gt;-->
+<!--<div class="more-contacts-leftcol" *ngIf="moreContactsContainerVisible">-->
+<!--&lt;!&ndash; Search form &ndash;&gt;-->
+<!--<div class="search-form">-->
+<!--<form (submit)="contactSearch()" novalidate>-->
+<!--<input #search="ngModel" [(ngModel)]="searchContact"  name="searchContacts" type="text" placeholder="Search contact" class="search-input" />-->
+<!--<input type="submit"  class="search-input-submit" />-->
+<!--</form>-->
+<!--</div>-->
+<!--&lt;!&ndash; List all contacts here &ndash;&gt;-->
+<!--<div class="more-contacts-leftcol-listing">-->
+<!--<perfect-scrollbar>-->
+<!--<div class="more-contacts-leftcol-listing-inline">-->
+<!--<div class="leftcol-listing-single-contact" *ngFor="let contact of global.contacts | filter:searchContact">-->
+<!--<a href="/profile/{{contact.contact_user.id}}" class="user-image" [userImage]="contact.contact_user"></a>-->
+<!--<span class="name-lastname">{{contact.contact_user.fullname}}</span>-->
+<!--</div>-->
+<!--</div>-->
+<!--</perfect-scrollbar>-->
+<!--</div>-->
+<!--</div>-->

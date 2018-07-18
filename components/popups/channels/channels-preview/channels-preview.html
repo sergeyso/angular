@@ -1,0 +1,42 @@
+<div id="opacity-container" class="opacity-container" (click)="hidePopup()"></div>
+<div id="popupcontainer" class="channels-preview">
+   <div class="channels-preview-container">
+       <!-- Header container  -->
+       <div class="channels-preview-header">
+           <!-- Channel main info repeatable element -->
+           <div class="channels-preview-mi">
+               <img class="channels-img" src="images/channel-img.png"/>
+               <div class="channels-preview-info">
+                   <p class="channel-name">Veritassium</p>
+                   <div class="user-name">
+                       <span>by</span>
+                       <p>Charlotte Lebon</p>
+                   </div>
+                   <div class="channel-rating">
+                       <rating-component></rating-component>
+                       <div class="rating-subscrubers">| 1,768 subscribers</div>
+                   </div>
+               </div>
+           </div>
+           <!-- Subscribe -->
+           <div class="channels-preview-subscribe">
+               <i class="fa fa-times" aria-hidden="true" (click)="hidePopup()"></i>
+               <p class="subscribe">Subscribe</p>
+               <div class="select-box">
+                   <div class="form-select">
+                       <select id="subscribe_option" name="subscribe_option">
+                           <option value="1">10 EUR/Week</option>
+                           <option value="1">20 EUR/Week</option>
+                           <option value="1">30 EUR/Week</option>
+                       </select>
+                   </div>
+               </div>
+           </div>
+       </div>
+       <div class="channels-preview-content">
+           <!--<perfect-scrollbar>-->
+               <tabs-component></tabs-component>
+           <!--</perfect-scrollbar>-->
+       </div>
+   </div>
+</div>

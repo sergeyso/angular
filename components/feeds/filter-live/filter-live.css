@@ -1,0 +1,36 @@
+.filter-group{
+    clear:both;
+    display:block;
+    padding:20px 0;
+}
+.filter-item{
+    background-color:#1b1d20;
+    text-decoration:line-through;
+    color:#fff;
+    border-radius:5px;
+    margin-left:10px;
+    text-align:center;
+    padding:5px;
+}
+.filter-item:hover{
+    cursor: pointer;
+}
+.filter-item:first-child{
+    margin-left: 0px;
+}
+.filter-item.live{
+    background-color:#ccbe0e;
+}
+.filter-item.upcoming{
+    background-color:#ff3271;
+}
+.filter-item.passed{
+    background-color:#6a7889;
+}
+.filter-item.active{
+    text-decoration:none;
+}
+.filter-item input{
+    margin: 0;
+    padding: 0;
+}

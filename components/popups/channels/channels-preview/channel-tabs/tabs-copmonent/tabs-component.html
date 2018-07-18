@@ -1,0 +1,17 @@
+<!-- Tabs link for clicking -->
+<div class="tabs-header">
+    <span class="tabs-header-links" [ngClass]="{active: selected == 1}" (click)="selected = 1">OVERVIEW</span>
+    <span class="tabs-header-links" [ngClass]="{active: selected == 2}" (click)="selected = 2">CONTENT</span>
+    <span class="tabs-header-links" [ngClass]="{active: selected == 3}" (click)="selected = 3">ABOUT</span>
+</div>
+<!-- Tabs content -->
+<div class="tabs-main-content">
+    <tab class="tabs-content">
+        <slider></slider>
+        <!-- Channel info -->
+        <channel-info></channel-info>
+        <!-- Similar channels -->
+        <channel-similar></channel-similar>
+    </tab>
+    <tab class="tabs-content">About content here</tab>
+</div>

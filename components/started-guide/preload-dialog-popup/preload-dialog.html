@@ -1,0 +1,12 @@
+<div id="opacity-container" class="live-setup"></div>
+<div class="modal-custom modal-sm" id="popupcontainer">
+    <div class="top">Preload Content</div>
+    <div class="body">
+        <p>Now we will preload channels, folders and content based on the sector type you have chosen.</p>
+        <p><strong>Warning: this is one-time only action.</strong></p>
+        <p>Are you sure you want to preload the default content?</p>
+        <a href="#" (click)="skip()" class="c-button-white pull-left w100">No, skip this</a>
+        <a href="#" (click)="apply()" class="c-button pull-right w100"><i *ngIf="loading" class="fa fa-refresh fa-spin"></i> Yes</a>
+        <div class="clearfix"></div>
+    </div>
+</div>

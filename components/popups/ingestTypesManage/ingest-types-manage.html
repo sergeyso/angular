@@ -1,0 +1,42 @@
+<div id="opacity-container" class="opacity-container" (click)="hidePopup()"></div>
+<div id="popupcontainer">
+    <div class="asset-popup manage-ingest-types">
+        <!-- Header -->
+        <div class="popup-header">Manage shortcuts<i class="fa fa-times" aria-hidden="true" (click)="hidePopup()"></i></div>
+        <!-- Body -->
+        <div class="popup-body">
+            <p class="description">Enable or Disable your sidebar shortcuts or connect your existing services.</p>
+            <form>
+                <!-- Google Drive -->
+                <div class="single-box ingest">
+                    <div class="checkbox">
+                        <div  class="checkboxInput">
+                            <p class="google_drive">Google Drive</p>
+                            <input  id="google_drive" name="xlargesize" value="None" type="checkbox">
+                            <label for="google_drive"></label>
+                        </div>
+                    </div>
+                </div>
+                <!-- One Drive -->
+                <div class="single-box ingest">
+                    <div class="checkbox">
+                        <div class="checkboxInput">
+                            <p class="one_drive">One Drive</p>
+                            <input  id="one_drive" name="xlargesize" value="None" type="checkbox">
+                            <label for="one_drive"></label>
+                        </div>
+                    </div>
+                </div>
+                <!-- Dropbox -->
+                <div class="single-box ingest">
+                    <div class="checkbox">
+                        <div class="checkboxInput">
+                            <p class="dropbox">Dropbox</p>
+                            <a href="javascript:;" class="connect">Connect</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<div [ngStyle]="{'display': !global.finishFeed && !global.finishFolders ? 'none' : 'block'}" class="main-page-inner feed-page profile-page">
+    <left-column
+            [scrollToMeetings]="false"
+            [scrollToContacts]="false"
+            [scrollToFolders]="false"
+            [scrollToVault]="false"
+    ></left-column>
+    <!-- Main column -->
+    <div class="right-column">
+        <!-- Main feed page -->
+        <div class="main-feed-content clearfix">
+            <!-- First main column -->
+            <div class="third-column columns" [ngClass]="{shorten: global.fourthColumnvisible}">
+                <div class="header-bottom-part">
+                    <!-- Filter buttons --->
+                    <div class="supported-files">
+                        <p (click)="folderService.filterFeeds('all')" class="supported-files-link" [ngClass]="{active: feedServices.filter == 'all' }">Everything</p>
+                        <p (click)="folderService.filterFeeds('image')" class="supported-files-link" [ngClass]="{active: feedServices.filter == 'image' }">Photos</p>
+                        <p (click)="folderService.filterFeeds('video')" class="supported-files-link" [ngClass]="{active: feedServices.filter == 'video' }">Videos</p>
+                        <p class="supported-files-link">Live Streams</p>
+                        <p (click)="folderService.filterFeeds('office')" class="supported-files-link" [ngClass]="{active: feedServices.filter == 'office'}">Text Documents</p>
+                        <p (click)="folderService.filterFeeds('pdf')" class="supported-files-link" [ngClass]="{active: feedServices.filter == 'pdf'}">PDFs</p>
+                        <p class="supported-files-link">Links</p>
+                    </div>
+                    <!--Channels completeness visible only when user is on channel -->
+                    <!--<div class="channel-completeness">-->
+                    <!--<div class="channel-completeness-cont tooltips">-->
+                    <!--<span class="completeness-perc" style="width: 50%;"></span>-->
+                    <!--<span class="tooltiptext channel-comple">Channel Completeness</span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                </div>
+                <feeds *ngIf="(global.showUploadForm && global.showProgress) || (!global.showUploadForm && !global.showProgress)"></feeds>
+            </div>
+        </div>
+    </div>
+    <!-- Popups -->
+    <router-outlet></router-outlet>
+</div>

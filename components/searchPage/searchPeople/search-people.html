@@ -1,0 +1,16 @@
+<ng-container *ngIf="feedService.searchResult.peoples.count">
+    <div class="serp-href"><a href="#">People ({{feedService.searchResult.peoples.count}})</a></div>
+    <div class="people-div">
+        <figure *ngFor="let item of feedService.searchResult.peoples.data; let i = index">
+            <div class="inside">
+                <a href="/profile/{{item.id}}">
+                    <span class="table-div"><span class="table-div-cell">
+                        <div class="user-image" [userImage]="item"></div>
+                        <strong class="people-name">{{item.fullname}}</strong><!--<small>Front-end Developer</small>-->
+                    </span></span>
+                </a>
+            </div>
+        </figure>
+    </div>
+    <div class="clearfix"></div>
+</ng-container>

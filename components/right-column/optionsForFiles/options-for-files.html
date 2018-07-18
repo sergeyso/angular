@@ -1,0 +1,10 @@
+<div class="options-for-files">
+    <span [ngClass]="{active:globalService.optionsFiles}" (click)="openOptions()"></span>
+    <div class="option-box" *ngIf="globalService.optionsFiles">
+        <a (click)="openUpdateContent()" *checkAuth="globalService.rightColumnValueFeed" class="edit"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a>
+        <a (click)="deleteFiles('delete')" *checkAuth="globalService.rightColumnValueFeed" class="delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</a>
+        <a download target="_blank" [href]="globalService.rightColumnValueFeed.filedata.link" class="download"><i class="fa fa-download" aria-hidden="true"></i>Download</a>
+        <a *ngIf="!this.globalService.itsOwner" (click)="deleteFiles('remove')" href="javascript:;" class="remove"><i class="fa fa-minus-circle" aria-hidden="true"></i>Remove</a>
+    </div>
+<!--    <delete-file *ngIf="globalService.deleteFile"></delete-file>-->
+</div>

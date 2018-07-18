@@ -1,0 +1,13 @@
+<div id="opacity-container" class="delete-folder" (click)="hidePopup()"></div>
+<div id="popupcontainer" class="delete-folder">
+    <div class="popup-header">Delete file<i class="fa fa-times" aria-hidden="true" (click)="hidePopup()"></i></div>
+    <div class="popup-content">
+        <p class="title">Are you sure you want to {{ this.globalService.itsOwnerDelete }} the file?</p>
+        <div class="delete-form">
+            <div class="buttons">
+                <input (click)="optionDelete()" class="delete-btn" type="submit" name="delete" value="Delete" />
+                <input (click)="hidePopup()" class="cancel-btn" type="submit" name="cancel" value="Cancel" />
+            </div>
+        </div>
+    </div>
+</div>

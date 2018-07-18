@@ -1,0 +1,57 @@
+<div id="opacity-container" class="live-setup" (click)="hidePopup()"></div>
+<div id="popupcontainer" class="live-setup">
+    <div class="popup-header">Add Files<i class="fa fa-times" aria-hidden="true" (click)="hidePopup()"></i></div>
+    <div class="popup-content afa-tabs">
+        <!-- Popup content tabs header -->
+        <div class="afa-tabs-header">
+            <!--<span [ngClass]="{'active': selectedTab == 1}" (click)="selectedTab = 1">From the Cloud</span>-->
+            <span [ngClass]="{'active': selectedTab == 2}" (click)="selectedTab = 2">Attach from Computer</span>
+            <span [ngClass]="{'active': selectedTab == 3}" (click)="selectedTab = 3">Record a Video</span>
+        </div>
+        <!-- Tabs content  -->
+        <div class="afa-tabs-content">
+            <!-- Attach from computer -->
+            <div class="afa-tabs-content-div second" [ngClass]="{'active': selectedTab == 2}">
+                <p *ngIf="errorMessage">{{errorMessage}}</p>
+                <form>
+                    <div ng2FileDrop
+                            [uploader]="uploader"
+                            (onFileDrop)="addDataToObject($event)"
+                            (fileOver)="fileOverBase($event)"
+                            [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+                            class="modal-drop-files">
+                        <p>Drag and drop files here or click the button below</p>
+                        <input (change)="onChangeMultipleFile($event)" multiple type="file" name="file" id="add-files" class="styled_input_file" />
+                        <label for="add-files" class="c-button-white"><i class="fa fa-cloud-upload" aria-hidden="true"></i> Add Files</label>
+                    </div>
+                    <!-- Added files listing here -->
+                    <div class="added-files-upload-form">
+                        <div class="clearfix"></div>
+                        <!-- Single added file -->
+                        <ul class="files-added-list-custom">
+                            <li *ngFor="let file of files; let i = index">
+                                <span class="table-div">
+                                    <span class="table-div-cell">
+                                        <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                                        {{ file.name }}
+                                    </span>
+                                </span>
+                                <a href="javascript:;" (click)="removeSelectedFile(i)" class="remove">
+                                    <i class="fa fa-times-circle"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Submit form button -->
+                    <div class="form-field form-field-submit">
+                        <input (click)="sendFiles()" type="submit" name="search-participant" class="filter-search-submit" value="Add to Post"/>
+                    </div>
+                </form>
+            </div>
+            <!-- Record a video -->
+            <div class="afa-tabs-content-div third" [ngClass]="{'active': selectedTab == 3}">
+                <app-uploadform-add-record (changePopup)="onAddedVideoFile($event)"></app-uploadform-add-record>
+            </div>
+        </div>
+    </div>
+</div>

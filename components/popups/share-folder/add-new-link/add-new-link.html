@@ -1,0 +1,6 @@
+<div class="form-field links">
+    <input name="label" [(ngModel)]="link.title" [ngModelOptions]="{standalone: true}" class="text-input first" placeholder="Label" />
+    <input name="value"  ngModel app-validateLink [object]="link" #linkValidate="ngModel" [(ngModel)]="link.link" [ngModelOptions]="{standalone: true}" class="text-input second" placeholder="http://" />
+    <p class="error-msg-small" *ngIf="linkValidate.control.hasError('validateLink') && !link.first">Please import link</p>
+    <i (click)="deleteLink()" class="fa fa-trash-o" aria-hidden="true"></i>
+</div>

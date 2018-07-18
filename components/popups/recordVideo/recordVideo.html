@@ -1,0 +1,30 @@
+<div id="opacity-container" class="live-setup" (click)="hidePopup()"></div>
+<div id="popupcontainer" class="record-popup">
+    <div class="popup-header">Record Video<i class="fa fa-times" aria-hidden="true" (click)="hidePopup()" ></i></div>
+    <div class="popup-content">
+        <!-- First step -->
+        <div [hidden]="recordStepVisible != 'first'" class="record-steps">
+            <a href="#" (click)="enabledDevices()" class="enable-camera">Click to enable camera and microphone</a>
+            <a href="#" class="start-recording" (click)="startRecordingClick()"><i class="fa fa-circle"></i>Start Recording</a>
+        </div>
+        <!-- Second step -->
+        <div [hidden]="recordStepVisible != 'second' && recordStepVisible != 'third'" class="record-steps">
+            <video #video class="video" width="480"></video>
+            <div [hidden]="recordStepVisible != 'second'">
+                <ul class="list-inline">
+                    <li><a href="#" class="finish-recording" (click)="stopRecordingClick()"><i class="fa fa-square"></i>Finish Recording</a></li>
+                    <li>{{timer}}</li>
+                </ul>
+            </div>
+            <div [hidden]="recordStepVisible != 'third'">
+                <div class="row">
+                    <div class="half"><span class="file-id-audio">{{filename}}</span></div>
+                    <div class="half text-right"><a href="#" (click)="saveRecording()" class="c-button w100">Add to Post</a></div>
+                </div>
+                <div class="bottom"><a href="#" class="link-pink" (click)="startNewRecordingClick()"><i class="fa fa-trash"></i>Start Over</a></div>
+            </div>
+        </div>
+    </div>
+    <p *ngIf="loading" class="send-file-confirmation">Loading ...</p>
+    <p *ngIf="responseMessage" class="send-file-confirmation">{{responseMessage}}</p>
+</div>

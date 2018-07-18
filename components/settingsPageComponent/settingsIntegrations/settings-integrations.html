@@ -1,0 +1,45 @@
+<div class="integrations-container">
+    <div class="full-width-container">
+        <div class="settings-sections integrations">
+            <!--&lt;!&ndash; Single line integration &ndash;&gt;-->
+            <!--<div class="integration-single-box">-->
+                <!--<img src="images/facebook-integration.png" />-->
+                <!--<div class="integration-single-box-link">-->
+                    <!--<a href="javascript:" class="integration-link-btn">Disconnect</a>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--&lt;!&ndash; Single line integration &ndash;&gt;-->
+            <!--<div class="integration-single-box">-->
+                <!--<img src="images/twitter-integration.png" />-->
+                <!--<div class="integration-single-box-link">-->
+                    <!--<a href="javascript:" class="integration-link-btn">Disconnect</a>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!-- Single line integration -->
+            <div class="integration-single-box">
+                <img src="images/logo-dropbox.png" />
+                <div class="integration-single-box-link">
+                    <a *ngIf="!vaultService.dropboxConnection" href="#" (click)="connectDropbox()" class="integration-link-btn not-connected">Connect</a>
+                    <a *ngIf="vaultService.dropboxConnection" href="#" (click)="settingsDropboxToggle(true)" class="integration-link-btn connected">Settings</a>
+                    <!--<a href="javascript:" (click)="settingsDropboxToggle(true)" class="integration-link-btn connected">Settings</a>-->
+                </div>
+            </div>
+            <!--&lt;!&ndash; Single line integration &ndash;&gt;-->
+            <!--<div class="integration-single-box">-->
+                <!--<img src="images/sendlane-integration.png" />-->
+                <!--<div class="integration-single-box-link">-->
+                    <!--<a href="javascript:" class="integration-link-btn not-connected">Connect</a>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--&lt;!&ndash; Single line integration &ndash;&gt;-->
+            <!--<div class="integration-single-box">-->
+                <!--<img src="images/demio-integration.png" />-->
+                <!--<div class="integration-single-box-link">-->
+                    <!--<a href="javascript:" class="integration-link-btn not-connected">Connect</a>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+
+

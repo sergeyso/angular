@@ -1,0 +1,31 @@
+<div class="header-breadcrupms">
+    <i class="fa fa-bars" aria-hidden="true" (click)="closeLeftColumn()"></i>
+    <h1 *ngIf="globalService.notificationPageVisible; else elseHeader" class="notification">Notifications</h1>
+    <ng-template #elseHeader>
+        <h1 (click)="folderService.select(value.index, value.key, value.type, value.object)"
+            [ngClass]="{ last: last, breaditem: folderService.arrayBreadCump.length > 1 && !last  }" *ngFor="let value of folderService.arrayBreadCump; let i = index;let last = last">{{ value.name }}</h1>
+    </ng-template>
+</div>
+<!-- Select box -->
+<div class="header-right-parts">
+    <!-- Search Form -->
+    <header-search-form></header-search-form>
+    <div class="right-cont">
+        <div class="right-cont-inner">
+            <!-- Show content on main feeds page -->
+            <!--<div class="supported-div">-->
+                <!--&lt;!&ndash; REMOVED &ndash;&gt;-->
+                <!--<div class="select header-select">-->
+                    <!--<select id="privacy_users" class="form-control" name="privacy_users">-->
+                        <!--<option value="0">Friends</option>-->
+                        <!--<option value="1">All users</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+            <!--</div>-->
+            <button class="share-button-header" *ngIf="folderService.shareButtonHeader" (click)="openShareFolderPopup()">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>Share
+            </button>
+        </div>
+    </div>
+</div>
+<share-folder-popup *ngIf="shareFolderPopup" (closePopup)="closeShareFolder($event)"></share-folder-popup>

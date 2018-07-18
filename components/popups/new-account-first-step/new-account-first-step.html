@@ -1,0 +1,128 @@
+<div id="opacity-container" class="add-new-account" (click)="hidePopup()"></div>
+<div id="popupcontainer" class="add-new-account">
+    <div class="popup-header">New Account<i class="fa fa-times" aria-hidden="true" (click)="hidePopup()"></i></div>
+    <div class="popup-content">
+        <form>
+            <!-- First step -->
+            <div class="first-step" *ngIf="!secondStepVisible">
+                <div class="body nobottommargin">
+                    <div class="meeting-summary-custom">
+                        <div class="form-group">
+                            <label class="form-fields-label">Company Name</label>
+                            <input type="text" placeholder="Company Name"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-fields-label">Subdomain</label>
+                            <div class="sub-domain-custom"></div>
+                            <ul class="list-inline full-width">
+                                <li style="vertical-align:top;">
+                       		<span class="grey-box full-width">
+                                <ul class="inline-list">
+                                    <li>http://</li>
+                                    <li><input type="text" placeholder="companyname" style="width:150px;"/></li>
+                                    <li>.knowlocker.com</li>
+                                </ul>
+                            </span>
+                                </li>
+                            </ul>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-fields-label">Logo</label>
+                            <div class="form-group-add-img">
+                                <img class="logo-image" src="images/avatar.png" />
+                                <div class="subdomain-form">
+                                    <label for="file_content" class="styled-file-label"><span>Choose File</span></label>
+                                    <span class="image-name">{{ logoName }}</span>
+                                    <input class="inputfile inputfile-6" id="file_content" name="channel_logo" type="file" (change)="onChangeFile($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom text-right">
+                    <a href="#" class="c-button w100" (click)="activateSecondStep()">Create Account</a>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!-- Second step -->
+            <div class="second-step" *ngIf="secondStepVisible">
+                <div class="body nobottommargin create-account-second-step">
+                    <div class="meeting-summary-custom">
+                        <div class="gray-box-wide">
+                            <label class="form-fields-label">Select Package</label>
+                            <!-- Select package -->
+                            <div class="form-group first-form-group">
+                                <div class="select-outside">
+                                    <select id="packages" class="form-control" name="folder_delete">
+                                        <option value="">Package 1</option>
+                                        <option value="">Package 2</option>
+                                        <option value="">Package 3</option>
+                                    </select>
+                                </div>
+                                <div class="number-seats">
+                                    <input type="text" />
+                                    <span>Seats</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="gray-box-wide">
+                            <ul class="full clearfix">
+                                <li class="form-fields-label" style="padding: 0;">Sub-total</li>
+                                <li>$300</li>
+                            </ul>
+
+                            <ul class="full clearfix">
+                                <li><input type="text" placeholder="Discount code" style="width:100px;" /></li>
+                                <li class="yellow">- 0%</li>
+                            </ul>
+
+                            <ul class="full total clearfix">
+                                <li>Total</li>
+                                <li><strong>300%</strong></li>
+                            </ul>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-fields-label">Name on Card</label>
+                            <input type="text" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-fields-label">Card Number</label>
+                            <input type="text"/>
+                        </div>
+
+                        <div class="row">
+                            <div class="half">
+                                <div class="form-group">
+                                    <label class="form-fields-label">Expiry Date</label>
+                                    <ul class="list-inline expiry-date">
+                                        <li><input type="text" placeholder="MM" style="width:45px;"></li>
+                                        <li><input type="text" placeholder="YYYY" style="width:53px;"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="half text-right">
+                                <div class="ccv-div">
+                                    <label>Security Code</label>
+                                    <div class="inside">
+                                        <input type="text" placeholder="###">
+                                        <a href="#"><i class="fa fa-lock"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom text-right">
+                    <a href="#" class="c-button w100">Activate Account</a>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

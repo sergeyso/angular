@@ -1,0 +1,37 @@
+<div id="opacity-container" class="opacity-container" (click)="hidePopup()"></div>
+<div id="popupcontainer">
+    <div class="asset-popup send-file-popup">
+        <div class="popup-header">Send file<i class="fa fa-times" aria-hidden="true" (click)="hidePopup()"></i></div>
+        <div class="popup-content">
+            <form *ngIf="!responseMessage && !loading">
+                <h3>Recepient</h3>
+                <div class="recepient-user" [userImage]="globalService.currentUser"></div>
+                <p class="recipient-name">{{ globalService.currentUser.username}}</p>
+                <div  class="form-field">
+                    <input  type="file"
+                            class="inputfile inputfile-6 ng-untouched ng-pristine ng-invalid"
+                            id="file_content"
+                            name="file"
+                            required=""
+                            (change)="onChangeFile($event)">
+                    <label for="file_content"><span>{{fileNameRecepient}}</span> <strong>Choose a file</strong></label>
+                </div>
+                <!-- Form field input field -->
+                <h3>Include Message</h3>
+                <div class="form-field">
+                    <textarea class="text-input" [(ngModel)]="sendFileObject.message" [ngModelOptions]="{standalone: true}" placeholder="Type Message"></textarea>
+                </div>
+                <div class="form-field submit-form-field">
+                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                    <input (click)="sendFile()" class="submitform" type="submit" value="Send">
+                    <div class="form-errors">
+                        <p *ngIf="errorFile">{{errorFile}}</p>
+                        <p *ngIf="errorMessage">{{errorMessage}}</p>
+                    </div>
+                </div>
+            </form>
+            <p *ngIf="loading" class="send-file-confirmation">Loading ...</p>
+            <p *ngIf="responseMessage" class="send-file-confirmation">{{responseMessage}}</p>
+        </div>
+    </div>
+</div>

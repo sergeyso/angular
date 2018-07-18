@@ -1,0 +1,41 @@
+<div id="opacity-container" class="live-setup" (click)="hidePopup()"></div>
+<div id="popupcontainer" class="live-setup">
+    <div class="popup-header">Change Thumbnail<i class="fa fa-times" aria-hidden="true" (click)="hidePopup()"></i></div>
+    <div class="popup-content">
+        <!-- Images container -->
+        <div class="choose-pdf-container-images">
+            <img src="images/default-psd.png" class="choose-pdf-container-img" />
+            <img src="images/default-psd.png" class="choose-pdf-container-img" />
+            <img src="images/default-psd.png" class="choose-pdf-container-img" />
+        </div>
+        <!-- Radio button -->
+        <form class="form-field container choose-pdf-container-images">
+            <ul class="styled-radio">
+                <li>
+                    <input type="radio" id="d-thum" name="selector">
+                    <label for="d-thum">Default Thumbnail</label>
+
+                    <div class="check"></div>
+                </li>
+
+                <li>
+                    <input type="radio" id="a-generated" name="selector">
+                    <label for="a-generated">Auto-Generated</label>
+
+                    <div class="check"><div class="inside"></div></div>
+                </li>
+            </ul>
+            <div class="form-field file-input">
+                <input class="inputfile inputfile-6" id="file_content" name="picture" type="file" (change)="onChangeFile($event)">
+                <label  for="file_content">
+                    <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                    <span>Upload Image</span>
+                </label>
+            </div>
+            <!-- -Submit form button -->
+            <div class="choose-pdf-container-images-bottom">
+                <input type="submit" value="Save" class="btn"/>
+            </div>
+        </form>
+    </div>
+</div>

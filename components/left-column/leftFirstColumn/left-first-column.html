@@ -1,0 +1,38 @@
+<div class="first-column feed-column" [ngClass]="{bigger_z: leftColumnBiggerIndex}">
+    <!-- Navigation -->
+    <div class="hamburger" (click)="showSecondColumn()">
+        <i class="fa fa-bars" aria-hidden="true" *ngIf="!global.secondColumnvisible"></i>
+        <i class="fa fa-times" aria-hidden="true" *ngIf="global.secondColumnvisible"></i>
+    </div>
+    <!-- Links who's watching -->
+    <div *ngIf="global.login" class="watching" [ngClass]="{ 'explanation-step-one': global.explanationStepOneVisible }">
+        <!-- Personal -->
+        <div [ngClass]="{active: !global.login.data.company_id}" class="watch-option user-image" href="/settings" (mouseenter)="openShortenNotificationBlock('open', 'personal')" (mouseleave)="openShortenNotificationBlock('close', 'personal')">
+            <a [userImage]="global.login.data" href="/switch-company?id=0"></a>
+        </div>
+        <!-- Other organizations -->
+        <div *ngFor="let company of global.companies" [ngClass]="{active: global.login.data.company_id === company.id}" class="watch-option" href="javascrip:;" (mouseenter)="openShortenNotificationBlock('open', 'organization')" (mouseleave)="openShortenNotificationBlock('close', 'organization')">
+            <a href="/switch-company?id={{company.id}}">
+                <img [leftCompany]="company" class="watch-option-logo" />
+            </a>
+        </div>
+        <a target="_blank" href="https://knowlocker.com/pricing" class="watch-option-single watch-option-new">+</a>
+    </div>
+
+    <div class="bottom-buttons">
+        <a href="javascript:;" (click)="openUploadForm()" class="watch-option-single watch-option-new upload-multi-files">
+            <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>
+<!-- POPUPS -->
+<!-- Embed widget -->
+<embed-widget (openShowEmbedForm)="openShowEmbedForm($event)" *ngIf="showEmbedForm"></embed-widget>
+<!-- Ingest types shortcodes popup -->
+<ingest-type-manage (openIngestType)="openIngestType($event)" *ngIf="showingestTypeManage"></ingest-type-manage>
+<!-- Ingest types shortcodes popup -->
+<get_apps (openGetAppsForm)="openGetAppsForm($event)" *ngIf="showGetAppsForm"></get_apps>
+<!-- Create new account -->
+<left-new-account-first-step (closePopup)="closeAddNewAccount($event)" *ngIf="addNewAccountVisible"></left-new-account-first-step>
+
+<app-account-tooltips [companies]="global.companies"></app-account-tooltips>

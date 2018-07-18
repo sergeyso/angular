@@ -1,0 +1,94 @@
+<div class="main-page-inner settings-page">
+    <app-vault-left-column [isSettingsLoaded]="vaultService.settingsLoaded"></app-vault-left-column>
+</div>
+<div class="right-column" [style.height.px]="scrollHeight - 25">
+    <perfect-scrollbar *ngIf="!vaultService.loading && (vaultService.subfolders.length != 0 || vaultService.folderFiles.length != 0)"
+                       [config]="config"
+                       (ps-y-reach-end)="onScrollContent()">
+    <div class="people-div folders">
+        <figure *ngFor="let folder of vaultService.subfolders">
+            <div class="inside" (click)="openSubfolder(folder)">
+                <article>
+                    <span class="table-div">
+                        <span class="table-div-cell">
+                            <span class="image"></span>
+                            <strong>{{folder.name}}</strong>
+                            <span class="how">{{folder.col_files}} files<br></span>
+                            <span class="how hover">
+                                <ul class="list-inline">
+                                    <!--<li>-->
+                                    <!--<a href="#" class="open-rename-view-folder-modal">-->
+                                    <!--<i class="fa fa-pencil" aria-hidden="true"></i>Rename</a>-->
+                                    <!--</li>-->
+                                    <li>
+                                        <a href="#" click-stop-propagation (click)="shareFolder(folder)">
+                                            <i class="fa fa-share-alt" aria-hidden="true"></i>Share</a>
+                                    </li>
+                                    <!--<li>-->
+                                    <!--<a href="#"><i class="fa fa-trash" aria-hidden="true"></i>Delete</a>-->
+                                    <!--</li>-->
+                                </ul>
+                            </span>
+                        </span>
+                    </span>
+                </article>
+            </div>
+        </figure>
+    </div>
+    <div class="people-div files">
+        <figure *ngFor="let file of vaultService.folderFiles">
+            <a [href]="getFileHref(file)" target="_blank" class="inside" (click)="openFile(file)">
+                <article>
+                    <span class="table-div">
+                        <span class="table-div-cell">
+                            <span class="image">
+                                <i *ngIf="!file.previewdata?.link" class="fa fa-file-text-o" aria-hidden="true"></i>
+                                <img [src]="file.previewdata?.link" alt="">
+                            </span>
+                            <strong>{{file.name}}</strong>
+                            <span class="how"><br></span>
+                            <span class="how hover">
+                                <ul class="list-inline">
+                                    <!--<li><a href="#" class="open-rename-view-folder-modal"><i class="fa fa-pencil"-->
+                                    <!--aria-hidden="true"></i>Rename</a></li>-->
+                                    <li>
+                                        <a href="#" click-stop-propagation (click)="global.showSharePopoup(file)">
+                                            <i class="fa fa-share-alt" aria-hidden="true"></i>Share</a>
+                                    </li>
+                                    <!--<li><a href="#"><i class="fa fa-trash" aria-hidden="true"></i>Delete</a></li>-->
+                                </ul>
+                            </span>
+                        </span>
+                    </span>
+                </article>
+            </a>
+        </figure>
+    </div>
+    </perfect-scrollbar>
+    <div *ngIf="vaultService.loading" class="load-icon">
+        <app-loading-icon></app-loading-icon>
+    </div>
+    <div *ngIf="vaultService.onscrollLoading" class="load-icon-pagginate">
+        <app-loading-icon></app-loading-icon>
+    </div>
+    <div class="sync-status" *ngIf="!vaultService.loading">
+        <div *ngIf="vaultService.dropboxSettings.last_sync && vaultService.folders.length == 0">
+            <img src="images/folder-with-clock.png">
+            <h1>Syncing Vault...</h1>
+            <p>This might take some time, especially for the first sync or if there is a lot of new content to ingest.</p>
+        </div>
+        <div *ngIf="!vaultService.dropboxConnection && vaultService.folders.length == 0">
+            <img src="images/folder-with-list.png">
+            <h1>There's nothing here...</h1>
+            <p>Make sure this folder is synced. Check the date on top of this page.</p>
+        </div>
+        <div *ngIf="vaultService.activeFolder == 0 && vaultService.folders.length != 0">
+            <img src="images/folder-with-arrow.png">
+            <h1>Select Vault</h1>
+            <p>Please select a Vault folder from the sidebar.</p>
+        </div>
+    </div>
+</div>
+<app-share-file-popup *ngIf="global.sharePopupVisible"></app-share-file-popup>
+<share-folder-popup *ngIf="shareFolderPopupStatus" (closePopup)="toggleShareFolder($event)"></share-folder-popup>
+<popup-file-processing *ngIf="fileProcessingPopupStatus" (processingFilePopupStatus)="toggleFileProcessingPopup($event)"></popup-file-processing>

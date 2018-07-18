@@ -1,0 +1,67 @@
+<div class="details-box share">
+    <div (click)="rhsService.hideColumt()" class="details-header">
+        <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+        <p>Share</p>
+    </div>
+    <!-- Share links -->
+    <div class="share-links">
+    <div class="share-links">
+        <div class="field">
+            <p class="title">Content Link</p>
+            <input readonly value="{{ globalService.rightColumnValueFeed.short_url ? globalService.rightColumnValueFeed.short_url : '' }}" name="content-link" />
+        </div>
+        <div class="field">
+            <p class="title">Embed Code</p>
+            <input class="text-share" readonly value="{{ globalService.rightColumnValueFeed.embed_code ? globalService.rightColumnValueFeed.embed_code : '' }}" name="content-link" />
+        </div>
+    </div>
+    <!-- Shared people -->
+    <div class="shared-people">
+        <p class="title" *ngIf="sharedService.sharedWith.length > 0">Shared with</p>
+        <img *ngIf="sharedService.loadSharedUser" class="preload-icon-small centered" src="images/preloader.gif" />
+        <div *ngFor="let user of sharedService.sharedWith" class="single-box shared-person">
+            <div *ngIf="user.status == 'active'" class="user-image" [userImage]="user"></div>
+            <a href="#" [ngClass]="{'shared-italic': user.status == 'pending'}">{{ user.email }}</a>
+            <span (click)="deleteUser(user)" class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+        </div>
+    </div>
+    <form #addNewUser="ngForm" novalidate (submit)="addNewUserFunc()">
+        <!-- Form field share tag-->
+        <div class="form-field multiple-select">
+            <label class="field-label">Share with</label>
+            <div class="select upload-select share-field">
+                <select class="shareaccess" name="shareaccess"></select>
+            </div>
+        </div>
+        <div *ngIf="sharedService.checkPublic">
+            <share-buttons class="custom-buttons"
+                           [url]="globalService.rightColumnValueFeed.short_url"
+                           [description]="globalService.rightColumnValueFeed.description"
+                           [title]="globalService.rightColumnValueFeed.name"
+                           [image]="feedImage"
+                           [pinterest]="false"
+                           [linkedIn]="false"
+                           [google]="false"
+                           [tumblr]="false"
+                           [whatsApp]="false"
+                           [reddit]="false"
+                           [stumbleUpOn]="false"
+            ></share-buttons>
+        </div>
+        <div class="field">
+            <p class="title">Add a comment</p>
+            <textarea name="sharecomment" [(ngModel)]="file.sharecomment" class="text-input"></textarea>
+        </div>
+        <div>
+            <div class="checkbox share-file-checkbox">
+                <div class="checkboxInput">
+                    <input [checked]="sharedService.checkPublic" (change)="sharedService.makePublicOrPrivate(file, 'file', 'read')" type="checkbox" value="None" id="makePublic" name="check" />
+                    <label for="makePublic"></label>
+                    <p class="check-title">Make Public</p>
+                </div>
+                <img *ngIf="sharedService.loadMakePublic" class="preload-absolute" src="images/preloader.gif" />
+            </div>
+            <input type="submit" placeholder="Type name or email" name="submit" value="Submit" class="default-button"/>
+        </div>
+    </form>
+</div>

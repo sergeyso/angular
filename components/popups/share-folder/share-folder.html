@@ -1,0 +1,168 @@
+<div id="opacity-container" class="live-setup" (click)="hidePopup()"></div>
+<div id="popupcontainer" class="live-setup">
+    <div class="popup-header">Share Folder<i class="fa fa-times" aria-hidden="true" (click)="hidePopup()"></i></div>
+    <div class="popup-content afa-tabs">
+        <!-- Popup content tabs header -->
+        <div class="afa-tabs-header">
+            <span [ngClass]="{'active': selectedTab == 1}" (click)="selectedTab = 1">Share Options</span>
+            <!--<span [ngClass]="{'active': selectedTab == 2}" (click)="selectedTab = 2">Filter Files</span>-->
+            <span [ngClass]="{'active': selectedTab == 3}" (click)="selectedTab = 3">Sidebar Panel</span>
+            <span [ngClass]="{'active': selectedTab == 4}" (click)="selectedTab = 4">Links</span>
+        </div>
+        <!-- Tabs content  -->
+        <div class="afa-tabs-content">
+            <!-- Share Options -->
+            <div class="afa-tabs-content-div share-folder-popup" [ngClass]="{'active': selectedTab == 1}">
+                <form (ngSubmit)="shareFolderPopup(shareFolder)" #shareFolder="ngForm">
+                    <!-- Form field public URL  -->
+                    <div class="form-field public-url">
+                        <label class="field-label">Public URL</label>
+                        <div class="public-url-field">
+                            <div class="public-rul-field-inline">
+                                <span>http://app.knowlocker.com/f</span>
+                                <input [required]="true" name="route" #routeInput="ngModel" [(ngModel)]="updateFolder.route" type="text" class="text-input" />
+                                <p class="error-msg-small" *ngIf="routeInput.control.hasError('required') && submitShareOptions">Route is required</p>
+                                <p *ngIf="uniqueMessage" class="error-msg-small">{{uniqueMessage}}</p>
+                            </div>
+                        </div>
+                        <!-- Repeatable checkbox -->
+                        <div class="checkboxInput share-folder-popup-checkbox">
+                            <input [(ngModel)]="shared" id="file12" name="shared" type="checkbox">
+                            <label for="file12"></label>
+                            <span class="checkbox-text">Enable Sharing</span>
+                        </div>
+                    </div>
+                    <!-- Form field headline  -->
+                    <div class="form-field">
+                        <label class="field-label">Headline</label>
+                        <input name="name" [required]="true" [(ngModel)]="updateFolder.name" #nameFolder="ngModel" type="text" class="text-input" />
+                        <p class="error-msg-small" *ngIf="nameFolder.control.hasError('required') && submitShareOptions">Headline is required</p>
+                    </div>
+                    <!-- Form field attach file  -->
+                    <div class="form-field">
+                        <p class="form-field-title">Header Art</p>
+                        <span class="form-field-desc">(Recommended: 2632x300 @2x or 1316x150 @1x)</span>
+                        <div class="add-files-button share-folder-textarea">
+                            <input ngModel #header_artInput="ngModel" [required]="requiredHeaderArt" (change)="getFilesHeaderArt($event, header_artInput)" type="file" name="header_art" id="add-files" class="styled_input_file" />
+                            <label for="add-files"><i class="fa fa-cloud-upload" aria-hidden="true"></i>Attach Files</label>
+                        </div>
+                        <!-- Error messages -->
+                        <div class="added-files-upload-form-share-errors">
+                            <p class="error-msg-small" [hidden]="!header_artInput.control.hasError('validationFile') || header_artInput.pristine">File is not valid. Please make sure that file extension is (png, jpg, jpeg)</p>
+                            <p class="error-msg-small" *ngIf="requiredHeaderArt && submitShareOptions">Please add a file</p>
+                        </div>
+                        <!-- Added files listing here -->
+                        <div class="added-files-upload-form-share">
+                            <!-- Single added file -->
+                            <div *ngIf="header_art" class="single-added-files">
+                                <span>{{header_art}}</span>
+                                <i (click)="removeHeaderArt(header_artInput)" class="fa fa-times" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Follow box container -->
+                    <div class="follow-box-settings-single">
+                        <p class="form-field-title">Enable Search</p>
+                        <div class="switch">
+                            <input
+                                    [(ngModel)]="updateFolder.search"
+                                    id="cmn-toggle-1"
+                                    name="search"
+                                    class="cmn-toggle cmn-toggle-round-flat"
+                                    type="checkbox"
+                            >
+                            <label for="cmn-toggle-1"></label>
+                        </div>
+                    </div>
+                    <!-- Choose Layout -->
+                    <div class="form-field">
+                        <p class="form-field-title">Choose Layout</p>
+                        <ul class="styled-radio share-folder">
+                            <li>
+                                <input [(ngModel)]="updateFolder.Templatefolder.view_type" [value]="'grid'" type="radio" id="d-thum" name="view_type">
+                                <label required for="d-thum"><i class="fa fa-th" aria-hidden="true"></i>Grid</label>
+                                <div class="check"></div>
+                            </li>
+                            <li>
+                                <input type="radio" [(ngModel)]="updateFolder.Templatefolder.view_type" [value]="'list'" id="a-generated" name="view_type">
+                                <label required for="a-generated"><i class="fa fa-list" aria-hidden="true"></i>List</label>
+                                <div class="check"><div class="inside"></div></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Submit form button -->
+                    <div class="form-field form-field-submit">
+                        <input type="submit" name="search-participant" class="filter-search-submit" value="Share"/>
+                    </div>
+                </form>
+            </div>
+            <!-- Filter Files -->
+            <div class="afa-tabs-content-div second share-folder-popup" [ngClass]="{'active': selectedTab == 2}">
+                <form novalidate>
+                    <!-- Files listing -->
+                    <div class="afa-files-listing">
+                        <perfect-scrollbar>
+                            <p class="afa-listing-p">Shared Files</p>
+                            <!-- Repeatable checkbox -->
+                            <div *ngFor="let item of globalService.paginateFeeds" class="checkboxInput">
+                                <input id="file" name="check_all" type="checkbox">
+                                <label for="file"></label>
+                                <span class="checkbox-text">{{item.name}}</span>
+                            </div>
+                        </perfect-scrollbar>
+                    </div>
+                    <!-- Submit form button -->
+                    <div class="form-field form-field-submit">
+                        <input type="submit" name="search-participant" class="filter-search-submit" value="Share"/>
+                    </div>
+                </form>
+            </div>
+            <!-- Sidebar Panel -->
+            <div class="afa-tabs-content-div share-folder-popup" [ngClass]="{'active': selectedTab == 3}">
+                <form (ngSubmit)="foldersSideBarRequest(folderSideBarForm)" #folderSideBarForm="ngForm" novalidate>
+                    <p class="form-des">Add a helper screen that will appear on your public folder.</p>
+                    <!-- Form field title  -->
+                    <div class="form-field">
+                        <label class="field-label">Title</label>
+                        <input required name="title" [(ngModel)]="sideBar.title" ngModel #sidebar_title="ngModel" class="text-input" />
+                        <p class="error-msg-small" *ngIf="sidebar_title.control.hasError('required') && submitSidebar">Title is required</p>
+                    </div>
+                    <!-- Form field text  -->
+                    <div class="form-field">
+                        <label class="field-label">Text</label>
+                        <textarea required [(ngModel)]="sideBar.text" ngModel #sidebar_text="ngModel" name="text" class="text-input share-folder-textarea"></textarea>
+                        <p class="error-msg-small" *ngIf="sidebar_text.control.hasError('required') && submitSidebar">Title is required</p>
+                    </div>
+                    <!-- Form field attach file  -->
+                    <div class="form-field">
+                        <p class="form-field-title">Image</p>
+                        <img [src]="imageUrl" class="image-preview" />
+                        <div class="add-files-button share-folder-textarea">
+                            <input (change)="onChangeFileSidebar($event)" ngModel #header_artInput="ngModel"  type="file" name="previewImage" id="add-image" class="styled_input_file" />
+                            <label for="add-image"><i class="fa fa-cloud-upload" aria-hidden="true"></i>Attach Files</label>
+                        </div>
+                       <!-- Remove added image -->
+                        <a (click)="removeImageSiderBar()" href="javascript:;" class="remove-pimage">Remove current image</a>
+                    </div>
+                    <!-- Submit form button -->
+                    <div class="form-field form-field-submit">
+                        <input *ngIf="hasSidebar" (click)="deleteSidebar()" type="button" name="search-participant" class="filter-search-submit remove" value="Remove"/>
+                        <input type="submit" name="search-participant" class="filter-search-submit" value="Share"/>
+                    </div>
+                </form>
+            </div>
+            <!-- Links Panel -->
+            <div class="afa-tabs-content-div share-folder-popup" [ngClass]="{'active': selectedTab == 4}">
+                <form (ngSubmit)="foldersLinkRequest()" #folderLinksForm="ngForm" novalidate>
+                    <p class="form-des">Add links that appear in the header of your public folder</p>
+                    <!-- Form field links  -->
+                    <add-new-link [submitLinks]="submitLinks" [link]="link" [index]="index" (sendIndex)="removeLink($event)" *ngFor="let link of links; let index = index"></add-new-link>
+                    <a (click)="addEmptyLink()" href="javascript:;" class="add-new-link"><i class="fa fa-plus-square" aria-hidden="true"></i>Add link</a>
+                    <div class="form-field form-field-submit">
+                        <input type="submit" name="search-participant" class="filter-search-submit" value="Save changes"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

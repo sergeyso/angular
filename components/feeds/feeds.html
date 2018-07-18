@@ -1,0 +1,88 @@
+<div [ngClass]="{'feeds': true,' all-feeds': true}">
+    <!-- Single feed repeatable element VIDEO -->
+    <div class="feeds-page" [ngClass]="{'visible': global.finishFeed}">
+        <!-- No content view -->
+        <app-empty-feed *ngIf="!global.paginateFeeds.length && global.headerPart != 'search'"></app-empty-feed>
+        <!-- Folders listing -->
+        <app-folders-component style="display: none;"></app-folders-component>
+        <ng-container *ngIf="global.headerPart == 'search';else main">
+            <search-files class="search-feeds"></search-files>
+            <search-folders class="search-feeds"></search-folders>
+            <search-people class="search-feeds"></search-people>
+            <search-channels class="search-feeds"></search-channels>
+        </ng-container>
+        <ng-template #main>
+            <filter-live *ngIf="feedService.filter == 'live'" [items]="global.paginateFeeds" [isUpcoming]="folderService.filterLive.isUpcoming" [isPassed]="folderService.filterLive.isPassed" [isLive]="folderService.filterLive.isLive" [isOther]="folderService.filterLive.isOther"></filter-live>
+            <div *ngFor="let value of global.paginateFeeds; let i = index" class="single-feed-post" [hidden]="value.hidden">
+                <div class="single-feed-top">
+                    <div class="left user-name-picture" *ngIf="global.headerPart != 'profile'">
+                        <div class="user-image" [userImage]="value.user"></div>
+                        <div class="single-feed-user">
+                            <div class="single-feed-user-top-line">
+                                <a href="/profile/{{value.user.id}}" class="name">{{ value.user.username}}</a>
+                                <p [diffTime]="value.create_time" class="time-posted"></p>
+                                <div class="options-for-files">
+                                    <a href="javascript:;" class="open-options-box open-files-operation" (click)="openOptionFiles(i)">&bull;&bull;&bull;</a>
+                                    <div *ngIf="optionFilesVisible == i" class="option-box">
+                                        <a *ngIf="value.type === 'post'" href="javascript:;" class="edit" (click)="hideEditPost(value)"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a>
+                                        <a *ngIf="value.type === 'file' && value.file_type !== 'live'" href="javascript:;" class="edit" (click)="hideEditFile(value)"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a>
+                                        <a *ngIf="value.file_type === 'live'" href="javascript:;" class="edit" (click)="onEditLive(value)"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</a>
+                                        <a (click)="deleteFiles('delete', value)" href="javascript:;" class="delete"><i class="fa fa-trash" aria-hidden="true"></i>Delete</a>
+                                        <!--<a *ngIf="value.type === 'file'" href="javascript:;" target="_blank"  class="download"><i class="fa fa-download" aria-hidden="true"></i>Download</a>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div [ngSwitch]="value.type">
+                                <!-- Question title -->
+                                <p *ngSwitchCase="'file'" class="folder {{value.file_type}}">{{ value.description }}</p>
+                                <p *ngSwitchCase="'question'" class="question-feed-title">
+                                    <a [href]="value.short_url">{{value.title}}</a>
+                                </p>
+                            </div>
+                            <div [ngSwitch]="value.type">
+                                <div *ngSwitchCase="'file'">
+                                    <p *ngIf="global.headerPart == 'profile'" class="folder">{{ value.name }}</p>
+                                    <div [ngSwitch]="value.file_type">
+                                        <video-component (showPopupComponent)="showPopupComponent($event)" [value]="value" [index]="i" *ngSwitchCase="'video'" class="main-file-outher"></video-component>
+                                        <image-component (showPopupComponent)="showPopupComponent($event)" [value]="value" [index]="i" *ngSwitchCase="'image'" class="main-file-outher"></image-component>
+                                        <pdf-component (showPopupComponent)="showPopupComponent($event)" [value]="value" [index]="i" *ngSwitchCase="'office'" class="main-file-outher doc-type"></pdf-component>
+                                        <pdf-component (showPopupComponent)="showPopupComponent($event)" [value]="value" [index]="i" *ngSwitchCase="'pdf'" class="main-file-outher doc-type"></pdf-component>
+                                        <image-group-component [value]="value" [index]="i" *ngSwitchCase="'imagegroup'"></image-group-component>
+                                        <app-audio-component [value]="value" [index]="i" *ngSwitchCase="'audio'"></app-audio-component>
+                                        <live-component (showPopupComponent)="showPopupComponent($event)" [value]="value" [index]="i" *ngSwitchCase="'live'" class="main-file-outher live-feed-block"></live-component>
+                                    </div>
+                                </div>
+                                <div *ngSwitchCase="'question'">
+                                    <!-- Questions component here -->
+                                    <feed-question-component [value]="value" [index]="i"></feed-question-component>
+                                </div>
+                                <div *ngSwitchCase="'post'">
+                                    <!-- Questions component here -->
+                                    <simple-text [value]="value" [index]="i"></simple-text>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <div class="secure-container">
+            <p class="small text-center secure">
+                <a (click)="showSecurity()"><i class="fa fa-lock"></i> Secure Content</a>
+            </p>
+        </div>
+    </div>
+    <delete-file (closeDeleteSection)="closeOptionFiles($event)" *ngIf="global.deleteFile"></delete-file>
+    <app-edit-file *ngIf="global.editFileVisible"></app-edit-file>
+    <app-edit-post *ngIf="global.editPostVisible"></app-edit-post>
+    <!-- Loading icon on start -->
+    <div *ngIf="!global.finishFeed" class="load-icon">
+        <app-loading-icon></app-loading-icon>
+    </div>
+    <!-- Show more load icon -->
+    <div *ngIf="feedService.load" class="load-icon-pagginate">
+        <app-loading-icon></app-loading-icon>
+    </div>
+</div>
+<app-started-guide *ngIf="this.sectorService.startedGuideStatus"></app-started-guide>
+<security (closeSecurityModal)="closeSecurity($event)" *ngIf="sectorService.securityModalStatus"></security>

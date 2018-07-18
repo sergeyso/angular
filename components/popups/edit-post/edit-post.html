@@ -1,0 +1,111 @@
+<div id="opacity-container" class="live-setup" (click)="hidePopup()"></div>
+<div id="popupcontainer" class="live-setup">
+    <div class="popup-header">Edit Post<i class="fa fa-times" aria-hidden="true" (click)="hidePopup()"></i></div>
+    <div (click)="closePopUpButton($event)" class="popup-content">
+        <p class="note-messages success-msg" *ngIf="message">{{message}}</p>
+        <!-- Ask question form -->
+        <form class="live-setup-form"  #questionForm="ngForm" (submit)="updatePost()" novalidate enctype="multipart/form-data">
+            <!-- Form field text note -->
+            <div class="form-field textarea">
+                <label>Text Note</label>
+                <textarea required  name="question" placeholder="Add your note..." class="form-input" [(ngModel)]="post.text"></textarea>
+            </div>
+            <!-- Choose color -->
+            <ul class="choose_post_color">
+                <li>
+                    <div class="checkboxInput">
+                        <input [checked]="post.color == 'white'" id="choose_color1" (change)="onChangeCheckBox('white')"
+                               value="#f5f5f5" name="choose_color" type="checkbox">
+                        <label for="choose_color1" style="background: #f5f5f5"></label>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkboxInput">
+                        <input [checked]="post.color == 'blue'" id="choose_color2" (change)="onChangeCheckBox('blue')"
+                               value="#2a4f8f" name="choose_color" type="checkbox">
+                        <label for="choose_color2" style="background: #2a4f8f"></label>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkboxInput">
+                        <input [checked]="post.color == 'green'" id="choose_color3" (change)="onChangeCheckBox('green')"
+                               value="#68a119" name="choose_color" type="checkbox">
+                        <label for="choose_color3" style="background: #68a119"></label>
+                    </div>
+                </li>
+                <li>
+                    <div class="checkboxInput">
+                        <input [checked]="post.color == 'pink'" id="choose_color4" (change)="onChangeCheckBox('pink')"
+                               value="#af0e56" name="choose_color" type="checkbox">
+                        <label for="choose_color4" style="background: #af0e56"></label>
+                    </div>
+                </li>
+            </ul>
+            <!-- Form field tags -->
+            <!--<div class="form-field">-->
+                <!--<label>Tags</label>-->
+                <!--<input  type="text" name="title" class="form-input" placeholder="Add comma separated tags" />-->
+            <!--</div>-->
+            <!-- Form field file -->
+            <!--<div class="form-field">-->
+                <!--<div class="file-input-container">-->
+                    <!--<input #questionFile class="styled_input_file" id="file" name="file" type="file" (change)="onChangeFile($event)">-->
+                    <!--<label for="file"><i aria-hidden="true" class="fa fa-cloud-upload"></i>Choose a file</label>-->
+                <!--</div>-->
+                <!--<div class="uploaded-files">-->
+                    <!--<p>{{uploadedImage}}<i *ngIf="uploadedImage" (click)="removeSelectedImage()" class="fa fa-times" aria-hidden="true"></i></p>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="live-stream-bottom-part">
+                <!-- Select channel -->
+                <div class="live-stream-bottom-part-single">
+                    <span class="live-stream-bottom-part-single-title" (click)="selectChannel()">Select Channel</span>
+                    <div class="live-stream-bottom-list-p">
+                        <!-- Added participant display here -->
+                        <div class="live-stream-bottom-list-p-added">
+                            <!-- single participant -->
+                            <div class="list-listing-contact">
+                                <p class="channel"> <i class="fa fa-hashtag" aria-hidden="true" *ngIf="channelName"></i>{{ channelName }}</p>
+                            </div>
+                        </div>
+                        <span class="live-stream-bottom-part-single-number" *ngIf="channelName"><i (click)="selectChannel()" class="fa fa-chevron-right" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+                <!-- Privacy -->
+                <!--<div class="live-stream-bottom-part-single">-->
+                    <!--<span class="live-stream-bottom-part-single-title">Privacy</span>-->
+                    <!--<div class="live-stream-bottom-list-p">-->
+                        <!--&lt;!&ndash; Added participant display here &ndash;&gt;-->
+                        <!--<div class="live-stream-bottom-list-p-added">-->
+                            <!--&lt;!&ndash; single participant &ndash;&gt;-->
+                            <!--<div class="list-listing-contact">-->
+                                <!--<a class="user-image" href="javascript:;"></a>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<span class="live-stream-bottom-part-single-number">Public<i (click)="selectWhoToAsk()" class="fa fa-chevron-right" aria-hidden="true"></i></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
+            <div class="submit-question">
+                <input type="submit" value="Save" class="default-button" name="submit" style="color: #1b1d20;">
+                <img *ngIf="loading" class="preload-icon-small" src="images/preloader.gif" />
+            </div>
+        </form>
+    </div>
+</div>
+<!-- List of participants showing here -->
+<div *ngIf="selectChannelForm" class="list-pp list-pp-channel edit-post">
+    <div class="list-listing">
+        <perfect-scrollbar class="scrollbar-element">
+            <ul>
+                <li *ngFor="let channel of channelService.getAllChannel()">
+                    <div class="list-listing-channels">
+                        <i class="fa fa-hashtag" aria-hidden="true"></i>
+                        <span (click)="inviteChannel(channel)" class="list-listing-channels-name">{{channel.name}}</span>
+                    </div>
+                </li>
+            </ul>
+            <span *ngIf="!channelService.getAllChannel().length" class="no-contacts">You don't have subscribed channels yet</span>
+        </perfect-scrollbar>
+    </div>
+</div>

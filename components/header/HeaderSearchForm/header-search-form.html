@@ -1,0 +1,10 @@
+<div class="search-wrapper">
+    <!-- Search form -->
+    <div class="search-form"  [ngClass]="{open:searchFormVisible}">
+        <form (ngSubmit)="onSubmit()" #search="ngForm" novalidate>
+            <input [(ngModel)]="searchFiles" name="searchFiles" type="text" placeholder="Search" class="search-input" />
+            <input type="submit"  class="search-input-submit" />
+        </form>
+    </div>
+    <span class="search-toogle" [ngClass]="{close:searchFormVisible}" (click)="openSearchForm()"></span>
+</div>

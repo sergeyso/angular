@@ -1,0 +1,74 @@
+<form novalidate class="settings-form" action="#" (ngSubmit)="onSubmitInformation()" #information="ngForm">
+    <p *ngIf="errorMessageInformation" class="note-messages error-msg">{{ errorMessageInformation }}</p>
+    <p *ngIf="confirmMessageInformation" class="note-messages success-msg">{{ confirmMessageInformation }}</p>
+    <div class="full-width-container">
+        <!-- SETTING SECTION -->
+        <div class="settings-sections general">
+                <p class="title">User information</p>
+                <!-- Email address -->
+                <div class="form-field">
+                    <label class="field-label" for="email">Email address</label>
+                    <input disabled class="text-input" id="email" name="email" placeholder="current@email.com" type="text" value="{{global.login.data.email}}">
+                </div>
+                <!-- Profile URL -->
+<!--                <div class="form-field">
+                    <label class="field-label" for="profile-url">Profile URL</label>
+                    <input class="text-input" id="profile-url" name="profile-url" placeholder="knowlocker.com/jt" type="text">
+                </div>-->
+<!--                &lt;!&ndash; Facebook account connect &ndash;&gt;
+                <div class="form-field facebook-field">
+                    <div *ngIf="facebookService.showButton" class="form-field">
+                        <label class="field-label">Connect your Facebook account</label>
+                        <p (click)="facebookService.logout()" *ngIf="facebookService.facebook; else connect" class="sbuttons facebook-connect-button">
+                            <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                            Disconnect
+                        </p>
+                        <ng-template #connect>
+                            <p (click)="facebookService.login()" class="sbuttons facebook-connect-button">
+                                <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                                Link your Facebook account
+                            </p>
+                        </ng-template>
+                    </div>
+                </div>-->
+
+                <!-- Accept files -->
+                <div class="form-field form-select">
+                    <label class="field-label">Accept Files from Other Users</label>
+                    <select id="accept-files"  name="accept-files">
+                        <option>Contacts only</option>
+                        <option>All users</option>
+                    </select>
+                    <p></p>
+                </div>
+        </div>
+        <!-- PASSWORD SETTING SECTION -->
+        <div class="settings-sections general extra-padding">
+            <p class="title">Password</p>
+            <!-- Old password -->
+            <div class="form-field">
+                <label class="field-label" for="password">Old password</label>
+                <input #password="ngModel" [(ngModel)]="general.password" class="text-input" id="password" name="password" placeholder="" type="password">
+            </div>
+            <!-- New password -->
+            <div class="form-field">
+                <label class="field-label" for="new_password">New password</label>
+                <input #new_password="ngModel" [(ngModel)]="general.new_password" class="text-input" id="new_password" name="new_password" type="password">
+            </div>
+            <!-- Repeat password -->
+            <div class="form-field">
+                <label class="field-label" for="new_password_confirm">New password</label>
+                <input #new_password_confirm="ngModel" [(ngModel)]="general.new_password_confirm" class="text-input" id="new_password_confirm" name="new_password_confirm" type="password">
+            </div>
+        </div>
+        <div class="full-width-container">
+            <div class="settings-sections general">
+                <!-- Save -->
+                <div class="form-field">
+                    <input type="submit" class="sbuttons save" value="Save Settings"/>
+                    <img *ngIf="global.loadingRequest" class="preload-icon-small" src="images/preloader.gif" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

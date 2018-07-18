@@ -1,0 +1,106 @@
+<div class="monetization-box">
+    <span [hidden]="addMonetisation.valid || addMonetisation.pristine">Please Add Amount</span>
+    <form action="" novalidate (ngSubmit)="addNewMonetisation()" [formGroup]="addMonetisation">
+        <div class="inside box-content">
+            <!-- Frequency -->
+            <div class="form-field select">
+                <label for="frequencym" class="field-label">Frequency</label>
+                <div class="form-select">
+                    <select id="frequencym" name="frequency">
+                        <option value="24h">Day</option>
+                        <option value="1 week">Week</option>
+                        <option value="1 week">Week</option>
+                        <option value="1 month">Mouth</option>
+                        <option value="1 year">Year</option>
+                        <option value="">Indefinite</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Currency/Amount -->
+            <div class="currammunt">
+                <!-- Currency -->
+                <div class="form-field multiple-select currency-filed">
+                    <label class="field-label">Currency</label>
+                    <div class="select upload-select">
+                        <select id="currencym" name="currency">
+                            <option value="eur">EUR</option>
+                            <option value="usd">USD</option>
+                            <option value="gdb">GDB</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Amount -->
+                <div class="form-field amount-field">
+                    <label class="field-label" for="amount-field">Amount</label>
+                    <input (keydown)="globalService.validateNumber($event)" class="text-input" formControlName="amount" id="amount-field" name="amount" type="text">
+                </div>
+            </div>
+            <input type="submit" value="Add option" class="add-new"/>
+            <img *ngIf="submit" src="images/preloader.gif" />
+        </div>
+    </form>
+</div>
+<!-- Monetization options list -->
+<div class="monetization-list-container">
+    <p class="titlem">Monetization options</p>
+    <!-- Repeatable option -->
+    <div class="monetization-option">
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+        <div class="monetization-option-line name">
+            <p>10 EUR</p><i class="fa fa-circle" aria-hidden="true"></i>
+            <p>Week</p>
+        </div>
+        <div class="monetization-option-line country">
+            <p>UK, DE, US, FR, IT</p>
+        </div>
+        <div class="monetization-option-line purchase">
+            <p>Google: 20 EUR</p>
+            <p>iTunes: 15 EUR</p>
+        </div>
+    </div>
+    <!-- Repeatable option -->
+    <div class="monetization-option">
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+        <div class="monetization-option-line name">
+            <p>10 EUR</p><i class="fa fa-circle" aria-hidden="true"></i>
+            <p>Week</p>
+        </div>
+        <div class="monetization-option-line country">
+            <p>UK, DE, US, FR, IT</p>
+        </div>
+        <div class="monetization-option-line purchase">
+            <p>Google: 20 EUR</p>
+            <p>iTunes: 15 EUR</p>
+        </div>
+    </div>
+    <!-- Repeatable option -->
+    <div class="monetization-option">
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+        <div class="monetization-option-line name">
+            <p>10 EUR</p><i class="fa fa-circle" aria-hidden="true"></i>
+            <p>Week</p>
+        </div>
+        <div class="monetization-option-line country">
+            <p>UK, DE, US, FR, IT</p>
+        </div>
+        <div class="monetization-option-line purchase">
+            <p>Google: 20 EUR</p>
+            <p>iTunes: 15 EUR</p>
+        </div>
+    </div>
+    <!-- Repeatable option -->
+    <div class="monetization-option">
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+        <div class="monetization-option-line name">
+            <p>10 EUR</p><i class="fa fa-circle" aria-hidden="true"></i>
+            <p>Week</p>
+        </div>
+        <div class="monetization-option-line country">
+            <p>UK, DE, US, FR, IT</p>
+        </div>
+        <div class="monetization-option-line purchase">
+            <p>Google: 20 EUR</p>
+            <p>iTunes: 15 EUR</p>
+        </div>
+    </div>
+</div>

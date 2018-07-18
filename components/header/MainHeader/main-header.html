@@ -1,0 +1,64 @@
+<!-- Header -->
+<div class="header" [ngClass]="{'higest_zindex': userDropdownVisible || global.headerBigerZindex}">
+    <div class="header-inline">
+        <div class="left-column-header" *ngIf="global.leftColumnVisibile">
+            <div class="first-column-header">
+                <a class="link" (click)="goToRoot()"><img src="/images/logo.png"/></a>
+            </div>
+            <div class="navigation-toogle" (click)="openMobileNavigation()">
+                <i class="fa fa-bars"  *ngIf="!mobileNavigationVisible" aria-hidden="true"></i>
+                <i class="fa fa-times" *ngIf="mobileNavigationVisible" aria-hidden="true"></i>
+            </div>
+            <!-- Home toogle part -->
+            <div class="second-column-header" *ngIf="global.leftColumnVisibile">
+                <!-- Home toogle part -->
+                <div *ngIf="global.login" class="top-home-toogle board-toogle" [ngClass]="{organization: logo.type == 'company'}" id="board-button" (click)="openCompanyDropdown()">
+                    <div class="user-image header-user-avatar" header="true" [headerImage]="logo"></div>
+                    <div class="header-user-info">
+                        <p class="board-name">{{ username }}</p>
+                        <p class="board-username">{{ email }}</p>
+                    </div>
+                    <div class="board-toogle-dropdown" *ngIf="companyDropdown">
+                        <a href="/settings">Settings</a>
+                        <a href="/vault">Vault</a>
+                        <a href="/profile">My Profile</a>
+                        <a href="https://app.knowlocker.com/f/tutorials" target="_blank">Help</a>
+                        <a id="user-logout" href="/logout">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-wrapper" [ngClass]="{'active': mobileNavigationVisible}">
+            <div class="third-column-header" [ngClass]="{settings:global.headerPart == 'settings', 'fullwidth': !global.leftColumnVisibile}">
+                <div class="top-content">
+                    <div class="left-content">
+                        <ng-content></ng-content>
+                    </div>
+                </div>
+            <!-- REMOVED FOR NOW-->
+            <!--<div class="fourth-column-header" [ngClass]="{settings:global.headerPart == 'settings', 'upload-form-content': global.showUploadForm}">-->
+                <!--&lt;!&ndash; Top content &ndash;&gt;-->
+                <!--<div class="top-content">-->
+                    <!--<div class="top-button" *ngIf="!global.showUploadForm">-->
+                        <!--<a class="left feed" href="/" [ngClass]="{active:!global.simpleFeedPageVisible}"></a>-->
+                        <!--&lt;!&ndash;                    <div class="right simple-feed" (click)="global.showSimpleFeed()" [ngClass]="{active:global.simpleFeedPageVisible}"></div>&ndash;&gt;-->
+                        <!--<a class="right simple-feed" href="/lean-back" [ngClass]="{active:global.simpleFeedPageVisible}"></a>-->
+                    <!--</div>-->
+                    <!--<div class="user-navigation">-->
+                        <!--<div class="user-name user-button user-name-picture" (click)="showUserDropdown()">-->
+                            <!--<p class="close-user-dropdown-header single-feed-user" *ngIf="global.login.data.fullname">{{ global.login.data.fullname }}</p>-->
+                            <!--<div class="close-user-dropdown-header user-image" header="true" [userImage]="global.login.data"></div>-->
+                        <!--</div>-->
+                        <!--<ul class="user-dropdown" *ngIf="userDropdownVisible">-->
+                            <!--<li><a href="/profile">My Profile</a></li>-->
+                            <!--<li><a href="/settings">Settings</a></li>-->
+                            <!--<li><a href="{{helpUrl}}">Help</a></li>-->
+                            <!--<li><a id="user-logout" href="/logout">Logout</a></li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                    <!--<a [href]="helpUrl" target="_blank" class="fa fa-question-circle" aria-hidden="true"></a>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+</div>

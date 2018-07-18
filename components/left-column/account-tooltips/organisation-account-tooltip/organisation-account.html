@@ -1,0 +1,21 @@
+<div class="organisation-account-tooltip" [ngStyle]="{'top': (47 + top * 40) + 'px'}" *ngIf="index == currentStep">
+    <a href="javascript:void(0)" (click)="hidePopup(index + 1)"><i class="fa fa-times" aria-hidden="true"></i></a>
+    <div *ngIf="_company.id != onboardingCompanyId">
+        This is your organisation account for {{ _company.name }}.
+    </div>
+    <div *ngIf="_company.id == onboardingCompanyId" class="onboarding-company">
+        <p>
+            This is an "onboarding" account. We've set it up for you with a couple of useful videos and onboarding articles.
+        </p>
+        <br />
+        <p>
+            Take a look at the content in the main feed.
+        </p>
+        <br />
+        <p class="line"></p>
+        <br />
+        <p>
+            When you're done, you can leave this organisation from <a href="/settings" class="settings-link">Setting / Subscriptions</a>.
+        </p>
+    </div>
+</div>

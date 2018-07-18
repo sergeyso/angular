@@ -1,0 +1,16 @@
+<!-- USER INTERACTION -->
+<div class="popup-content-file-operation">
+    <ng-template #ui_navigation>
+        <ul class="content-details" style="width: 100%;">
+            <li><a href="javascript:;" (click)="popupFileOperations('metadata')">Metadata</a></li>
+            <li><a href="javascript:;" (click)="popupFileOperations('comments')">Comments</a></li>
+        </ul>
+    </ng-template>
+    <div class="popup-content-file-operation" *ngIf="userInteractionContent; else ui_navigation" [ngSwitch]="userInteractionContentValue">
+        <perfect-scrollbar style="min-height: 100%; height: 100%;">
+            <!-- Details content here Comments -->
+            <app-comments (hideCommentsEmmit)="hideCommentsEmmit($event)" *ngSwitchCase="'comments'"></app-comments>
+            <popup-metadata (hideCommentsEmmit)="hideCommentsEmmit($event)" *ngSwitchCase="'metadata'"></popup-metadata>
+        </perfect-scrollbar>
+    </div>
+</div>

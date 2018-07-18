@@ -1,0 +1,167 @@
+<div class="details-box licencing" >
+    <div class="details-header">
+        <span (click)="rhsService.hideColumt()"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+        <p (click)="rhsService.hideColumt()">Licencing</p>
+        <img class="wihrdaw-img" src="images/withdraw.png" (click)="rhsService.showColumn('transaction')"/>
+    </div>
+    <ng-template #elseBlock>
+        <div class="load-icon-center">
+            <img src="images/preloader.gif" class="preload-icon-small"/>
+        </div>
+    </ng-template>
+    <!-- Form for authenticated users -->
+    <form *ngIf="!loading; else elseBlock" (ngSubmit)="onSubmit()" class="licencing-form" #licencing="ngForm">
+        <!-- Asset size content -->
+        <div class="licencing-content">
+            <p class="title">Asset Sizes</p>
+            <!-- Single box container -->
+            <div class="single-box folders licencing">
+                <div class="checkbox licencing-info">
+                    <div class="checkboxInput">
+                        <input [checked]="licenceService.checkbox.small" (change)="licenceService.checkbox.small = !licenceService.checkbox.small" type="checkbox" id="smallsize" name="smallsize"/>
+                        <label for="smallsize"></label>
+                        <p>Small</p>
+                        <span>{{ licenceService.size.small}}</span>
+                    </div>
+                </div>
+                <div class="field">
+                    <i class="fa fa-usd" aria-hidden="true"></i>
+                    <input [disabled]="!licenceService.checkbox.small" (keypress)="validateNumber($event)" [(ngModel)]="licenceService.amount.small" type="text" name="small-amount" placeholder="0.00"/>
+                </div>
+            </div>
+            <!-- Single box container -->
+            <div class="single-box folders licencing">
+                <div class="checkbox licencing-info">
+                    <div class="checkboxInput">
+                        <input [checked]="licenceService.checkbox.medium" (change)="licenceService.checkbox.medium = !licenceService.checkbox.medium" type="checkbox" id="mediumsize" name="mediumsize"/>
+                        <label for="mediumsize"></label>
+                        <p>Medium</p>
+                        <span>{{ licenceService.size.medium}}</span>
+                    </div>
+                </div>
+                <div class="field">
+                    <i class="fa fa-usd" aria-hidden="true"></i>
+                    <input [disabled]="!licenceService.checkbox.medium" (keypress)="validateNumber($event)" [(ngModel)]="licenceService.amount.medium" type="text" name="medium-amount" placeholder="0.00"/>
+                </div>
+            </div>
+            <!-- Single box container -->
+            <div class="single-box folders licencing">
+                <div class="checkbox licencing-info">
+                    <div class="checkboxInput">
+                        <input [checked]="licenceService.checkbox.large" (change)="licenceService.checkbox.large = !licenceService.checkbox.large" type="checkbox" value="None" id="largesize" name="largesize"/>
+                        <label for="largesize"></label>
+                        <p>Large</p>
+                        <span>{{ licenceService.size.large}}</span>
+                    </div>
+                </div>
+                <div class="field">
+                    <i class="fa fa-usd" aria-hidden="true"></i>
+                    <input [disabled]="!licenceService.checkbox.large" (keypress)="validateNumber($event)" [(ngModel)]="licenceService.amount.large" type="text" name="large-amount" placeholder="0.00"/>
+                </div>
+            </div>
+            <!-- Single box container -->
+            <div class="single-box folders licencing">
+                <div class="checkbox licencing-info">
+                    <div class="checkboxInput">
+                        <input [checked]="licenceService.checkbox.xLarge" (change)="licenceService.checkbox.xLarge = !licenceService.checkbox.xLarge" type="checkbox" value="None" id="xlargesize" name="xlargesize"/>
+                        <label for="xlargesize"></label>
+                        <p>X-Large</p>
+                        <span>{{ licenceService.size.xLarge}}</span>
+                    </div>
+                </div>
+                <div class="field">
+                    <i class="fa fa-usd" aria-hidden="true"></i>
+                    <input [disabled]="!licenceService.checkbox.xLarge" (keypress)="validateNumber($event)" [(ngModel)]="licenceService.amount.xLarge" type="text" name="xlarge-amount" placeholder="0.00"/>
+                </div>
+            </div>
+        </div>
+        <!-- Extended Licence content -->
+        <div class="licencing-content">
+            <p class="title">Extended Licences</p>
+            <!-- Single box container -->
+            <div class="single-box folders licencing">
+                <div class="checkbox licencing-info">
+                    <div class="checkboxInput">
+                        <input [checked]="licenceService.checkbox.unlimited" (change)="licenceService.checkbox.unlimited = !licenceService.checkbox.unlimited" type="checkbox" id="unlimited" name="unlimited"/>
+                        <label for="unlimited"></label>
+                        <p><a target="_blank" href="/image-license">Unlimited Print</a></p>
+                    </div>
+                </div>
+                <div class="field">
+                    <i class="fa fa-usd" aria-hidden="true"></i>
+                    <input [disabled]="!licenceService.checkbox.unlimited" (keypress)="validateNumber($event)" [(ngModel)]="licenceService.amount.unlimited" type="text" name="unlimited-amount" placeholder="0.00"/>
+                </div>
+            </div>
+            <!-- Single box container -->
+            <div class="single-box folders licencing">
+                <div class="checkbox licencing-info">
+                    <div class="checkboxInput">
+                        <input [checked]="licenceService.checkbox.resale" (change)="licenceService.checkbox.resale = !licenceService.checkbox.resale" type="checkbox" value="None" id="resale" name="resale"/>
+                        <label for="resale"></label>
+                        <p><a target="_blank" href="/image-license">Product for Resale</a></p>
+                    </div>
+                </div>
+                <div class="field">
+                    <i class="fa fa-usd" aria-hidden="true"></i>
+                    <input [disabled]="!licenceService.checkbox.resale" (keypress)="validateNumber($event)" [(ngModel)]="licenceService.amount.resale" type="text" name="resale-amount" placeholder="0.00"/>
+                </div>
+            </div>
+            <!-- Single box container -->
+            <div class="single-box folders licencing">
+                <div class="checkbox licencing-info">
+                    <div class="checkboxInput">
+                        <input [checked]="licenceService.checkbox.market" (change)="licenceService.checkbox.market = !licenceService.checkbox.market" type="checkbox" value="None" id="market" name="market"/>
+                        <label for="market"></label>
+                        <p><a target="_blank" href="/image-license">Market Freeze</a></p>
+                    </div>
+                </div>
+                <div class="field">
+                    <i class="fa fa-usd" aria-hidden="true"></i>
+                    <input [disabled]="!licenceService.checkbox.market" (keypress)="validateNumber($event)" [(ngModel)]="licenceService.amount.market" type="text" name="market" placeholder="0.00"/>
+                </div>
+            </div>
+        </div>
+        <!-- Extended Licence content -->
+        <div class="licencing-content">
+            <p class="title">Pay Per View</p>
+            <div class="single-box folders licencing">
+                <p class="add-monetization-opt" (click)="rhsService.showColumn('monatisation')">
+                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                    Add monetization option
+                </p>
+            </div>
+            <!-- Single box container We hide this for now-->
+            <!--<div class="single-box folders licencing">-->
+            <!--<div class="checkbox licencing-info">-->
+            <!--<div class="checkboxInput">-->
+            <!--<input type="checkbox" value="None" id="24h" name="24h"/>-->
+            <!--<label for="24h"></label>-->
+            <!--<p>24h</p>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="field">-->
+            <!--<i class="fa fa-usd" aria-hidden="true"></i>-->
+            <!--<input type="text" name="24h-amount" placeholder="0.00"/>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!-- Single box container -->
+            <!--<div class="single-box folders licencing">-->
+            <!--<div class="checkbox licencing-info">-->
+            <!--<div class="checkboxInput">-->
+            <!--<input type="checkbox" value="None" id="unl" name="unl"/>-->
+            <!--<label for="unl"></label>-->
+            <!--<p>Unlimited</p>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="field">-->
+            <!--<i class="fa fa-usd" aria-hidden="true"></i>-->
+            <!--<input type="text" name="unl-amount" placeholder="0.00"/>-->
+            <!--</div>-->
+            <!--</div>-->
+        </div>
+        <input type="submit" name="submit" value="Save Changes" class="submit-btn"/>
+        <div class="load-icon-center" *ngIf="submit">
+            <img src="images/preloader.gif" class="preload-icon-small"/>
+        </div>
+    </form>
+</div>

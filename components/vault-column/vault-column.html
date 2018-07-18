@@ -1,0 +1,65 @@
+<div class="filter-box live-events" #mainBox>
+    <h3>Vault</h3>
+    <div class="button-create-container">
+        <a href="#" (click)="toggleConnectVaultPopup(true)" class="c-button-white">Connect Vault
+            <svg *ngIf="sectorService.connectVaultTipShow" class='pulse-svg' height='58px' version='1.1'
+                 viewBox='0 0 58 58'
+                 width='58px' xmlns='http://www.w3.org/2000/svg'>
+                <circle class='circle first-circle' cx='29' cy='29' opacity='0' r='25'></circle>
+                <circle class='circle second-circle' cx='29' cy='29' opacity='0' r='25'></circle>
+                <circle class='circle third-circle' cx='29' cy='29' opacity='0' r='25'></circle>
+                <g>
+                    <circle cx='29' cy='29' r='29'></circle>
+                </g>
+            </svg>
+        </a>
+    </div>
+    <ul class="vault-list-container">
+        <li (click)="dropBoxClick()">
+            <img src="images/dropbox-min.png" alt="">
+            <a class="vault-dropbox" [ngClass]="{'connected' : vaultService.dropboxConnection}">{{vaultService.dropboxAccount}}</a>
+            <i *ngIf="!vaultService.dropboxConnection" class="fa fa-plus-circle" aria-hidden="true"></i>
+            <i *ngIf="vaultService.dropboxConnection" class="fa fa-check-circle" aria-hidden="true"></i>
+        </li>
+        <li (click)="toggleVaultPopup(true)">
+            <img src="images/googledrive-min.png" alt="">
+            <a class="vault-google-drive">Google Drive</a>
+            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        </li>
+        <!--<li (click)="toggleVaultPopup(true)">-->
+            <!--<img src="images/box-min.png" alt="">-->
+            <!--<a class="vault-box">box</a>-->
+            <!--<i class="fa fa-plus-circle" aria-hidden="true"></i>-->
+        <!--</li>-->
+        <!--<li (click)="toggleVaultPopup(true)">-->
+            <!--<img src="images/onedrive-min.png" alt="">-->
+            <!--<a class="vault-onedrive">Microsoft OneDrive</a>-->
+            <!--<i class="fa fa-plus-circle" aria-hidden="true"></i>-->
+        <!--</li>-->
+        <!--<li (click)="toggleVaultPopup(true)">-->
+            <!--<img src="images/gmail-min.png" alt="">-->
+            <!--<a class="vault-gmail">Gmail</a>-->
+            <!--<i class="fa fa-plus-circle" aria-hidden="true"></i>-->
+        <!--</li>-->
+        <!--<li (click)="toggleVaultPopup(true)">-->
+            <!--<img src="images/outlook-min.png" alt="">-->
+            <!--<a class="vault-outlook">Outlook</a>-->
+            <!--<i class="fa fa-plus-circle" aria-hidden="true"></i>-->
+        <!--</li>-->
+        <!--<li (click)="toggleVaultPopup(true)">-->
+            <!--<img src="images/slack-min.png" alt="">-->
+            <!--<a class="vault-slack">Slack</a>-->
+            <!--<i class="fa fa-plus-circle" aria-hidden="true"></i>-->
+        <!--</li>-->
+        <!--<li (click)="toggleVaultPopup(true)">-->
+            <!--<img src="images/skype-min.png" alt="">-->
+            <!--<a class="vault-skype">Skype</a>-->
+            <!--<i class="fa fa-plus-circle" aria-hidden="true"></i>-->
+        <!--</li>-->
+        <!--<li (click)="toggleVaultPopup(true)">-->
+            <!--<img src="images/facebook-min.png" alt="">-->
+            <!--<a class="vault-facebook">Facebook</a>-->
+            <!--<i class="fa fa-plus-circle" aria-hidden="true"></i>-->
+        <!--</li>-->
+    </ul>
+</div>

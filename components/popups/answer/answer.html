@@ -1,0 +1,40 @@
+<div class="bottom-target-upload-files" >
+    <form (ngSubmit)="answerSubmit(answerForm)" #answerForm="ngForm" novalidate enctype="multipart/form-data">
+        <!-- Left form content -->
+        <div class="left-form-content">
+            <!--<div class="form-field-bottom">
+                <p class="add-new-files" (click)="openAddAnswerFilesForm()"><i class="fa fa-plus" aria-hidden="true"></i>Add Files</p>
+            </div>-->
+            <!-- Added files listing here -->
+            <!--                <div class="added-files-upload-form">
+                                &lt;!&ndash; Single added file &ndash;&gt;
+                                <div class="single-added-files">
+                                    <span>IMG_121234.JPG</span>
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </div>
+                            </div>-->
+            <!-- Comment form field -->
+            <div class="form-field-bottom comment-form-field">
+                <!-- Question -->
+                <p class="error-msg-small" [hidden]="!answerModel.control.hasError('required') || answerModel.pristine">Question is required</p>
+                <!--<p class="question-form">@{{globalService.question.question}}</p>-->
+                <input required [(ngModel)]="answer" #answerModel="ngModel" type="text" name="comment" placeholder="Add your answer..." class="text-input comment-input"/>
+            </div>
+        </div>
+        <!-- Right form content -->
+        <div class="right-form-content">
+            <!--<div class="switch-outline">
+                <span class="label">Don’t show in timeline</span>
+                <div class="switch">
+                    <input id="cmn-toggle-33" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                    <label for="cmn-toggle-33"></label>
+                </div>
+            </div>-->
+            <div class="form-field-bottom answer-page">
+                <img *ngIf="loadingAnswerRequest" class="preload-icon-small" src="images/preloader.gif" />
+                <input class="submituploadform" type="submit" value="POST">
+            </div>
+        </div>
+    </form>
+    <i *ngIf="mainPage" aria-hidden="true" class="fa fa-times close" (click)="closeSection()"></i>
+</div>

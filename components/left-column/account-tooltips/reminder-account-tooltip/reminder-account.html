@@ -1,0 +1,5 @@
+<div class="personal-account-tooltip" *ngIf="companies.length > 0" [ngStyle]="{'top': (topBannerPosition * 40) + 'px'}">
+    <a href="javascript:void(0)" (click)="hidePopup()"><i class="fa fa-times" aria-hidden="true"></i></a>
+    <b>Can't Find a File?</b><br />
+    Remember you are logged into this account.
+</div>

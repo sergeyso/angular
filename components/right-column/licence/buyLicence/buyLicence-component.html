@@ -1,0 +1,65 @@
+<div class="details-box licencing">
+    <div (click)="rhsService.hideColumt()" class="details-header">
+        <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+        <p>Buy Licence</p>
+    </div>
+    <div class="load-icon-center" style="display:none">
+        <img src="images/preloader.gif" class="preload-icon-small"/>
+    </div>
+    <!-- Form for authenticated users -->
+    <form class="licencing-form" novalidate #byLicencing="ngForm" (ngSubmit)="onSubmitBuyLicencing()">
+        <!-- Asset size content -->
+        <div class="licencing-content">
+            <p class="title">Asset Sizes</p>
+            <!-- Single box container -->
+            <div *ngFor="let item of licenceService.licenceFile" class="single-box folders licencing">
+                <div class="checkbox licencing-info">
+                    <div class="checkboxInput">
+                        <input [checked]="licenceService.checkboxBuyLicencing[item.label]" (change)="licenceService.changeCheckBox(item)" type="checkbox" id="{{item.label}}" name="{{item.label}}"/>
+                        <label for="{{item.label}}"></label>
+                        <p>{{ item.label }}</p>
+                        <span>{{item.size}}</span>
+                    </div>
+                </div>
+                <div class="field">
+                    <p class="licence_price">&euro;{{item.amount}}</p>
+                </div>
+            </div>
+        </div>
+       <!-- &lt;!&ndash; Extended Licence content &ndash;&gt;
+        <div class="licencing-content">
+            <p class="title">Pay Per View</p>
+            &lt;!&ndash; Single box container We hide this for now&ndash;&gt;
+            <div class="single-box folders licencing">
+                <div class="checkbox licencing-info">
+                    <div class="checkboxInput">
+                        <input type="checkbox" value="None" id="24h" name="24h"/>
+                        <label for="24h"></label>
+                        <p>24h</p>
+                    </div>
+                </div>
+                <div class="field">
+                    <p class="licence_price">$10.00</p>
+                </div>
+            </div>
+            &lt;!&ndash; Single box container We hide this for now&ndash;&gt;
+            <div class="single-box folders licencing">
+                <div class="checkbox licencing-info">
+                    <div class="checkboxInput">
+                        <input type="checkbox" value="None" id="unl" name="unl"/>
+                        <label for="unl"></label>
+                        <p>Unlimited</p>
+                    </div>
+                </div>
+                <div class="field">
+                    <p class="licence_price">$10.00</p>
+                </div>
+            </div>
+        </div>-->
+        <div class="field total_amount">
+            <p>Total</p>
+            <p class="total_price">&euro;{{ licenceService.price }}</p>
+        </div>
+        <input [disabled]="licenceService.price == 0" type="submit" name="submit" value="Buy" class="submit-btn"/>
+    </form>
+</div>

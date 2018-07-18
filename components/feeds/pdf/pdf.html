@@ -1,0 +1,32 @@
+<!-- Edit image buttons -->
+<div class="single-feed-content hover-desc-cont pdf doc-type-{{ getExtension(value.name) }}">
+    <i class="fa fa-cog" aria-hidden="true" (click)="openChooseImage()"></i>
+    <i class="icon"></i>
+    <div (click)="global.showColumn(value, index, true)" class="feed-file-single feed-pdf">
+        <img [feedImage]="value" version="3" myDraggable [myDraggable]="{data: value}" />
+        <p><i class="fa fa-search" aria-hidden="true"></i></p>
+    </div>
+    <div class="bottom-content">
+        <div class="add-commnet">
+            <a (click)="showComments(value, index)" href="javascript:;">
+                <i class="fa fa-pencil" aria-hidden="true"></i> Comment <span *ngIf="value.comments_count">({{value.comments_count}})</span>
+            </a>
+        </div>
+        <div class="social-share">
+            <!--<a class="heart" href="javascript:;">-->
+                <!--<i class="fa fa-heart" aria-hidden="true"></i>Like(1)-->
+            <!--</a>-->
+            <a href="javascript:;" (click)="global.showSharePopoup(value)" class="share">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>Share<small [appShareNumb]="value.sharedWithUsers.length"></small>
+            </a>
+        </div>
+        <div class="social-share">
+            <a href="{{ value.filedata.link }}" download class="share">
+                <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>Download
+            </a>
+        </div>
+    </div>
+    <!--<div class="hover-descriptions"><span>..</span>Double-click to open</div>-->
+</div>
+<!-- Choose image component -->
+<choose-pdf-image (closePopup)="closeChoosePdf($event)" *ngIf="showChooseImage"></choose-pdf-image>

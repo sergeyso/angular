@@ -1,0 +1,31 @@
+<div class="details-box update-content">
+    <div (click)="rhsService.hideColumt()" class="details-header">
+        <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+        <p>Update Content</p>
+    </div>
+    <form (ngSubmit)="onSubmit()" #updateChanges="ngForm" novalidate>
+        <p class="note-messages error-msg" [hidden]="!name.control.hasError('required') || name.pristine">Title is required</p>
+        <div class="share-links">
+            <div class="field">
+                <p class="title">Title</p>
+                <input required #name="ngModel" [(ngModel)]="file.name" value="" name="content-link" />
+            </div>
+            <div class="field">
+                <p class="title">Description</p>
+                <div class="field">
+                    <textarea name="description" [(ngModel)]="file.description" placeholder="Post your comment"></textarea>
+                </div>
+            </div>
+<!--            <div class="field">
+                <label class="field-label">Tags</label>
+                <div class="select upload-select share-field">
+                    <select id="tags" name="tags" multiple="tags"></select>
+                </div>
+            </div>-->
+            <div class="field">
+                <img *ngIf="showProgress" class="preload-icon-small" src="images/preloader.gif" />
+                <input class="update" type="submit" value="Update Changes" name="content-link" />
+            </div>
+        </div>
+    </form>
+</div>

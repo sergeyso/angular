@@ -1,0 +1,186 @@
+<div class="billing-container">
+    <!-- Package section -->
+    <div class="settings-sections profile-settings">
+        <p class="title">Package</p>
+        <p class="follow-box-desc">You can upgrade or downgrade your selected package, or add or remove seats.</p>
+        <!-- Pacakges box -->
+        <div class="profile-package-box-container">
+            <!-- Package box single -->
+            <div class="profile-package-box-outline">
+                <div class="profile-package-box-inline" [ngClass]="{'current': currentPackage.package.id === 1}">
+                    <p class="package-title">Personal</p>
+                    <p class="package-descr">Knowlocker for your personal use</p>
+                    <p class="package-descr">1 Seat</p>
+                    <p class="package-info"><span>N/A</span>per user per month</p>
+                    <p class="package-info"><span>$50</span>per user per year</p>
+                    <a *ngIf="currentPackage.package.id !== 1" href="javascript:;" class="profile-package-box-btn" (click)="openPopupForm('packages')">Downgrade</a>
+                    <a *ngIf="currentPackage.package.id === 1" href="javascript:;" class="profile-package-box-btn current">Current Package</a>
+                </div>
+            </div>
+            <!-- Package box single -->
+            <div class="profile-package-box-outline">
+                <div class="profile-package-box-inline" [ngClass]="{'current': currentPackage.package.id === 2 || currentPackage.package.id === 3}">
+                    <p class="package-title">Plus</p>
+                    <p class="package-descr">A multi-seat organisation account</p>
+                    <p class="package-descr">5 Seats</p>
+                    <p class="package-info"><span>$50</span>per account per month</p>
+                    <p class="package-info"><span>$500</span>per account per year</p>
+                    <a *ngIf="currentPackage.package.id === 4 || currentPackage.package.id === 5" href="javascript:;" class="profile-package-box-btn" (click)="openPopupForm('packages')">Downgrade</a>
+                    <a *ngIf="currentPackage.package.id === 1" href="javascript:;" class="profile-package-box-btn upgrade" (click)="openPopupForm('packages')">Upgrade</a>
+                    <a *ngIf="currentPackage.package.id === 2 || currentPackage.package.id === 3" href="javascript:;" class="profile-package-box-btn current">Current Package</a>
+                </div>
+            </div>
+            <!-- Package box single -->
+            <div class="profile-package-box-outline">
+                <div class="profile-package-box-inline" [ngClass]="{'current': currentPackage.package.id === 4 || currentPackage.package.id === 5}">
+                    <p class="package-title">Pro</p>
+                    <p class="package-descr">All the bells and whistles, inc. public folders</p>
+                    <p class="package-descr">10 Seats</p>
+                    <p class="package-info"><span>$100</span>per account per month</p>
+                    <p class="package-info"><span>$1000</span>per account per year</p>
+                    <a *ngIf="currentPackage.package.id !== 4 && currentPackage.package.id !== 5" href="javascript:;" class="profile-package-box-btn upgrade" (click)="openPopupForm('packages')">Upgrade</a>
+                    <a *ngIf="currentPackage.package.id === 4 || currentPackage.package.id === 5" href="javascript:;" class="profile-package-box-btn current">Current Package</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Users section -->
+    <div class="settings-sections profile-settings" *ngIf="globalService.login.data.company_id">
+        <p class="title">Users</p>
+        <!--<p class="follow-box-desc">{{ globalService.login.data.fullname }}</p>-->
+        <!-- Add user form -->
+        <form class="create-cf" novalidate (submit)="invitedNewContact(newUser)" #newUser="ngForm">
+            <input [disabled]="disable" validateEmail required [(ngModel)]="newUsers" #addNewUser="ngModel" class="create-cf-input" name="newUsers" placeholder="Email">
+            <input [disabled]="disable" class="create-cf-submit" name="submit-user" type="submit" value="Add User">
+            <p class="error-msg-small" [hidden]="!addNewUser.control.hasError('required') || addNewUser.pristine">Email is required</p>
+            <p class="error-msg-small" [hidden]="(!addNewUser.control.hasError('validateEmail')) || addNewUser.pristine || addNewUser.control.hasError('required')">Email is not valid</p>
+        </form>
+        <!-- Users list -->
+        <div class="users-list">
+            <!-- Single user row -->
+            <div *ngFor="let user of seatsUsers" class="single-user-box">
+                <span class="user-email">{{user.email}}</span>
+                <span *ngIf="user.status == 'pending'" (click)="deleteInvitedUser(user)" class="user-action"><i class="fa fa-times" aria-hidden="true"></i></span>
+<!--                <span class="user-action same_prof">you</span>-->
+            </div>
+           <!-- Single user row -->
+            <div class="single-user-box" *ngFor="let i of getEmptySeats()">
+                <span class="user-email emtpy-seat">Empty seat</span>
+                <!--<span class="user-action"><i class="fa fa-times" aria-hidden="true"></i></span>-->
+            </div>
+            <!-- Total seats -->
+            <p class="total-seats">Total: {{currentPackage.seats}} Seats</p>
+            <a href="javascript:;" class="total-seats add" (click)="openPopupForm('seats')">Buy More Seats</a>
+        </div>
+    </div>
+</div>
+<!--Seats popup  -->
+<div *ngIf="seatsFormVisible">
+    <div id="opacity-container" class="billing-popup" (click)="hidePopup('seats')"></div>
+    <div id="popupcontainer" class="billing-popup">
+        <div class="popup-header">Buy Seats<i class="fa fa-times" aria-hidden="true" (click)="hidePopup('seats')"></i></div>
+        <div class="popup-content">
+            <form class="seats-number">
+                <div class="form-group">
+                    <label class="billing-popup-label">How many seats to buy?</label>
+                    <input (keyup)="calculateTotalPrice()" name="countSeats" [(ngModel)]="countSeats" type="number" min="1" max="2000" class="billing-popup-input"/>
+                </div>
+                <div class="seats-total-numb">
+                    <span class="seats-total-numb-am">{{ countSeats }} x ${{ pricePerOne }}</span>
+                    <span class="seats-total-numb-am right">Total ${{ totalPrice }}</span>
+                </div>
+                <div class="seats-total-numb" *ngIf="buySeatsError != ''">
+                    <span class="buy-seats-error">{{buySeatsError}}</span>
+                </div>
+                <div class="form-group">
+                    <!--<input type="submit" name="" (click)="buySeats()" class="submit billing-popup-input-submit" value="Buy Seats"/>-->
+                    <a href="#" [ngClass]="{'disabled': buySeatsDisabled}" (click)="buySeats()" class="submit"><i *ngIf="loading" class="fa fa-refresh fa-spin"></i> Buy Seats</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Change package popup -->
+<div *ngIf="changePackagesFormVisible">
+    <div id="opacity-container" class="billing-popup" (click)="hidePopup('packages')"></div>
+    <div id="popupcontainer" class="billing-popup">
+        <div class="popup-header">Buy Seats<i class="fa fa-times" aria-hidden="true" (click)="hidePopup('packages')"></i></div>
+        <div class="popup-content">
+            <form class="seats-number">
+                <!-- Select package -->
+                <div class="form-group form-select">
+                    <label class="billing-popup-label">Select package</label>
+                    <select id="packages" class="form-control" name="folder_delete">
+                        <option value="">Package 1</option>
+                        <option value="">Package 2</option>
+                        <option value="">Package 3</option>
+                    </select>
+                    <p></p>
+                </div>
+                <div class="form-group">
+                    <label class="billing-popup-label">How many seats to buy?</label>
+                    <input type="text" name="" class="billing-popup-input" value="1"/>
+                </div>
+                <div class="seats-total-numb">
+                    <span class="seats-total-numb-am">1 x $10</span>
+                    <span class="seats-total-numb-am right">Total $10</span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="" class="submit billing-popup-input-submit" value="Buy Seats"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Payment popup -->
+<div *ngIf="paymentFormVisible">
+    <div id="opacity-container" class="billing-popup" (click)="hidePopup('payment')"></div>
+    <div id="popupcontainer" class="billing-popup">
+        <div class="popup-header">Payment<i class="fa fa-times" aria-hidden="true" (click)="hidePopup('payment')"></i></div>
+        <div class="popup-content">
+            <form class="payment">
+                <div class="form-group">
+                    <label class="billing-popup-label">Name on Card</label>
+                    <input type="text" name="" class="billing-popup-input" value="1"/>
+                </div>
+                <div class="form-group">
+                    <label class="billing-popup-label">Card Number</label>
+                    <input type="text" name="" class="billing-popup-input" value="1"/>
+                </div>
+                <div class="form-group half-widht">
+                    <label class="billing-popup-label">Expiry Date</label>
+                    <input type="text" name="" class="billing-popup-input month" placeholder="MM"/>
+                    <input type="text" name="" class="billing-popup-input year" placeholder="YYYY"/>
+                </div>
+                <div class="form-group half-widht">
+                    <div class="security-code-outline">
+                        <label class="billing-popup-label">Security Code</label>
+                        <div class="security-code">
+                            <input type="text" name="" class="billing-popup-input" placeholder="###">
+                            <i class="fa fa-lock" aria-hidden="true"></i>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="" class="submit billing-popup-input-submit" value="Pay $100"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Notice popup -->
+<div *ngIf="messageFormVisible">
+    <div id="opacity-container" class="billing-popup" (click)="hidePopup('message')"></div>
+    <!-- Please include success class for success, or error for error here -->
+    <div id="popupcontainer" class="billing-popup error">
+        <div class="popup-header">Default<i class="fa fa-times" aria-hidden="true" (click)="hidePopup('message')"></i></div>
+        <div class="popup-content">
+            <p class="message-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+            <a href="javascript:;" class="submit billing-popup-input-submit">OK</a>
+        </div>
+    </div>
+</div>
+<!--Delete user in number of seats popup  -->
+<!--<remove-user></remove-user>-->

@@ -1,0 +1,496 @@
+<i class="close-content fa fa-times-circle" (click)="globalService.hideFourthColumn()"></i>
+<div *ngIf="rhsService.detailsViewIsVisible || rhsService.columtActive == 'update'" class="single-feed-top">
+    <div class="left user-name-picture">
+        <div class="user-image" [userImage]="globalService.rightColumnValueFeed.user"></div>
+        <div class="single-feed-user">
+            <p class="name">{{ globalService.rightColumnValueFeed.user.username}}</p>
+            <p class="folder">{{ globalService.rightColumnValueFeed.name}}</p>
+        </div>
+    </div>
+    <p [diffTime]="globalService.rightColumnValueFeed.create_time" class="right"></p>
+    <!--Image here-->
+    <div class="image-field">
+        <!-- MVOVED TO FEEDS -->
+        <!--Options for files -->
+        <options-files></options-files>
+        <img [feedImage]="globalService.rightColumnValueFeed" version="2" (click)="showPopupContainer(globalService.rightColumnValueFeed)" class="popup-link" />
+    </div>
+    <!--            <div class="note-yellow active">
+                    <p>Based on the tags, it looks like this image belongs to the folder Autumn 2016. Do you want to move it now?</p>
+                    <div class="buttons">
+                        <a href="#" class="active">Yes</a>
+                        <a href="#">No</a>
+                    </div>
+                </div>-->
+    <div class="image-field" *ngIf="rhsService.protectedDetailsVisible">
+        <!--Options for files -->
+        <options-files></options-files>
+        <div class="protected-area-outher details">
+            <div class="protected-area">
+                <p>Enter Pin to View Content</p>
+                <form>
+                    <input type="text" class="input-field" name="pin" />
+                    <span></span>
+                    <input type="submit" class="input-submit" value="Open" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #elseBlock>
+    <div class="load-icon-center">
+        <img src="images/preloader.gif" class="preload-icon-small"/>
+    </div>
+</ng-template>
+<!-- Content details -->
+<ng-container *ngIf="licenceService.loaded; else elseBlock">
+    <ul class="content-details"  *ngIf="rhsService.detailsViewIsVisible">
+        <li *ngIf="globalService.rightColumnValueFeed.file_type == 'image'"><p (click)="rhsService.showColumn('metadata')">Metadata</p></li>
+        <li *checkAuth="globalService.rightColumnValueFeed" class="share" ><p (click)="rhsService.showColumn('share')">Share</p></li>
+        <!--            <li><p (click)="rhsService.showColumn('group')">Groups</p></li>-->
+        <li *checkAuth="globalService.rightColumnValueFeed"><p (click)="rhsService.showColumn('licence')">Licencing</p></li>
+        <li *ngIf="!this.globalService.itsOwner && licenceService.licenceFile.length"><p (click)="rhsService.showColumn('buy_licence')">Buy Licence</p></li>
+        <li><p (click)="rhsService.showColumn('comment')">Comments</p></li>
+        <!--<li><p (click)="rhsService.showColumn('frame')">Frame-by-frame</p></li>-->
+        <!--<li><p (click)="rhsService.showColumn('assets')">Annotations</p></li>-->
+        <li><p (click)="rhsService.showColumn('reporting')">Reporting</p></li>
+        <li><p (click)="rhsService.showColumn('versions')">Versions</p></li>
+        <!--            <li><p (click)="rhsService.showColumn('annotation')">Associated Assests</p></li>-->
+    </ul>
+</ng-container>
+<div [ngSwitch]="rhsService.columtActive">
+    <!-- Details content here Metadata-->
+    <metadata-file *ngSwitchCase="'metadata'"></metadata-file>
+    <!-- Details content here Share -->
+    <share-file *ngSwitchCase="'share'"></share-file>
+    <!-- Details content here Groups-->
+    <!--            <div class="details-box groups" *ngSwitchCase="'group'">
+                    <div (click)="rhsService.hideColumt()" class="details-header">
+                        <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+                        <p>Groups</p>
+                    </div>
+                    &lt;!&ndash; Channels &ndash;&gt;
+                    <div class="group-content">
+                        <p class="title">Channels</p>
+                        <div class="single-box channels">
+                            <a href="#">TheVerge</a>
+                            <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="single-box channels">
+                            <a href="#">Veritassium</a>
+                            <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="single-box channels last">
+                            <a href="#">OK Science</a>
+                            <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="field">
+                            <input placeholder="Add to Channel" name="content-link" />
+                        </div>
+                    </div>
+                    &lt;!&ndash; Folders  &ndash;&gt;
+                    <div class="group-content">
+                        <p class="title">Folders</p>
+                        <div class="single-box folders">
+                            <a href="#">TheVerge</a>
+                            <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="single-box folders">
+                            <a href="#">Veritassium</a>
+                            <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="single-box folders last">
+                            <a href="#">OK Science</a>
+                            <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="field no-padding">
+                            <input placeholder="Add to Folder" name="content-link" value="Test 123"/>
+                        </div>
+                        <div class="note-yellow active">
+                            <p>Folder ‘Test123’ doesn’t exist. Do you want to create it?</p>
+                            <div class="buttons">
+                                <a href="#" class="active">Yes</a>
+                                <a href="#">No</a>
+                            </div>
+                        </div>
+                    </div>
+                    &lt;!&ndash; Tags  &ndash;&gt;
+                    <div class="group-content">
+                        <p class="title">Tags</p>
+                        <div class="single-box tags">
+                            <a href="#">autmn</a>
+                            <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="single-box tags">
+                            <a href="#">tree</a>
+                            <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="single-box tags last">
+                            <a href="#">leaves</a>
+                            <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                </div>-->
+    <!-- Details content here Licencing-->
+    <add-licence *ngSwitchCase="'licence'"></add-licence>
+    <!-- Details content here Buy Licencing-->
+    <buy-licence *ngSwitchCase="'buy_licence'"></buy-licence>
+    <!-- Details content here Pay Licence -->
+    <payment-licence *ngSwitchCase="'pay_licence'"></payment-licence>
+    <!-- Details content here Transaction -->
+    <div class="details-box transactions" *ngSwitchCase="'transaction'">
+        <div class="details-header">
+            <span (click)="rhsService.hideColumt()"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+            <p (click)="rhsService.hideColumt()">Transactions</p>
+        </div>
+        <!-- Transactions Content -->
+        <div class="transaction-container">
+            <p class="title-tr">Transactions list</p>
+            <div class="transactions-outline">
+                <perfect-scrollbar class="scrollbar-element">
+                    <!-- Repeatable transaction box -->
+                    <div class="transaction-box">
+                        <div class="left-tr">
+                            <p class="name-tr">Pay Per View</p>
+                            <p>Feb 06, 2017</p>
+                            <p>Samantha McDoogle</p>
+                        </div>
+                        <div class="right-tr">
+                            <p class="price-tr">$12.00</p>
+                        </div>
+                    </div>
+                    <!-- Repeatable transaction box -->
+                    <div class="transaction-box">
+                        <div class="left-tr">
+                            <p class="name-tr">Pay Per View</p>
+                            <p>Feb 06, 2017</p>
+                            <p>Samantha McDoogle</p>
+                        </div>
+                        <div class="right-tr">
+                            <p class="price-tr">$12.00</p>
+                        </div>
+                    </div>
+                    <!-- Repeatable transaction box -->
+                    <div class="transaction-box">
+                        <div class="left-tr">
+                            <p class="name-tr">Pay Per View</p>
+                            <p>Feb 06, 2017</p>
+                            <p>Samantha McDoogle</p>
+                        </div>
+                        <div class="right-tr">
+                            <p class="price-tr">$12.00</p>
+                        </div>
+                    </div>
+                    <!-- Repeatable transaction box -->
+                    <div class="transaction-box">
+                        <div class="left-tr">
+                            <p class="name-tr">Pay Per View</p>
+                            <p>Feb 06, 2017</p>
+                            <p>Samantha McDoogle</p>
+                        </div>
+                        <div class="right-tr">
+                            <p class="price-tr">$12.00</p>
+                        </div>
+                    </div>
+                    <!-- Repeatable transaction box -->
+                    <div class="transaction-box">
+                        <div class="left-tr">
+                            <p class="name-tr">Pay Per View</p>
+                            <p>Feb 06, 2017</p>
+                            <p>Samantha McDoogle</p>
+                        </div>
+                        <div class="right-tr">
+                            <p class="price-tr">$12.00</p>
+                        </div>
+                    </div>
+                </perfect-scrollbar>
+            </div>
+        </div>
+    </div>
+    <!-- Monetization option -->
+    <div *ngSwitchCase="'group'">
+        <div (click)="rhsService.hideColumt()" class="details-header">
+            <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+            <p>Groups</p>
+        </div>
+        <!-- Channels -->
+        <div class="group-content">
+            <p class="title">Channels</p>
+            <div class="single-box channels">
+                <a href="#">TheVerge</a>
+                <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+            </div>
+            <div class="single-box channels">
+                <a href="#">Veritassium</a>
+                <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+            </div>
+            <div class="single-box channels last">
+                <a href="#">OK Science</a>
+                <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+            </div>
+            <div class="field">
+                <input placeholder="Add to Channel" name="content-link" />
+            </div>
+        </div>
+        <!-- Folders  -->
+        <div class="group-content">
+            <p class="title">Folders</p>
+            <div class="single-box folders">
+                <a href="#">TheVerge</a>
+                <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+            </div>
+            <div class="single-box folders">
+                <a href="#">Veritassium</a>
+                <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+            </div>
+            <div class="single-box folders last">
+                <a href="#">OK Science</a>
+                <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+            </div>
+            <div class="field no-padding">
+                <input placeholder="Add to Folder" name="content-link" value="Test 123"/>
+            </div>
+            <div class="note-yellow active">
+                <p>Folder ‘Test123’ doesn’t exist. Do you want to create it?</p>
+                <div class="buttons">
+                    <a href="#" class="active">Yes</a>
+                    <a href="#">No</a>
+                </div>
+            </div>
+        </div>
+        <!-- Tags  -->
+        <div class="group-content">
+            <p class="title">Tags</p>
+            <div class="single-box tags">
+                <a href="#">autmn</a>
+                <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+            </div>
+            <div class="single-box tags">
+                <a href="#">tree</a>
+                <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+            </div>
+            <div class="single-box tags last">
+                <a href="#">leaves</a>
+                <span class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+            </div>
+        </div>
+    </div>
+    <div *ngSwitchCase="'monatisation'" class="details-box monetization-details-box">
+        <div (click)="rhsService.hideColumt()" class="details-header">
+            <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+            <p>Monetization</p>
+        </div>
+        <!-- Monetization option component -->
+        <div class="comments-content">
+            <!-- Monetization form component -->
+            <monetization></monetization>
+        </div>
+    </div>
+    <!-- Details content here Comments -->
+    <div class="details-box comments" *ngSwitchCase="'comment'">
+        <div (click)="rhsService.hideColumt()" class="details-header">
+            <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+            <p>Comments</p>
+        </div>
+        <div class="comments-content">
+            <form name="comments-add">
+                <div class="field">
+                    <textarea placeholder="Post your comment"></textarea>
+                </div>
+            </form>
+            <div class="scroll-pane">
+                <div class="single-box comments">
+                    <div class="comments-info">
+                        <span class="user-image no-image">NP</span>
+                        <p class="user-name">Nathan Priston<a class="heart"><i class="fa fa-heart" aria-hidden="true"></i></a></p>
+                        <span class="time">3h</span>
+                    </div>
+                    <p class="comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                </div>
+                <div class="single-box comments">
+                    <div class="comments-info">
+                        <span class="user-image no-image">NP</span>
+                        <p class="user-name">Nathan Priston<a class="heart"><i class="fa fa-heart" aria-hidden="true"></i></a></p>
+                        <span class="time">3h</span>
+                    </div>
+                    <p class="comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                </div>
+                <div class="single-box comments">
+                    <div class="comments-info">
+                        <span class="user-image no-image">NP</span>
+                        <p class="user-name">Nathan Priston<a class="heart"><i class="fa fa-heart" aria-hidden="true"></i></a></p>
+                        <span class="time">3h</span>
+                    </div>
+                    <p class="comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                </div>
+                <div class="single-box comments">
+                    <div class="comments-info">
+                        <span class="user-image no-image">NP</span>
+                        <p class="user-name">Nathan Priston<a class="heart"><i class="fa fa-heart" aria-hidden="true"></i></a></p>
+                        <span class="time">3h</span>
+                    </div>
+                    <p class="comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <update-content *ngSwitchCase="'update'"></update-content>
+    <!-- Details content here Frame by frame -->
+    <!--            <div class="details-box comments frame" *ngSwitchCase="'frame'">
+                    <div (click)="rhsService.hideColumt()" class="details-header">
+                        <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+                        <p>Frame By Frame</p>
+                    </div>
+                    <div class="frame-by-frame-content">
+                        <div class="frame-container">
+                            <img class="frame-img" src="images/frame-img.png" />
+                        </div>
+                        <form name="comments-add">
+                            <div class="field">
+                                <textarea placeholder="Add annotation to frame"></textarea>
+                            </div>
+                        </form>
+                        <div class="single-box comments">
+                            <div class="comments-info">
+                                <span class="user-image no-image">NP</span>
+                                <p class="user-name" href="#">Jack Thorogood > 0:20 [956]</p>
+                                <span class="time">3h</span>
+                                <i class="fa fa-times-circle" aria-hidden="true"></i>
+                            </div>
+                            <p class="comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                        </div>
+                        <div class="single-box comments">
+                            <div class="comments-info">
+                                <span class="user-image no-image">NP</span>
+                                <p class="user-name" href="#">Jack Thorogood > 0:20 [956]</p>
+                                <span class="time">3h</span>
+                                <i class="fa fa-times-circle" aria-hidden="true"></i>
+                            </div>
+                            <p class="comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                        </div>
+                    </div>
+                </div>-->
+    <!-- Details content here Associated content -->
+    <div class="details-box assets" *ngSwitchCase="'assets'">
+        <div (click)="rhsService.hideColumt()" class="details-header">
+            <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+            <p>Assosiated Assets</p>
+        </div>
+        <div class="assets-content">
+            <div class="single-box">
+                <p class="name image">Screen Shot 2014-06-09 at 8.56.345,6789.123443</p>
+                <i class="fa fa-times-circle" aria-hidden="true"></i>
+            </div>
+            <div class="single-box">
+                <p class="name pdf">Screen Shot 2014-06-09 at 8.56.345,6789.123443</p>
+                <i class="fa fa-times-circle" aria-hidden="true"></i>
+            </div>
+            <div class="single-box">
+                <p class="name video">Screen Shot 2014-06-09 at 8.56.345,6789.123443</p>
+                <i class="fa fa-times-circle" aria-hidden="true"></i>
+            </div>
+            <!-- Image field -->
+            <div class="form-fields-image">
+                <div class="inside">
+                    <input type="file" name="file" id="file" class="inputfile" />
+                    <label for="file"><p>Upload File</p><span></span></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Details content here Reporting -->
+    <!--            <div class="details-box annotations" *ngSwitchCase="'annotation'">
+                    <div (click)="rhsService.hideColumt()" class="details-header no-border">
+                        <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+                        <p>Annotations</p>
+                    </div>
+                    <div class="annotation-img">
+                        <img src="images/assets-img.png" />
+                    </div>
+                    <div class="annotation-img">
+                        <img src="images/assets-img.png" />
+                    </div>
+                    <div class="annotation-img">
+                        <img src="images/assets-img.png" />
+                    </div>
+                </div>-->
+    <div class="details-box reporting" *ngSwitchCase="'reporting'">
+        <div (click)="rhsService.hideColumt()" class="details-header">
+            <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+            <p>Reporting</p>
+        </div>
+        <!-- Reporting content -->
+        <div class="reporting-rc-content">
+            <!-- Number views -->
+            <div class="reporting-rc-box">
+                <img src="images/views-image.png" class="reporting-box-rc-img"/>
+                <div class="reporting-box-rc">
+                    <p>Total views</p>
+                    <p class="number-views">3,789</p>
+                </div>
+            </div>
+            <!-- Time per views -->
+            <div class="reporting-rc-box">
+                <img src="images/views-image.png" class="reporting-box-rc-img"/>
+                <div class="reporting-box-rc">
+                    <p>Time per view</p>
+                    <p class="number-views">3:40</p>
+                </div>
+            </div>
+            <!-- Reporting list -->
+            <div class="reproting-rc-list">
+                <div class="reporting-rc-list-header">
+                    <p>User / Device / Location</p>
+                </div>
+                <div class="reporting-rc-list-body">
+                    <!-- Repeatable item -->
+                    <div class="reporting-rc-list-item">
+                        <p class="name">Samantha McDoogle</p>
+                        <p class="devices">
+                            <span>Huawei P9 Lite</span>
+                            <i aria-hidden="true" class="fa fa-circle"></i>
+                            <span>UK</span>
+                        </p>
+                    </div>
+                    <!-- Repeatable item -->
+                    <div class="reporting-rc-list-item">
+                        <p class="name">Samantha McDoogle</p>
+                        <p class="devices">
+                            <span>Huawei P9 Lite</span>
+                            <i aria-hidden="true" class="fa fa-circle"></i>
+                            <span>UK</span>
+                        </p>
+                    </div>
+                    <!-- Repeatable item -->
+                    <div class="reporting-rc-list-item">
+                        <p class="name">Samantha McDoogle</p>
+                        <p class="devices">
+                            <span>Huawei P9 Lite</span>
+                            <i aria-hidden="true" class="fa fa-circle"></i>
+                            <span>UK</span>
+                        </p>
+                    </div>
+                    <!-- Repeatable item -->
+                    <div class="reporting-rc-list-item">
+                        <p class="name">Samantha McDoogle</p>
+                        <p class="devices">
+                            <span>Huawei P9 Lite</span>
+                            <i aria-hidden="true" class="fa fa-circle"></i>
+                            <span>UK</span>
+                        </p>
+                    </div>
+                    <!-- Repeatable item -->
+                    <div class="reporting-rc-list-item">
+                        <p class="name">Samantha McDoogle</p>
+                        <p class="devices">
+                            <span>Huawei P9 Lite</span>
+                            <i aria-hidden="true" class="fa fa-circle"></i>
+                            <span>UK</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <versions *ngSwitchCase="'versions'"></versions>
+</div>

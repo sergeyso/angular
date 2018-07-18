@@ -1,0 +1,9 @@
+<div id="opacity-container" class="opacity-container" (click)="onClick()"></div>
+<div [ngSwitch]="globalService.rightColumnValueFeed.file_type" id="popupcontainer" class="global-feeds-part-popup"  [ngClass]="{'full-screen': fullSreenVar}">
+    <!--<i class="full-screen-icon" aria-hidden="true" (click)="fullScreen()"></i>-->
+    <i class="fa fa-times" aria-hidden="true" (click)="onClick()"></i>
+    <app-image-popups (height)="popupHeightScrollbar($event)" *ngSwitchCase="'image'" class="inner-popup-cont"></app-image-popups>
+    <app-video-popups (height)="popupHeightScrollbar($event)" *ngSwitchCase="'video'" class="inner-popup-cont"></app-video-popups>
+    <app-pdf-popups (height)="popupHeightScrollbar($event)" *ngSwitchCase="'pdf'" class="inner-popup-cont"></app-pdf-popups>
+    <app-document-popups (height)="popupHeightScrollbar($event)" *ngSwitchCase="'office'" class="inner-popup-cont"></app-document-popups>
+</div>

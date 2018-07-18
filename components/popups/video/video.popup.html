@@ -1,0 +1,29 @@
+<div class="asset-popup video-popup">
+    <!-- Left container here -->
+    <div class="left">
+        <div class="video-container">
+            <video #videoChild (loadeddata)="onLoadVideo()" (load)="onLoadVideo()"  width="100%" [src]="globalService.rightColumnValueFeed.filedata.encodings[2].uri" controls></video>
+        </div>
+    </div>
+    <!-- Right container here -->
+    <div class="right">
+        <div class="top">
+            <div #user_det class="user-det">
+                <div class="user-image image" [userImage]="globalService.rightColumnValueFeed.user"></div>
+                <div class="user-info">
+                    <p>{{ globalService.rightColumnValueFeed.user.username}}</p>
+                    <span>{{ globalService.rightColumnValueFeed.name }}</span>
+                </div>
+            </div>
+            <div #content class="content">
+                <p class="desc">{{ globalService.rightColumnValueFeed.description }}</p>
+                <div *ngIf="globalService.rightColumnValueFeed.tags.length" class="tags">
+                    <span>Tags: </span>
+                    <a *ngFor="let tag of globalService.rightColumnValueFeed.tags; let i = index" href="/search?tag={{tag.name}}">{{ tag.name }}</a>
+                </div>
+            </div>
+            <!-- User interactions component -->
+            <app-user-interactions></app-user-interactions>
+        </div>
+    </div>
+</div>

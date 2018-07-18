@@ -1,0 +1,16 @@
+<!-- Cluster attached -->
+<div class="cluster cluster-{{value.clusters.length}}">
+    <img src="images/cluster-arrow.png" class="cluster-arrow" />
+    <div class="inside">
+        <h2>
+            <span>*</span>
+            Suggested Photos
+            <i class="fa fa-times" aria-hidden="true" (click)="hideCluster()"></i>
+        </h2>
+        <div class="cluster-images">
+            <div *ngFor="let item of value.clusters;let index = index" class="single-img" (click)="showClusters(index)"><img [feedImage]="item" version="2" /></div>
+        </div>
+    </div>
+</div>
+<!-- Cluster popup -->
+<cluster-popups (close)="hideClusterPopUp($event)" [value]="value" [key]="key" *ngIf="showClusterAlbumPopup"></cluster-popups>

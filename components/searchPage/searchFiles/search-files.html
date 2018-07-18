@@ -1,0 +1,17 @@
+<ng-container *ngIf="feedService.searchResult.files.count">
+    <div class="serp-href"><a href="#">Files ({{feedService.searchResult.files.count}})</a></div>
+    <div class="people-div files">
+        <figure *ngFor="let item of feedService.searchResult.files.data; let i = index">
+            <div (click)="globalService.showColumn(item, i, true)" class="inside">
+                <a href="javascript:;">
+                <span class="table-div"><span class="table-div-cell">
+                    <span class="image"></span>
+                    <strong>{{ item.name }}</strong><small>{{ item.name }}</small>
+                </span></span>
+                </a>
+            </div>
+        </figure>
+    </div>
+    <div class="clearfix"></div>
+</ng-container>
+

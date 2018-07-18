@@ -1,0 +1,19 @@
+<ng-container *ngIf="feedService.searchResult.folders.count">
+    <div class="serp-href"><a href="#">Folders ({{feedService.searchResult.folders.count}})</a></div>
+    <div class="people-div folders">
+        <figure *ngFor="let item of feedService.searchResult.folders.data; let i = index">
+            <div class="inside">
+                <a href="#">
+                    <span class="table-div">
+                        <span class="table-div-cell">
+                            <span class="image"></span>
+                            <strong>{{item.name}}</strong>
+                            <small>{{item.col_files}}</small>
+                        </span>
+                    </span>
+                </a>
+            </div>
+        </figure>
+    </div>
+    <div class="clearfix"></div>
+</ng-container>

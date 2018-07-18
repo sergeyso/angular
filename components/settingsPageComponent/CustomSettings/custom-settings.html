@@ -1,0 +1,76 @@
+<div class="customsetting-container">
+    <!-- Custom settings Box Organization -->
+    <div class="sections follow-box customsettings">
+        <h2 class="follow-box-title">Organization</h2>
+        <p class="follow-box-desc organization">Add name and description for your organization</p>
+        <div class="form-field">
+            <input class="text-input" name="organization_name" placeholder="Organization Name" required="" type="text" value="">
+        </div>
+        <div class="form-field">
+            <textarea class="text-input" name="organization_info">Describe your organization</textarea>
+        </div>
+    </div>
+    <!-- Custom settings Box Subdomain-->
+    <div class="sections follow-box customsettings">
+        <h2 class="follow-box-title">Subdomain</h2>
+        <p class="follow-box-desc">Choose a subdomain for your organization</p>
+        <!-- Adding form -->
+        <form class="create-cf subdomain">
+            <div class="subdomain-form">
+                <span>http://</span>
+                <input type="text" name="subdomain" class="create-cf-input" placeholder="subdomain" />
+                <span>.knowlocker.com</span>
+            </div>
+            <input type="submit" name="submit-subdomain" class="create-cf-submit" value="Save" />
+        </form>
+        <!-- Note messages -->
+        <p class="note-messages-sett error"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>The selected subdomain is already in use.</p>
+        <p class="note-messages-sett success"><i class="fa fa-check-circle" aria-hidden="true"></i>The subdomain is updated successfully.</p>
+    </div>
+    <!-- Custom settings Box Logo-->
+    <div class="follow-box customsettings">
+        <h2 class="follow-box-title">Logo</h2>
+        <p class="follow-box-desc">Recommended logo format is square, transparent png</p>
+        <!-- Logo thumbnail -->
+        <div class="custom-settings-logo">
+            <img src="images/avatar.png" />
+        </div>
+        <!-- Adding form -->
+        <form class="create-cf subdomain">
+            <div class="subdomain-form">
+                <label  for="file_content" class="styled-file-label"><span>Choose File</span></label>
+                <span>{{channelAvatarName}}</span>
+                <input class="inputfile inputfile-6" id="file_content" name="channel_logo" type="file" (change)="onChangeFile($event)">
+                <input type="submit" name="submit-subdomain" class="create-cf-submit right" value="Upload" />
+            </div>
+        </form>
+        <!-- Remove logo -->
+        <a href="javascript:;" class="remove-link">Remove current logo</a>
+    </div>
+    <!-- Custom settings Box colour scheme -->
+    <div class="follow-box customsettings">
+        <h2 class="follow-box-title">Colour Scheme</h2>
+        <p class="follow-box-desc">Customize the app appearance by adding your own colour scheme</p>
+        <!-- Form for choosing new color -->
+        <form class="create-cf custom-settings-colorscheme">
+            <!-- color input -->
+            <div class="custom-settings-colorscheme-box">
+                <span class="color-box" style="background-color:#2bcfff"></span>
+                <input type="text" name="color-box-input" class="color-box-input" value="#2bcfff" />
+            </div>
+            <!-- color input -->
+            <div class="custom-settings-colorscheme-box">
+                <span class="color-box" style="background-color:#ccbe0e"></span>
+                <input type="text" name="color-box-input" class="color-box-input" value="#ccbe0e" />
+            </div>
+            <!-- color input -->
+            <div class="custom-settings-colorscheme-box">
+                <span class="color-box" style="background-color:#ff447d"></span>
+                <input type="text" name="color-box-input" class="color-box-input" value="#ff447d" />
+            </div>
+            <!-- Remove logo -->
+            <a href="javascript:;" class="remove-link">Reset to Default</a>
+            <input type="submit" name="submit-subdomain" class="create-cf-submit" value="Save" />
+        </form>
+    </div>
+</div>

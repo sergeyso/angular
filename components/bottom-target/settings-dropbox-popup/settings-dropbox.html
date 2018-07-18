@@ -1,0 +1,75 @@
+<div id="opacity-container" class="live-setup" (click)="hidePopup()"></div>
+<div class="modal-custom modal-sm" id="popupcontainer">
+    <div class="top">Dropbox<a href="#" (click)="hidePopup()" class="close-it"><i class="fa fa-times"></i></a></div>
+    <ul class="custom-tabs-nav clearfix">
+        <li><a href="#" (click)="selectTab(1)" [ngClass]="{'active': activeTab == 1}">Sync Options</a></li>
+        <li><a href="#" (click)="selectTab(2)" [ngClass]="{'active': activeTab == 2}">Advanced Settings</a></li>
+    </ul>
+    <!-- START FIRST TAB CONTENT -->
+    <div *ngIf="activeTab === 1">
+        <div class="body border-bottom">
+            <ul class="file-hosting-list styled-radio-sec">
+                <li>
+                    <input type="radio" [(ngModel)]="syncParameter" name="sync" id="everything" value="all">
+                    <label for="everything">Sync Everything</label>
+                    <div class="check"></div>
+                </li>
+                <li>
+                    <input type="radio" [(ngModel)]="syncParameter" name="sync" id="folders" value="folders">
+                    <label for="folders">Sync selected folders only...</label>
+                    <div class="check"></div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="body border-bottom" *ngIf="syncParameter == 'folders'">
+            <ul class="file-hosting-list">
+                <li *ngFor="let folder of vaultService.dropboxSettingsFolders;let i = index">
+                    <div class="checkboxInput popups-users-listing">
+                        <input [id]="'firstpresenters' + i" [checked]="folder.checked" (change)="addFolderToSync(i)" name="participant" type="checkbox">
+                        <label [for]="'firstpresenters' + i">
+                            <span class="popups-users-listing-username">{{folder.name}}</span>
+                        </label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="body">
+            <div class="form-group">
+                <ul class="file-hosting-list">
+                    <li>
+                        <div class="checkboxInput popups-users-listing">
+                            <input id="firstpresenters" [(ngModel)]="inherit_sharing" type="checkbox">
+                            <label for="firstpresenters">
+                                <span class="popups-users-listing-username">Inherit sharing settings</span>
+                            </label>
+                        </div>
+                        <small class="same-sharing-rights">If a user has the right to access this file in Dropbox, they
+                            will
+                            have the same sharing rights in Knowlocker
+                        </small>
+                    </li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+            <div class="remember-yellow-box">
+                <div class="image"><img src="images/icon-remember-yellow.png" alt="#"></div>
+                <strong>Remember</strong>: If a user signs up for a paid Knowlocker account as a result of one of your
+                links, you get 50% of the value of that account. for life.
+            </div>
+            <p>&nbsp;</p>
+            <a href="#" (click)="saveSettings()" class="c-button w100"><i *ngIf="vaultService.syncronization" class="fa fa-refresh fa-spin"></i> Save</a>
+        </div>
+    </div>
+    <!-- END FIRST TAB CONTENT -->
+    <!-- START SECOND TAB CONTENT -->
+    <div class="body" *ngIf="activeTab === 2">
+        <div class="form-group">
+            <label>Connected Account</label>
+            <h2>{{vaultService.dropboxSettings.account}}</h2>
+        </div>
+        <a href="#" (click)="disconnectDropbox()" class="c-button-grey">Disconnect</a>
+    </div>
+    <!-- END SECOND TAB CONTENT -->
+</div>

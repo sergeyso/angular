@@ -1,0 +1,24 @@
+<div class="fourth-column columns" *ngIf="!globalService.showUploadForm" [ngClass]="{'open': globalService.fourthColumnvisible, 'bigzindex': globalService.deleteFile, 'explanation-step-three': globalService.explanationStepThreeVisible}">
+    <!-- Arrow pointing left -->
+    <div class="arrow-pointing" *ngIf="!globalService.fourthColumnvisible"></div>
+    <!-- Main content -->
+    <div class="main-content">
+        <perfect-scrollbar class="scrollbar-element main-right-scrollbar">
+            <right-file-column *ngIf="globalService.fourthColumnvisible == 'file'"></right-file-column>
+            <ng-container *ngIf="globalService.fourthColumnvisible == 'folder'">
+                <right-folder-column *ngIf="this.globalService.folderObject.folder.shared == false; else shared"></right-folder-column>
+                <ng-template #shared>
+                    <right-folder-shared-column></right-folder-shared-column>
+                </ng-template>
+            </ng-container>
+            <!-- Default view -->
+            <div class="default-view-rc" *ngIf="!globalService.fourthColumnvisible">
+                <img src="images/right-column-default-view.png" />
+                <p>No file selected yet.</p>
+                <span>Please pick a file to see </span>
+                <span>the details here.</span>
+            </div>
+        </perfect-scrollbar>
+        <div class="opacity-container-right" [ngClass]="{'explanation-step-four': rhsService.explanationStepFourVisible}"></div>
+    </div>
+</div>

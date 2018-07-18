@@ -1,0 +1,24 @@
+<!-- First step -->
+<div [hidden]="recordStepVisible != 'first'" class="record-steps">
+    <a href="#" (click)="enabledDevices()" class="enable-camera">Click to enable microphone</a>
+    <a href="#" class="start-recording" (click)="startRecordingClick()"><i class="fa fa-circle"></i>Start Recording</a>
+</div>
+<!-- Second step -->
+<div [hidden]="recordStepVisible != 'second' && recordStepVisible != 'third'" class="record-steps record-popup">
+    <video #video class="video" width="470"></video>
+    <div [hidden]="recordStepVisible != 'second'">
+        <ul class="list-inline">
+            <li><a href="#" class="finish-recording" (click)="stopRecordingClick()"><i class="fa fa-square"></i>Finish Recording</a></li>
+            <li>{{timer}}</li>
+        </ul>
+    </div>
+    <div [hidden]="recordStepVisible != 'third'">
+        <div class="row">
+            <div class="half"><span class="file-id-audio">{{filename}}</span></div>
+            <div class="half text-right"><a href="#" (click)="saveRecording()" class="c-button w100">Add to Post</a></div>
+        </div>
+        <div class="bottom"><a href="#" class="link-pink" (click)="startNewRecordingClick()"><i class="fa fa-trash"></i>Delete and start again</a></div>
+    </div>
+    <p *ngIf="loading" class="send-file-confirmation">Loading ...</p>
+    <p *ngIf="responseMessage" class="send-file-confirmation">{{responseMessage}}</p>
+</div>

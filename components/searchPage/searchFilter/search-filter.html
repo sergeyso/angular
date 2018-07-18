@@ -1,0 +1,37 @@
+<div class="search-filter-container">
+    <p class="show-filters" (click)="showSearchFilter()">Show filters</p>
+    <div class="inner" [ngClass]="{'active': searchFilterVisible}">
+        <div class="search-boxes">
+            <div (click)="folderService.filterFeedsByTypeHeader('all', true)" class="search-filter-box" [ngClass]="{active: feedServices.filterTypeActive == 'all' || feedServices.filterTypeActive == ''}">
+                <i class="fa fa-file-o" aria-hidden="true"></i>
+                <span class="everything">Everything</span>
+            </div>
+            <div (click)="folderService.filterFeedsByTypeHeader('channel', true)" class="search-filter-box" [ngClass]="{active: feedServices.filterTypeActive == 'channel'}">
+                <i class="fa fa-align-justify" aria-hidden="true"></i>
+                <span class="channels">Channels</span>
+            </div>
+            <div (click)="folderService.filterFeedsByTypeHeader('video', true)" class="search-filter-box" [ngClass]="{active: feedServices.filterTypeActive == 'video'}">
+                <i class="fa fa-file-video-o" aria-hidden="true"></i>
+                <span class="videos">Videos</span>
+            </div>
+            <div (click)="folderService.filterFeedsByTypeHeader('image', true)" class="search-filter-box" [ngClass]="{active: feedServices.filterTypeActive == 'image'}">
+                <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                <span class="photos">Photos</span>
+            </div>
+            <div (click)="folderService.filterFeedsByTypeHeader('office', true)" class="search-filter-box" [ngClass]="{active: feedServices.filterTypeActive == 'office'}">
+                <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                <span class="text_doc">Text Documents</span>
+            </div>
+            <div (click)="folderService.filterFeedsByTypeHeader('pdf', true)" class="search-filter-box" [ngClass]="{active: feedServices.filterTypeActive == 'pdf'}">
+                <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                <span class="pdfs">PDFs</span>
+            </div>
+        </div>
+        <div class="search-filter-box select-time">
+            <select id="search-time" name="time">
+                <option>All Time</option>
+                <option>Last month</option>
+            </select>
+        </div>
+    </div>
+</div>

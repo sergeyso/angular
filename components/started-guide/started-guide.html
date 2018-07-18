@@ -1,0 +1,133 @@
+<div class="content-float-right-box" *ngIf="!step3">
+    <div class="title">
+        <h4>Getting Started Guide</h4>
+        <a href="#" (click)="close()" class="close-it"><i class="fa fa-times"></i></a>
+    </div>
+
+    <p>For the best experience we have prepared a few things to get you started and learn how Knowlocker works.</p>
+
+    <div class="select-category" *ngIf="!step2">
+        <div class="form-group">
+            <label>Choose Your Sector</label>
+            <perfect-scrollbar>
+                <ul class="done-list select">
+                    <li>
+                        <a href="#" (click)="chooseSector('Other', 0)"
+                           [ngClass]="{'checked': selectedSector === 'Other'}">
+                            <span class="icon"></span>
+                            <span class="table-div">
+                            <span class="table-div-cell">{{'Other'}}</span>
+                        </span>
+                        </a>
+                    </li>
+                    <li *ngIf="selectedSector === 'Other'" class="input">
+                        <input type="text" placeholder="Please enter your sector..."/>
+                    </li>
+                    <li *ngIf="selectedSector === 'Other'" class="copy">Sorry if we haven't got your sector yet. We'll
+                        get it added!
+                    </li>
+                    <li *ngFor="let sector of sectors;let index = index" [ngStyle]="{'display' : index === 0 ? 'none': 'block'}"><a href="#"
+                                                                            (click)="chooseSector(sector.name, index)"
+                                                                            [ngClass]="{'checked': selectedSector === sector.name}"><span
+                            class="icon"></span><span class="table-div"><span
+                            class="table-div-cell">{{sector.name}}</span></span></a>
+                    </li>
+                </ul>
+            </perfect-scrollbar>
+        </div>
+        <a href="#" (click)="preloadDialogPopupToggle(true)" class="c-button block open-continue-div">Continue</a>
+    </div>
+
+    <div class="continue-div" *ngIf="step2">
+        <div class="progres-box">
+            <p>{{selectedSector}}</p>
+            <div class="progress-div">
+                <div class="pull-left">Profile Completeness</div>
+                <div class="pull-right">{{completness}}%</div>
+                <div class="clearfix"></div>
+                <div class="bar">
+                    <div class="bar-value" [ngStyle]="{'width': completness + '%'}"></div>
+                </div>
+            </div>
+        </div>
+
+        <ul class="done-list">
+            <li><a href="#" (click)="understandPrivacyPopupToggle(true); readTip('Understand Privacy')"
+                   [ngClass]="{'resolved' : readedTips.includes('Understand Privacy')}"><span class="icon"></span><span
+                    class="table-div"><span
+                    class="table-div-cell">Understand Privacy</span></span></a></li>
+            <li><a href="#" (click)="createPostPopupToggle(true); readTip('Create Post')"
+                   [ngClass]="{'resolved' : readedTips.includes('Create Post')}"><span class="icon"></span><span
+                    class="table-div"><span class="table-div-cell">Create Post</span></span></a>
+            </li>
+            <li><a href="#" (click)="setupFoldersPopupToggle(true); readTip('Set up Folders')"
+                   [ngClass]="{'resolved' : readedTips.includes('Set up Folders')}"><span class="icon"></span><span
+                    class="table-div"><span
+                    class="table-div-cell">Set up Folders</span></span></a></li>
+            <li><a href="#" (click)="setupChannelsPopupToggle(true); readTip('Set up Channels')"
+                   [ngClass]="{'resolved' : readedTips.includes('Set up Channels')}"><span class="icon"></span><span
+                    class="table-div"><span class="table-div-cell">Set up Channels</span></span></a>
+            </li>
+            <li><a href="#" (click)="askQuestionPopupToggle(true); readTip('Ask a Question')"
+                   [ngClass]="{'resolved' : readedTips.includes('Ask a Question')}"><span class="icon"></span><span
+                    class="table-div"><span class="table-div-cell">Ask a Question</span></span></a>
+            </li>
+            <!--<li><a href="#" (click)="uploadContentPopupToggle(true); readTip('Upload Content')"-->
+            <!--[ngClass]="{'resolved' : readedTips.includes('Upload Content')}"><span class="icon"></span><span-->
+            <!--class="table-div"><span class="table-div-cell">Upload Content</span></span></a>-->
+            <!--</li>-->
+            <li *ngIf="isChrome"><a href="#" (click)="chromePluginPopupToggle(true); readTip('Install Plugin')"
+                                    [ngClass]="{'resolved' : readedTips.includes('Install Plugin')}"><span
+                    class="icon"></span><span
+                    class="table-div"><span class="table-div-cell">Install Plugin</span></span></a>
+            </li>
+            <li><a href="#" (click)="inviteContactsPopupToggle(true); readTip('Invite Contacts')"
+                   [ngClass]="{'resolved' : readedTips.includes('Invite Contacts')}"><span class="icon"></span><span
+                    class="table-div"><span class="table-div-cell">Invite Contacts</span></span></a>
+            </li>
+            <li><a href="#" (click)="connectVaultPopupToggle(true); readTip('Connect Vault')"
+                   [ngClass]="{'resolved' : readedTips.includes('Connect Vault')}"><span class="icon"></span><span
+                    class="table-div"><span class="table-div-cell">Connect Vault</span></span></a>
+            </li>
+            <li><a href="#" (click)="mobileAppsPopupToggle(true); readTip('Download Mobile Apps')"
+                   [ngClass]="{'resolved' : readedTips.includes('Download Mobile Apps')}"><span
+                    class="icon"></span><span class="table-div"><span class="table-div-cell">Download Mobile Apps</span></span></a>
+            </li>
+            <li><a href="#" (click)="createEventPopupToggle(true); readTip('Create an Event')"
+                   [ngClass]="{'resolved' : readedTips.includes('Create an Event')}"><span class="icon"></span><span
+                    class="table-div"><span class="table-div-cell">Create Meeting</span></span></a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="content-float-right-box" id="completed" *ngIf="step3">
+    <div class="completed">
+        <i class="fa fa-check-circle" aria-hidden="true"></i>
+    </div>
+    <div class="title">
+        <h4>Thanks very much, you're all set.</h4>
+    </div>
+    <p>If you have any questions you can contact support any time.</p>
+    <a href="#" (click)="closeCompleted()" class="c-button block open-continue-div">Close</a>
+</div>
+<popup-preload-dialog *ngIf="preloadDialogPopupStatus" [sectorIndex]="sectorIndex"
+                      (closeModal)="preloadDialogPopupToggle($event)"
+                      (skipStatus)="skipStatus($event)"></popup-preload-dialog>
+<popup-invite-contacts *ngIf="inviteContactsPopupStatus"
+                       (closeModal)="inviteContactsPopupToggle($event)"></popup-invite-contacts>
+<!--<popup-upload-content *ngIf="uploadContentPopupStatus"-->
+<!--(closeModal)="uploadContentPopupToggle($event)"></popup-upload-content>-->
+<popup-understand-privacy *ngIf="understandPrivacyPopupStatus"
+                          (closeModal)="understandPrivacyPopupToggle($event)"></popup-understand-privacy>
+<popup-setup-folders *ngIf="setupFoldersPopupStatus"
+                     (closeModal)="setupFoldersPopupToggle($event)"></popup-setup-folders>
+<popup-setup-channels *ngIf="setupChannelsPopupStatus"
+                      (closeModal)="setupChannelsPopupToggle($event)"></popup-setup-channels>
+<popup-mobile-apps *ngIf="mobileAppsPopupStatus" (closeModal)="mobileAppsPopupToggle($event)"></popup-mobile-apps>
+<popup-create-post *ngIf="createPostPopupStatus" (closeModal)="createPostPopupToggle($event)"></popup-create-post>
+<popup-create-meeting *ngIf="createEventPopupStatus" (closeModal)="createEventPopupToggle($event)"></popup-create-meeting>
+<popup-connect-vault *ngIf="connectVaultPopupStatus"
+                     (closeModal)="connectVaultPopupToggle($event)"></popup-connect-vault>
+<popup-ask-question *ngIf="askQuestionPopupStatus" (closeModal)="askQuestionPopupToggle($event)"></popup-ask-question>
+<popup-chrome-plugin *ngIf="chromePluginPopupStatus"
+                     (closeModal)="chromePluginPopupToggle($event)"></popup-chrome-plugin>

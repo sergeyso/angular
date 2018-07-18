@@ -1,0 +1,8 @@
+<div class="single-feed-content hover-desc-cont images images-{{ value.filedata.length }}">
+    <div class="feed-images">
+        <div *ngFor="let image of value.filedata" class="image-outher" (click)="global.showColumn(image, index)" myDraggable [myDraggable]="{data: image}">
+            <img [feedImage]="image" version="3" class="open-asset"/>
+        </div>
+    </div>
+    <p class="hover-descriptions"><span>..</span>Double-click to open</p>
+</div>

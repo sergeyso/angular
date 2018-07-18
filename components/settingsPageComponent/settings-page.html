@@ -1,0 +1,72 @@
+<div class="main-page-inner settings-page">
+    <left-column></left-column>
+    <!-- Main column -->
+    <div class="right-column">
+        <!-- Main feed page -->
+        <div class="main-settings-content clearfix">
+            <!-- First main column -->
+            <div class="third-column columns">
+                <div class="settings-tabs">
+                    <!-- Tabs link for clicking -->
+                    <div class="tabs-header settings">
+                        <span class="tabs-header-links" [ngClass]="{'active': selected == 'profile'}"  (click)="selected = 'profile'">Profile</span>
+                        <!--<span class="tabs-header-links" [ngClass]="{'active': selected == 2}" (click)="selected = 2">General settings</span>-->
+                        <span class="tabs-header-links" [ngClass]="{'active': selected == 'account'}"  (click)="selected = 'account'">Account</span>
+                        <!--<span class="tabs-header-links" [ngClass]="{'active': selected == 4}"  (click)="selected = 4">Affiliate Programme</span>-->
+                        <!--<span class="tabs-header-links" [ngClass]="{'active': selected == 4}"  (click)="selected = 4">Transactions</span>-->
+                        <!--<span class="tabs-header-links" [ngClass]="{'active': selected == 5}"  (click)="selected = 5">Channel</span>-->
+                        <!--<span class="tabs-header-links" [ngClass]="{'active': selected == 7}"  (click)="selected = 7">Follow</span>-->
+                        <!--<span class="tabs-header-links" [ngClass]="{'active': selected == 8}"  (click)="selected = 8">Subscriptions</span>-->
+                        <!--<span class="tabs-header-links" [ngClass]="{'active': selected == 9}"  (click)="selected = 9">Customize</span>-->
+                        <span class="tabs-header-links" *ngIf="user.company_owner" [ngClass]="{'active': selected == 'channels'}"  (click)="selected = 'channels'">Channels</span>
+                        <!--<span class="tabs-header-links" [ngClass]="{'active': selected == 11}"  (click)="selected = 11">Transactions</span>-->
+                        <span class="tabs-header-links" *ngIf="user.is_reseller" [ngClass]="{'active': selected == 'reseller'}"  (click)="selected = 'reseller'">Reseller</span>
+                        <!--<span class="tabs-header-links" [ngClass]="{'active': selected == 'integrations'}"  (click)="selected = 'integrations'">Integrations</span>-->
+                    </div>
+                    <!-- Tabs content -->
+                    <div [ngSwitch]="selected" class="tabs-main-content settings">
+                        <settingstab class="tabs-content" *ngSwitchCase="'profile'">
+                            <profile-settings></profile-settings>
+                        </settingstab>
+                        <settingstab class="tabs-content" *ngSwitchCase="2">
+                           <generalsettings></generalsettings>
+                        </settingstab>
+                        <settingstab class="tabs-content" *ngSwitchCase="'account'">
+                            <billing></billing>
+                        </settingstab>
+                        <settingstab class="tabs-content" *ngSwitchCase="4">
+                            <affiliate></affiliate>
+                        </settingstab>
+                        <!--<settingstab class="tabs-content" *ngSwitchCase="4">-->
+                            <!--<transactions></transactions>-->
+                        <!--</settingstab>-->
+                        <!--<settingstab class="tabs-content" *ngSwitchCase="5">-->
+                            <!--<channel-settings></channel-settings>-->
+                        <!--</settingstab>-->
+                        <!--<settingstab class="tabs-content" *ngSwitchCase="'integrations'">-->
+                            <!--<integrations></integrations>-->
+                        <!--</settingstab>-->
+                        <settingstab class="tabs-content" *ngSwitchCase="7">
+                            <follow></follow>
+                        </settingstab>
+                        <settingstab class="tabs-content" *ngSwitchCase="8">
+                           <settings-subscriptions></settings-subscriptions>
+                        </settingstab>
+                        <settingstab class="tabs-content" *ngSwitchCase="9">
+                            <custom-settings></custom-settings>
+                        </settingstab>
+                        <settingstab class="tabs-content" *ngSwitchCase="'channels'">
+                           <channel-folders></channel-folders>
+                        </settingstab>
+                        <settingstab class="tabs-content" *ngSwitchCase="11">
+                            <settings-transactions></settings-transactions>
+                        </settingstab>
+                        <settingstab class="tabs-content" *ngSwitchCase="'reseller'">
+                            <reseller-settings></reseller-settings>
+                        </settingstab>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

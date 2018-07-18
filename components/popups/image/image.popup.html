@@ -1,0 +1,34 @@
+<div class="asset-popup video-popup" xmlns="http://www.w3.org/1999/html">
+    <!-- Left container here -->
+    <div class="left">
+        <div class="video-container">
+            <img #imageChild (load)="onLoadImage()" [src]="globalService.rightColumnValueFeed.filedata.link"/>
+        </div>
+    </div>
+    <!-- Right container here -->
+    <div class="right">
+        <div class="top">
+            <div #user_det class="user-det">
+                <div class="user-image image" [userImage]="globalService.rightColumnValueFeed.user"></div>
+                <div class="user-info">
+                    <p>{{ globalService.rightColumnValueFeed.user.username}}</p>
+                    <span>{{ globalService.rightColumnValueFeed.name }}</span>
+                </div>
+            </div>
+            <div #content class="content">
+                <p class="desc">{{ globalService.rightColumnValueFeed.description }}</p>
+                <div *ngIf="globalService.rightColumnValueFeed.tags.length" class="tags">
+                    <span>Tags: </span>
+                    <a *ngFor="let tag of globalService.rightColumnValueFeed.tags; let i = index" href="/search?search={{tag.name}}">{{ tag.name }}</a>
+                </div>
+                <!--<a (click)="globalService.popupValueShowRightColumn('comment')" class="comment" href="javascript:;">Add Comment</a>-->
+                <!--<div *checkAuth="globalService.rightColumnValueFeed" class="social-share">-->
+                    <!--&lt;!&ndash;<a class="heart"><i class="fa fa-heart" aria-hidden="true"></i></a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a (click)="globalService.popupValueShowRightColumn('share')" class="share"><i class="fa fa-share-alt" aria-hidden="true"></i></a>&ndash;&gt;-->
+                <!--</div>-->
+            </div>
+            <!-- User interactions component -->
+            <app-user-interactions></app-user-interactions>
+        </div>
+    </div>
+</div>

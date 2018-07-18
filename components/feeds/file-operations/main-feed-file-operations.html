@@ -1,0 +1,6 @@
+<div class="file-operations">
+    <span *ngIf="global.newFiles.indexOf(value.id) > -1" class="file-operations-span new-flag">New</span>
+    <span *ngIf="value.file_type == 'image' || value.file_type == 'video'" class="file-operations-span tooltips location"><span class="tooltiptext down">{{ location}}</span></span>
+    <span *checkAuth="value" (click)="global.popupValueShowRightColumn('update', value, index)" class="file-operations-span tooltips"><span class="tooltiptext down">Edit</span><i aria-hidden="true" class="fa fa-pencil"></i></span>
+    <a download target="_blank" [href]="value.filedata.link" class="file-operations-span tooltips"><span class="tooltiptext down">Download</span><i aria-hidden="true" class="fa fa-download"></i></a>
+</div>

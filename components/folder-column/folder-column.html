@@ -1,0 +1,110 @@
+<div class="filter-box content contact" #mainBox>
+    <h3>Content</h3>
+    <!-- Add new folder -->
+    <form (submit)="createFolder(folder)" class="add-new-folder add-new-contact" novalidate>
+        <div class="form-field">
+            <input [(ngModel)]="folder.name" type="text" name="folder" placeholder="New Folder..." />
+            <button type="submit" class="fa fa-plus"></button>
+            <svg class='pulse-svg' *ngIf="sectorService.foldersTipShow"  height='58px' version='1.1' viewBox='0 0 58 58' width='58px' xmlns='http://www.w3.org/2000/svg'>
+                <circle class='circle first-circle' cx='29' cy='29' opacity='0' r='25'></circle>
+                <circle class='circle second-circle' cx='29' cy='29' opacity='0' r='25'></circle>
+                <circle class='circle third-circle' cx='29' cy='29' opacity='0' r='25'></circle>
+                <g>
+                    <circle cx='29' cy='29' r='29'></circle>
+                </g>
+            </svg>
+        </div>
+    </form>
+    <!--<perfect-scrollbar class="scrollbar-element">-->
+        <!-- Root folder -->
+        <div *ngIf="global.showMyContent" class="folder">
+            <div myDropTarget (myDrop)="onDrop($event, 'root', folderService.folderIdSelected)" class="droppable"></div>
+            <div class="list-content-title my-content" [ngClass]="{open: 999999 == folderService.selected}">
+                <!-- Notification span -->
+                <span *ngIf="folderService.rootFolderNotify" class="new-files-notifications">{{folderService.rootFolderNotify.col_new_files}}</span>
+                <p (click)="folderService.select(999999, 'root', 'folder')" class="content-title-p">My Content</p>
+<!--                <p (click)="folderService.select(999999, 'root', 'folder')">My Content<small>({{folderService.countFolderRoot}})</small></p>-->
+            </div>
+            <div [ngClass]="{open: 999999 == folderService.selected}" class="files-container">
+                <div [ngClass]="{open: 999999 == folderService.selected}" *ngFor="let file of folderService.specificFoldeFiles; let i = index" myDraggable [myDraggable]="{data: file}" class="single-file" (click)="folderService.showFile(file)">
+                    <a class="{{ file.file_type }}" href="javascript:;">{{ file.name }}</a>
+                </div>
+            </div>
+        </div>
+        <!-- All folders listing -->
+        <div class="folder" *ngFor="let value of folderService.folders; let i = index" [folders]="value">
+            <div myDropTarget (myDrop)="onDrop($event, value.folder, folderService.folderIdSelected)" class="droppable"></div>
+            <div class="list-content-title" [ngClass]="{open: i == folderService.selected, 'shared-folder': value.folder.shared}">
+                <!-- Notification span -->
+                <span *ngIf="value.notifications" class="new-files-notifications">{{value.notifications}}</span>
+                <p (click)="folderService.select(i, value.folder.hash_id, 'folder', value)" class="content-title-p">
+                    <span class="folder-title">{{ value.folder.name }}</span>
+                </p>
+                <!-- Icons for edit,delete, add-->
+                <div *ngIf="value.folder.shared == false" class="folder-top-icons" [ngClass]="{open: i == folderService.selected}">
+                    <i [ngClass]="{'fa': true, 'fa-plus': i != folderService.subfolderFormVisible, 'fa-minus': i == folderService.subfolderFormVisible, 'tooltips': true}" aria-hidden="true" (click)="addNewSubFolderForm(i, value.folder.id)"><span class="tooltiptext">Add new sub-folder</span></i>
+                    <i (click)="editFolderForm(i, value.folder, 'folder')" class="fa fa-pencil tooltips" aria-hidden="true"><span class="tooltiptext">Edit folder</span></i>
+                    <i (click)="deleteFolder(value.folder.id)" class="fa fa-trash-o tooltips" aria-hidden="true"><span class="tooltiptext">Delete folder</span></i>
+                </div>
+                <a *ngIf="value.folder.shared" (click)="unshareFolder(value.folder)" class="unshare-folder-left tooltips"><span class="tooltiptext">Unshare folder</span></a>
+            </div>
+            <!-- Edit folder form -->
+            <form (ngSubmit)="editFolderName()" class="add-new-folder" [ngClass]="{open: i == folderService.editfolderFormVisible}">
+                <p>Edit folder name</p>
+                <div class="form-field">
+                    <input [(ngModel)]="folderService.folderSelectedForEditName" type="text" name="edit-folder"/>
+                    <button type="submit" class="fa fa-check"></button>
+                </div>
+            </form>
+            <!-- Add  folder form -->
+            <form (ngSubmit)="createFolder(subFolder)" class="add-new-folder" [ngClass]="{open: i == folderService.subfolderFormVisible}">
+                <p>Add new sub-folder</p>
+                <div class="form-field">
+                    <input [(ngModel)]="subFolder.name" type="text" name="folder" placeholder="Insert sub-folder name" />
+                    <button type="submit" class="fa fa-plus btn btn-default"></button>
+                </div>
+            </form>
+            <!--  Folder content -->
+            <div [ngClass]="{open: i == folderService.selected}" class="files-container">
+                <!-- Files listing -->
+                <div [ngClass]="{open: i == folderService.selected}" *ngFor="let file of folderService.specificFoldeFiles; let i = index" myDraggable [myDraggable]="{data: file}" class="single-file" (click)="folderService.showFile(file)">
+                    <a class="{{ file.file_type }}" href="javascript:;">{{ file.name }}</a>
+                </div>
+                <!-- Subfolders -->
+                <div class="folder sub-folder" *ngFor="let subFolderValue of value.folder.subfolders; let iSubfolder = index">
+                    <div myDropTarget (myDrop)="onDrop($event, subFolderValue.folder, folderService.folderIdSelected)" class="droppable"></div>
+                    <div class="list-content-title" [ngClass]="{open: iSubfolder == folderService.selectedSubfolders, 'shared-folder': subFolderValue.folder.shared}">
+                        <!-- Notification span -->
+                        <span *ngIf="subFolderValue.notifications" class="new-files-notifications">{{subFolderValue.notifications}}</span>
+                        <p class="content-title-p" (click)="folderService.select(iSubfolder, subFolderValue.folder.hash_id, 'subfolder', subFolderValue)">
+                            <span class="folder-title">{{ subFolderValue.folder.name }}</span>
+                        </p>
+                        <i *ngIf="iSubfolder == folderService.selectedSubfolders && value.folder.shared == false" class="fa fa-pencil tooltips" aria-hidden="true"
+                           (click)="editFolderForm(iSubfolder, subFolderValue.folder, 'subfolder')">
+                            <span class="tooltiptext">Edit sub-folder</span>
+                        </i>
+                        <i *ngIf="iSubfolder == folderService.selectedSubfolders && subFolderValue.folder.shared == false" (click)="deleteFolder(subFolderValue.folder.id)" class="fa fa-trash-o tooltips" aria-hidden="true"><span class="tooltiptext">Delete sub-folder</span></i>
+                        <a *ngIf="subFolderValue.folder.shared" (click)="unshareFolder(subFolderValue.folder)" class="unshare-folder-left tooltips"><span class="tooltiptext">Unshare folder</span></a>
+                    </div>
+                    <!-- Edit folder form -->
+                    <form (ngSubmit)="editFolderName()" class="add-new-folder" [ngClass]="{open: iSubfolder == folderService.editSubfolderFormVisible}">
+                        <p>Edit sub-folder name</p>
+                        <div class="form-field">
+                            <input [(ngModel)]="folderService.folderSelectedForEditName" type="text" name="edit-folder"/>
+                            <button type="submit" class="fa fa-check"></button>
+                        </div>
+                    </form>
+                    <!-- Subfolder files listing -->
+                    <div [ngClass]="{open: iSubfolder == folderService.selectedSubfolders}" class="files-container">
+                        <div [ngClass]="{open: iSubfolder == folderService.selectedSubfolders}" *ngFor="let file of folderService.specificSubFoldeFiles" myDraggable [myDraggable]="{data: file}"  class="single-file" (click)="folderService.showFile(file)">
+                            <a class="{{ file.file_type }}" href="javascript:;">{{ file.name }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <span class="bottom">My content</span>
+    <!--</perfect-scrollbar>-->
+</div>
+<!-- Delete folder container -->
+<delete-folder (callGetAllFolders)="getAllFolder()" *ngIf="global.deleteFolderForm"></delete-folder>

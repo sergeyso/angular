@@ -1,0 +1,14 @@
+<div class="filter-group">
+    <label class="filter-item live" [ngClass]="{'active':isLive}">
+        <input type="checkbox" [(ngModel)]="isLive" autocomplete="off" (ngModelChange)="onChange($event)"> Live
+    </label>
+    <label class="filter-item upcoming" [ngClass]="{'active':isUpcoming}">
+        <input type="checkbox" [(ngModel)]="isUpcoming" autocomplete="off" (ngModelChange)="onChange($event)"> Upcoming
+    </label>
+    <label class="filter-item passed" [ngClass]="{'active':isPassed}">
+        <input type="checkbox" [(ngModel)]="isPassed" autocomplete="off" (ngModelChange)="onChange($event)"> Passed
+    </label>
+    <label class="filter-item" [ngClass]="{'active':isOther}">
+        <input type="checkbox" [(ngModel)]="isOther" autocomplete="off" (ngModelChange)="onChange($event)"> Other
+    </label>
+</div>

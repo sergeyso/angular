@@ -1,0 +1,19 @@
+<!-- Shared folder view -->
+<div class="shared-folder-rc">
+    <div class="shared-folder-rc-top">
+        <div class="shared-folder-rc-top-box left">
+            <p>Folder name</p>
+            <span>{{ globalService.folderObject.folder.name ? globalService.folderObject.folder.name : null }}</span>
+        </div>
+        <div class="shared-folder-rc-top-box right">
+            <p>Folder owner</p>
+            <span>{{ globalService.folderObject.folder.user.fullname }}</span>
+        </div>
+    </div>
+    <div class="shared-folder-rc-bottom">
+        <div class="field">
+            <p class="title">Folder Link</p>
+            <input class="text-share" readonly value="{{ globalService.folderObject.folder.short_url }}" name="content-link" />
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+<div id="opacity-container" (click)="hideCluster()" class="opacity-container"></div>
+<div id="popupcontainer">
+    <div class="asset-popup documentgallery-popup">
+    <!-- Left container here -->
+    <div class="left">
+        <div class="row slider">
+            <div id="carousel" class="flexslider carousel scroll-pane">
+                <perfect-scrollbar class="scrollbar-element document-reader">
+                    <ul class="slides">
+                        <li *ngFor="let image of value.clusters; let i = index">
+                            <img (click)="getKeySlider(i)" [feedImage]="image" version="2">
+                        </li>
+                    </ul>
+                </perfect-scrollbar>
+            </div>
+            <div class="slider-right">
+                <div id="slider" class="flexslider main-slider">
+                    <ul class="slides">
+                        <li *ngFor="let image of value.clusters; let i = index">
+                            <img [feedImage]="image" version="2">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Right container here -->
+    <div class="right">
+        <div class="top">
+            <div class="user-det">
+                <div class="user-image image" [userImage]="this.targetImage.user">
+                </div>
+                <div class="user-info">
+                    <p>{{ this.targetImage.user.username}}</p>
+                    <span>{{ this.targetImage.name }}</span>
+                </div>
+            </div>
+            <div class="content">
+                <p class="desc">{{ this.targetImage.description}}</p>
+                <div *ngIf="this.targetImage.tags.length" class="tags">
+                    <span>Tags: </span>
+                    <a *ngFor="let tag of this.targetImage.tags; let i = index" href="/search?tag={{tag.name}}">{{ tag.name }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+

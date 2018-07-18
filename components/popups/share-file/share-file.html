@@ -1,0 +1,102 @@
+<div id="opacity-container" class="share-files" (click)="globalService.hideShareFilePopup()"></div>
+<div id="popupcontainer" class="share-files">
+    <div class="popup-header">Share<i class="fa fa-times" aria-hidden="true" (click)="globalService.hideShareFilePopup()"></i></div>
+    <div class="popup-content">
+        <!-- Content to be shared -->
+        <div class="sf-content-shared">
+            <img [feedImage]="globalService.sharedFileContent" version="2" class="sf-content-shared-img" />
+            <!-- User info here -->
+            <div class="sf-content-user-info">
+                <div class="sf-content-user-info-top">
+                    <div class="user-image" [userImage]="globalService.sharedFileContent.user"></div>
+                    <p class="sf-content-user-info-name">{{globalService.sharedFileContent.user.username}}</p>
+                    <p class="sf-content-user-info-time" [diffTime]="globalService.sharedFileContent.create_time"></p>
+                </div>
+                <!-- Shared file description -->
+                <p class="sf-content-desc">{{ globalService.sharedFileContent.description }}</p>
+            </div>
+        </div>
+        <!-- Sharing form -->
+        <form class="sf-content-shared-form" #addNewUser="ngForm" novalidate (submit)="addNewUserFunc()">
+            <!-- Link -->
+            <div class="form-field">
+                <label class="field-label" for="clink">Content Link</label>
+                <input class="text-input" style="width: 190px;" id="clink" name="clink"  type="text" #shortUrl value="{{ globalService.sharedFileContent.short_url}}" readonly/>
+                <input type="button" name="submit" value="Copy to Clipboard" (click)="copyToClipBoard()" class="default-button"/>
+            </div>
+            <!--&lt;!&ndash; Public &ndash;&gt;-->
+            <!--<div class="form-field checkbox-form-field" >-->
+                <!--<div class="checkbox">-->
+                    <!--<div class="checkboxInput">-->
+                        <!--<input [checked]="sharedService.checkPublic" (change)="sharedService.makePublicOrPrivate(globalService.sharedFileContent, type, 'read')" type="checkbox" value="None" id="makePublic" name="check" />-->
+                        <!--<label for="makePublic"><span>Make Public</span></label>-->
+                        <!--<div class="preload-icon-small-container" *ngIf="sharedService.loadMakePublic" >-->
+                            <!--<img class="preload-icon-small centered" src="images/preloader.gif" />-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!-- Privacy -->
+            <div class="form-field">
+                <p class="field-label">Privacy</p>
+                <ul class="styled-radio-sec">
+                    <li>
+                        <input [(ngModel)]="globalService.sharedFileContent.privacy_id" type="radio" id="private" name="privacy" [value]="1">
+                        <label for="private">Private</label>
+                        <div class="check"></div>
+                    </li>
+                    <li>
+                        <input [(ngModel)]="globalService.sharedFileContent.privacy_id" type="radio" id="organization" name="privacy" [value]="2">
+                        <label for="organization">Within Organisation</label>
+                        <div class="check"><div class="inside"></div></div>
+                    </li>
+                    <li>
+                        <input [(ngModel)]="globalService.sharedFileContent.privacy_id" type="radio" id="public" name="privacy" [value]="3">
+                        <label for="public">Public</label>
+                        <div class="check"><div class="inside"></div></div>
+                    </li>
+                </ul>
+            </div>
+            <!-- Shared with container -->
+            <div class="form-field" *ngIf="sharedService.sharedWith.length > 0">
+                <p class="field-label" style="margin-bottom: 8px;">Shared With</p>
+                <div class="preload-icon-small-container" *ngIf="sharedService.loadSharedUser">
+                    <img class="preload-icon-small centered" src="images/preloader.gif" />
+                </div>
+                <!-- shared person -->
+                <div *ngFor="let user of sharedService.sharedWith" class="sf-content-shared-form-person">
+                    <div *ngIf="user.status == 'active'" class="user-image" [userImage]="user"></div>
+                    <p class="sf-content-shared-form-person-name">{{ user.email }}</p>
+                    <i (click)="deleteUser(user)" class="fa fa-times-circle" aria-hidden="true"></i>
+                </div>
+            </div>
+            <!-- Add new person -->
+            <div class="form-field multiple-select">
+                <label class="field-label">Share with</label>
+                <div class="select upload-select share-field">
+                    <select class="shareaccess" name="shareaccess"></select>
+                </div>
+            </div>
+            <!-- Add new person -->
+            <div class="form-field pts">
+                <div *ngIf="sharedService.checkPublic">
+                    <p class="field-label" style="margin-bottom: 8px;">Post on Social Networks</p>
+                    <share-buttons class="custom-buttons"
+                                   [url]="globalService.sharedFileContent.short_url"
+                                   [description]="sharedDescription()"
+                                   [title]="sharedTitle()"
+                                   [image]="sharedImage()"
+                                   [pinterest]="false"
+                                   [linkedIn]="false"
+                                   [google]="false"
+                                   [tumblr]="false"
+                                   [whatsApp]="false"
+                                   [reddit]="false"
+                                   [stumbleUpOn]="false"
+                    ></share-buttons>
+                </div>
+                <input type="submit" name="submit" value="Submit" class="default-button"/>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+<form class="settings-form" (ngSubmit)="updateUserFunction()" #updateUser="ngForm" novalidate>
+    <p *ngIf="errorMessageInformation" class="note-messages error-msg">{{ errorMessageInformation }}</p>
+    <p *ngIf="confirmMessageInformation" class="note-messages success-msg">{{ confirmMessageInformation }}</p>
+    <!-- PEOFILE SETTINGS -->
+    <div class="full-width-container">
+        <div class="settings-sections profile-settings">
+            <p class="title">Personal information</p>
+            <!-- Full name -->
+            <div class="form-field">
+                <label class="field-label">Full name</label>
+                <input class="text-input" #full_name="ngModel" [(ngModel)]="profile.fullname" id="full_name" name="full_name"  type="text" value="">
+            </div>
+            <!-- Bio -->
+            <div class="form-field">
+                <label class="field-label">Bio</label>
+                <input [(ngModel)]="profile.bio" class="text-input" id="bio" name="bio"  type="text" value="">
+            </div>
+            <!-- Email -->
+            <div class="form-field">
+                <label class="field-label">Email</label>
+                <input [(ngModel)]="profile.email" class="text-input" id="email" name="email" type="text" value="">
+            </div>
+            <!-- Don't need for now -->
+            <!--<div class="form-field create-cf">-->
+                <!--<label class="field-label" >Username</label>-->
+                <!--<div class="subdomain-form">-->
+                    <!--<span>http://knowlocker.com/@</span>-->
+                    <!--<input [(ngModel)]="profile.username" class="create-cf-input" name="subdomain" placeholder="username" type="text">-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="form-field">
+                 <input class="create-cf-submit" name="submit-subdomain" type="submit" value="Save">
+                <img *ngIf="loadIconShow" class="preload-icon-small" src="images/preloader.gif" />
+            </div>
+        </div>
+    </div>
+</form>
+<form #updatePassword="ngForm" novalidate (ngSubmit)="onSubmitPassword()" class="settings-form">
+    <div class="full-width-container">
+        <div class="settings-sections profile-settings">
+            <p class="title">Change Password</p>
+            <!-- Old password -->
+            <div class="form-field">
+                <label class="field-label" for="password">Old password</label>
+                <input [(ngModel)]="general.password" class="text-input" id="password" name="password" placeholder="" type="password">
+            </div>
+            <!-- New password -->
+            <div class="form-field">
+                <label class="field-label" for="new_password">New password</label>
+                <input [(ngModel)]="general.new_password" class="text-input" id="new_password" name="new_password" type="password">
+            </div>
+            <!-- Repeat password -->
+            <div class="form-field">
+                <label class="field-label" for="new_password_confirm">New password</label>
+                <input [(ngModel)]="general.new_password_confirm" class="text-input" id="new_password_confirm" name="new_password_confirm" type="password">
+            </div>
+            <div class="form-field">
+                <input class="create-cf-submit" name="submit-subdomain" type="submit" value="Change Password">
+                <img *ngIf="loadIconShowPassword" class="preload-icon-small" src="images/preloader.gif" />
+            </div>
+            <!-- Profile image -->
+            <div class="form-field">
+                <p class="title">Avatar</p>
+                <label class="field-label">Recommended format is square jpeg or png</label>
+                <div class="avatar-image">
+                    <img src="images/avatar-default.png" />
+                </div>
+            </div>
+            <div class="form-field file-input file-input-sett">
+                <input class="inputfile styled-input" id="file_content" name="picture" type="file" (change)="onChangeFile($event)">
+                <label  for="file_content">
+                    <span class="choose-file">Choose file</span>
+                    <span class="choosen-file">{{avatarName}}</span>
+                </label>
+                <!-- Upload button -->
+                <input class="create-cf-submit" name="submit-subdomain" type="submit" value="Upload">
+                <!-- Remove avatar -->
+                <a href="javascript:;" class="remove-avatar">Remove current avatar</a>
+            </div>
+        </div>
+    </div>
+    <!-- SUBMIT BUTTON -->
+    <!--<div class="full-width-container border">-->
+        <!--<div class="settings-sections general">-->
+            <!--&lt;!&ndash; Save &ndash;&gt;-->
+            <!--<div class="form-field">-->
+                <!--<input type="submit" class="sbuttons save" value="Save Settings"/>-->
+                <!--<img *ngIf="loadIconShow" class="preload-icon-small" src="images/preloader.gif" />-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+</form>
+<!-- Social settings don't need fort now-->
+<!--<div class="settings-sections social-network">-->
+    <!--<p class="title">Social Networks</p>-->
+    <!--<div class="social-network-buttons">-->
+        <!--<a href="javascript:;" class="social-network-button fb"><i class="fa fa-facebook" aria-hidden="true"></i>Connect Facebook</a>-->
+        <!--<a href="javascript:;" class="social-network-button twitter"><i class="fa fa-twitter" aria-hidden="true"></i>Connect Twitter</a>-->
+        <!--<a href="javascript:;" class="social-network-button fb disconnect"><i class="fa fa-facebook" aria-hidden="true"></i>Disconnect Facebook</a>-->
+        <!--<a href="javascript:;" class="social-network-button twitter disconnect"><i class="fa fa-twitter" aria-hidden="true"></i>Disconnect Twitter</a>-->
+    <!--</div>-->
+<!--</div>-->

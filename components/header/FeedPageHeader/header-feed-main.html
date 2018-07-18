@@ -1,0 +1,4 @@
+<main-header [ngSwitch]="globalService.headerPart" class="feed-header">
+    <header-feed-page *ngSwitchCase="'feeds'"></header-feed-page>
+    <header-upload-page *ngSwitchCase="'upload'"></header-upload-page>
+</main-header>

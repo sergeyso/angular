@@ -1,0 +1,74 @@
+<div class="details-box metadata">
+    <div (click)="rhsService.hideColumt()" class="details-header no-border">
+        <span><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+        <p>Metadata</p>
+    </div>
+    <ng-container *ngIf="!loading; else loadingIcon">
+        <div *ngIf="userObservable.error; else success" class="single-box"></div>
+        <ng-template #success>
+            <div *ngIf="metadataObject.description" class="single-box">
+                <p class="name">Description</p>
+                <p class="desc">{{metadataObject.description}}</p>
+            </div>
+            <div *ngIf="metadataObject.tags" class="single-box">
+                <p class="name">Tags</p>
+                <p class="desc">{{metadataObject.tags}}</p>
+            </div>
+            <div class="single-box">
+                <p class="name">Image format</p>
+                <p class="desc">{{metadataObject.imageFormat}}</p>
+            </div>
+            <div class="single-box">
+                <p class="name">Image dimensions</p>
+                <p class="desc">{{metadataObject.imageDimension}}</p>
+            </div>
+            <div *ngIf="metadataObject.clipArttype" class="single-box">
+                <p class="name">Clip Art Type</p>
+                <p class="desc">{{metadataObject.clipArttype}}</p>
+            </div>
+            <div *ngIf="metadataObject.lineDrawingType" class="single-box">
+                <p class="name">Line Drawing Type</p>
+                <p class="desc">{{metadataObject.lineDrawingType}}</p>
+            </div>
+            <div class="single-box">
+                <p class="name">Black & White Image</p>
+                <p class="desc">{{metadataObject.blackAndWhite}}</p>
+            </div>
+            <div class="single-box">
+                <p class="name">Adult Content</p>
+                <p class="desc">{{metadataObject.adultContent}}</p>
+            </div>
+            <div class="single-box">
+                <p class="name">Racy Content</p>
+                <p class="desc">{{metadataObject.racyContent}}</p>
+            </div>
+            <div class="single-box">
+                <p class="name">Faces</p>
+                <p class="desc">{{metadataObject.faces}}</p>
+            </div>
+            <div class="single-box">
+                <p class="name">Dominant Color Background</p>
+                <p class="desc">{{metadataObject.dominantColorBackground}}</p>
+            </div>
+            <div class="single-box">
+                <p class="name">Dominant Color Foreground</p>
+                <p class="desc">{{metadataObject.dominantColorForeground}}</p>
+            </div>
+        </ng-template>
+    </ng-container>
+    <!-- Loading icon -->
+    <div *ngIf="userObservable.error" class="metadata-loading">
+        <div (click)="getMetadata()" class="default-content">
+            <p>Get enhanced metadata for this content</p>
+            <span>Description, Tags, Faces</span>
+        </div>
+    </div>
+    <ng-template #loadingIcon>
+        <div class="metadata-loading">
+            <div class="loading-content">
+                <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                <p>Metadata requested. <br> Please wait a moment.</p>
+            </div>
+        </div>
+    </ng-template>
+</div>

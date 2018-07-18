@@ -1,0 +1,13 @@
+<main-header class="settings-header vault">
+    <h1>
+        <a href="/"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i></a>
+        <a *ngFor="let folder of vaultService.path" (click)="openFolder(folder)" href="#">{{folder.name}}/</a>
+    </h1>
+    <div class="header-right-parts">
+        <div class="right-cont">
+            <span class="last-synced" *ngIf="vaultService.dropboxSettings.last_sync">last synced {{ lastSync(vaultService.dropboxSettings.last_sync) }}</span>
+            <a href="#" (click)="sync()" class="sync-button"><i *ngIf="vaultService.syncronization" class="fa fa-refresh fa-spin"></i> Sync Now</a>
+        </div>
+        <header-search-form></header-search-form>
+    </div>
+</main-header>

@@ -1,0 +1,14 @@
+<div class="left-column columns" [ngClass]="{ 'explanation-step-one': global.explanationStepOneVisible }">
+    <!-- First column -->
+    <left-first-column></left-first-column>
+    <!-- Second column -->
+    <div class="second-column feed-column columns"
+         [ngClass]="{ 'open': global.secondColumnvisible, 'not_loged': !global.login }">
+        <div class="second-column-inner">
+            <perfect-scrollbar>
+               <app-vault-folder *ngFor="let folder of vaultService.folders" [folder]="folder"></app-vault-folder>
+            </perfect-scrollbar>
+        </div>
+    </div>
+</div>
+

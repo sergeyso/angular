@@ -1,0 +1,35 @@
+<div class="bottom-target-post-bar" [ngClass]="{'fullwidth': !global.leftColumnVisibile }" [ngStyle]="{'z-index': zindexValue}">
+    <!-- Default view when nothing is targeted -->
+    <div class="bottom-target-all-buttons" *ngIf="defaultBottomTarget && !global.showAnswerBottomVar">
+        <a href="javascript:;" (click)="togglePostForm(true)" class="bt_link"><i class="fa fa-plus-square" aria-hidden="true"></i>Post an Update</a>
+        <a href="javascript:;" (click)="toggleFilePostForm(true)" class="bt_link upload"><i class="fa fa-cloud-upload" aria-hidden="true"></i>Upload Files</a>
+        <a href="javascript:;" (click)="openAskQuestionForm()" class="bt_link question"><i class="fa fa-question-circle" aria-hidden="true"></i>Ask a Question</a>
+        <a href="javascript:;" (click)="toggleAddProcess(true)" class="bt_link add-process"><i class="fa fa-list-ul" aria-hidden="true"></i>Add a Process</a>
+        <div class="bt_link record" #openRecord>
+            <a href="javascript:;" (click)="openRecordTarget()"><i class="fa fa-dot-circle-o" aria-hidden="true"></i>Record</a>
+            <!-- Record target container -->
+            <ul class="record-target-container" *ngIf="recordTargetCont">
+                <li><a href="javascript:;" (click)="openRecordAudio()"><i class="fa fa-microphone" aria-hidden="true"></i>Audio</a></li>
+                <li><a href="javascript:;" (click)="openRecordVideo()"><i class="fa fa-video-camera" aria-hidden="true"></i>Video</a></li>
+                <li><a href="javascript:;" (click)="openRecordScreen()"><i class="fa fa-desktop" aria-hidden="true"></i>Screen</a></li>
+            </ul>
+        </div>
+        <a href="javascript:;" *ngIf="this.sectorService.showStartedTipsStatus" (click)="toggleStartedGuide()" class="bt_link started-guide"><i class="fa fa-list" aria-hidden="true"></i>{{ this.sectorService.startedGuideInfo }}</a>
+    </div>
+    <!-- Upload new post form -->
+    <upload-form (close)="togglePostForm($event)" *ngIf="postUploadForm" (zindex)="changeZindex($event)"></upload-form>
+    <upload-file-form (close)="toggleFilePostForm($event)" *ngIf="postFileUploadForm" [recFile]="recFile" (zindex)="changeZindex($event)"></upload-file-form>
+</div>
+<!-- Live setup popup-->
+<live-setup *ngIf="global.liveSetupForm" (closePopup)="hideLiveSetupPopup($event)"></live-setup>
+<!-- Ask question popup -->
+<ask-question *ngIf="askQuestionForm" (closePopup)="hideAskQuestionPopup($event)"></ask-question>
+<!-- Add files to answer popup -->
+<main-add-answer-files  *ngIf="addAnswerFiles" (closePopup)="hideaddAnswerFiles($event)"></main-add-answer-files>
+<!-- Error popup if user has not access -->
+<free-account-error  *ngIf="freeAccountPopup"></free-account-error>
+<!-- Record audio component -->
+<app-record-audio *ngIf="audioPopupVisible" (closePopupEmiter)="hideRecordAudio($event)"></app-record-audio>
+<app-record-video *ngIf="videoPopupVisible" (closePopupEmiter)="hideRecordVideo($event)"></app-record-video>
+<app-record-screen *ngIf="screenPopupVisible" (closePopupEmiter)="hideRecordScreen($event)"></app-record-screen>
+<popup-add-process *ngIf="addProcessStatus" (close)="toggleAddProcess($event)"></popup-add-process>

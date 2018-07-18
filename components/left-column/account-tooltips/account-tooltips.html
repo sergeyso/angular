@@ -1,0 +1,3 @@
+<popup-personal-account *ngIf="personalAccountStatus" (closeModal)="personalAccountEvent($event)"></popup-personal-account>
+<popup-organisation-account *ngFor="let company of companies; let i = index" (closeModal)="organisationAccountEvent($event)" [company]="company" [index]="i" [currentStep]="currentStep"></popup-organisation-account>
+<popup-reminder-account *ngIf="reminderAccountStatus" (closeModal)="reminderAccountEvent($event)"></popup-reminder-account>

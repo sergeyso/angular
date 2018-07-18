@@ -1,0 +1,213 @@
+<div id="opacity-container" class="live-setup" (click)="hidePopup()"></div>
+<div id="popupcontainer" class="live-setup">
+    <div class="popup-header">
+        <span  *ngIf="stepOneVisible; else livesetupSecondTitle">Setup Live Stream</span>
+        <ng-template #livesetupSecondTitle><span>Live Stream Summary</span></ng-template>
+        <i class="fa fa-times" aria-hidden="true" (click)="hidePopup()"></i>
+    </div>
+    <div class="popup-content" (click)="closePopUpButton($event)">
+        <!-- First step live setup form -->
+        <div class="live-setup-steps" *ngIf="stepOneVisible; else livesetupSecond">
+            <!-- Setup form -->
+            <form class="live-setup-form" #liveForm="ngForm">
+            <p class="note-messages error-msg" [hidden]="!serverErrorMessage">{{serverErrorMessage}}</p>
+            <!-- Form field title -->
+            <div class="form-field">
+                <label>Title</label>
+                <input #inputTitle="ngModel" [(ngModel)]="title" type="text" name="title" class="form-input" placeholder="Title" required minlength="4" />
+                <p class="error-msg-small" [hidden]="inputTitle.valid || inputTitle.pristine">Title is required</p>
+            </div>
+            <!--Live stream bottom  -->
+            <div class="live-stream-bottom-part">
+                <!-- Invite participants -->
+                <div class="live-stream-bottom-part-single">
+                    <span class="live-stream-bottom-part-single-title open-second-popup" (click)="OpenParticipant()">Invite Participants</span>
+                    <div class="live-stream-bottom-list-p">
+                        <!-- Added participant display here -->
+                        <div class="live-stream-bottom-list-p-added">
+                            <div *ngFor="let participant of participants;" class="list-listing-contact">
+                                <a class="user-image" href="{{participant.profile}}">
+                                    <img *ngIf="avatarSmall(participant)" src="{{avatarSmall(participant)}}">
+                                    <span *ngIf="!avatarSmall(participant)">{{avatarFirstLetter(participant)}}</span>
+                                </a>
+                            </div>
+                            <div *ngFor="let invite of invites;" class="list-listing-contact">
+                                <a class="user-image" href="javascript:void();">
+                                    <img src="images/not-confirmed-user.png" alt="" />
+                                </a>
+                            </div>
+                        </div>
+                        <span class="live-stream-bottom-part-single-number"><span *ngIf="!participants.length" class="open-second-popup" (click)="OpenParticipant()">None</span><i class="fa fa-chevron-right open-second-popup" (click)="OpenParticipant()" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+                <!-- Channels -->
+                <div class="live-stream-bottom-part-single">
+                    <span class="live-stream-bottom-part-single-title open-second-popup" (click)="OpenChannels()">Channels</span>
+                    <div class="live-stream-bottom-list-p">
+                        <!-- Added participant display here -->
+                        <div class="live-stream-bottom-list-p-added">
+                            <!-- single participant -->
+                            <div *ngFor="let channel of channels;" class="list-listing-contact">
+                                <a class="ls-channels-listing open-second-popup" (click)="OpenChannels()" href="javascript:;">
+                                    <i class="fa fa-hashtag" aria-hidden="true"></i>
+                                    {{channel.name}}
+                                </a>
+                            </div>
+                        </div>
+                        <span class="live-stream-bottom-part-single-number"><span *ngIf="!channels.length" class="open-second-popup" (click)="OpenChannels()">None</span><i class="fa fa-chevron-right open-second-popup" (click)="OpenChannels()" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+                <!--&lt;!&ndash; Reminder Emails &ndash;&gt;-->
+                <!--<div class="live-stream-bottom-part-single">-->
+                    <!--<span class="live-stream-bottom-part-single-title open-second-popup" (click)="openReminderEmails()">Setup Reminder Emails</span>-->
+                    <!--<div class="live-stream-bottom-list-p">-->
+                        <!--<span class="live-stream-bottom-part-single-number">0<i class="fa fa-chevron-right" aria-hidden="true"></i></span>-->
+                    <!--</div>-->
+
+                <!--</div>-->
+            </div>
+            <!-- Buttons Submit -->
+            <div class="live-stream-submit-container">
+                <div class="live-stream-submit-container-inline">
+                    <!-- Date -->
+                    <div class="date-live-stream">
+                        <span class="choosen-date">{{choosenDateFormatted}}</span>
+                        <datetimepicker [options]="dateTimePickerOptions" (onChanged)="onDateTimeChanged($event)" (onBeforeInit)="onDateTimeBeforeInit($event)"></datetimepicker>
+                    </div>
+                    <!-- Buttons -->
+                    <button type="submit" name="submit-now" class="btn-live start-now" [disabled]="processing" *ngIf="showLiveButton; else elseBlock" (click)="startLiveNow()"><i *ngIf="processing" class="fa fa-spinner fa-pulse fa-fw"></i> Start Live Stream </button>
+                    <ng-template #elseBlock>
+                        <button type="submit" name="submit-now" class="btn-live save"  [disabled]="processing" (click)="showStepTwo()"><i *ngIf="processing" class="fa fa-spinner fa-pulse fa-fw"></i> Save </button>
+                    </ng-template>
+                </div>
+            </div>
+            </form>
+        </div>
+        <!-- Second step live setup form -->
+        <ng-template #livesetupSecond>
+            <div class="live-stream-summary">
+                <form>
+                    <h3>{{title}}</h3>
+                    <span class="date">{{liveStartAtFormatted}} UTC</span>
+                    <!-- Time left -->
+                    <countdown [startAt]="liveStartAt"></countdown>
+                    <!-- Form field title -->
+                    <div class="form-field">
+                        <input type="text" name="title" readonly class="form-input" value="{{liveUrl}}" #inputLiveUrl/>
+                    </div>
+                    <div class="live-stream-submit-container live-stream-summary-sc">
+                        <button type="button" name="submit-now" class="btn-live save" ngxClipboard [cbContent]="liveUrl" (cbOnSuccess)="inputLiveUrl.select()">Copy URL</button>
+                        <button type="button" name="submit-now" class="btn-live save" (click)="hidePopup()">Done</button>
+<!--                        <img src="images/share-fb-popup.png" />
+                        <img src="images/share-tw-popup.png" />-->
+                    </div>
+                </form>
+            </div>
+        </ng-template>
+    </div>
+</div>
+<!-- List of participants showing here -->
+<div *ngIf="participantForm" class="list-pp list-pp-participants">
+    <form>
+        <!-- Top part -->
+        <!--<div class="list-pp-top">-->
+            <!--<div class="checkboxInput">-->
+                <!--<input id="check_all" name="check_all" type="checkbox">-->
+                <!--<label for="check_all"></label>-->
+            <!--</div>-->
+            <!--<input type="text" name="search" class="filter-search" placeholder="Filter by name"/>-->
+            <!--<input type="submit" name="search-participant" class="filter-search-submit" value="Save"/>-->
+        <!--</div>-->
+        <div class="list-pp-top">
+            <input type="text" [(ngModel)]="userFilterName" (keyup)="onChangeUserFilterName($event)" name="search" class="filter-search" placeholder="Type name or email"/>
+            <input type="submit" name="search-participant" class="filter-search-submit" value="Save" (click)="SaveParticipants()"/>
+        </div>
+        <!-- Participants listing -->
+        <div class="list-listing">
+            <perfect-scrollbar class="scrollbar-element">
+                <ul>
+                    <li *ngFor="let user of filteredUsers();">
+                        <div class="checkboxInput popups-users-listing">
+                            <input (change)="onAddToParticipants($event, user)" id="user_{{user.id}}" name="participant[]" type="checkbox" [checked]="hasParticipant(user)"><!--user.isParticipant-->
+                            <label for="user_{{user.id}}">
+                                <div *ngIf="avatarSmall(user)" class="list-listing-contact"><img src="{{avatarSmall(user)}}"></div>
+                                <div *ngIf="!avatarSmall(user)" class="list-listing-contact"><span>{{avatarFirstLetter(user)}}</span></div>
+                                <span class="popups-users-listing-username">{{user.username}}</span>
+                            </label>
+                        </div>
+                    </li>
+                    <li *ngFor="let invite of filteredInvites();">
+                        <div class="checkboxInput popups-users-listing">
+                            <input (change)="onAddToInvites($event, invite)" id="invite_{{invite.email}}" name="participant[]" type="checkbox" [checked]="hasInvite(invite)"><!--user.isParticipant-->
+                            <label for="invite_{{invite.email}}">
+                                <div class="list-listing-contact"><img src="images/not-confirmed-user.png" alt="" /></div>
+                                <span class="popups-users-listing-username">{{invite.username}}</span>
+                            </label>
+                        </div>
+                    </li>
+                    <li *ngIf="newInviteUser">
+                        <div class="checkboxInput popups-users-listing">
+                            <input (change)="onAddToInvites($event, newInviteUser)" id="invite_{{newInviteUser.email}}" name="participant[]" type="checkbox" [checked]="hasInvite(newInviteUser)"><!--user.isParticipant-->
+                            <label for="invite_{{newInviteUser.email}}">
+                                <div class="list-listing-contact"><img src="images/not-confirmed-user.png" alt="" /></div>
+                                <span class="popups-users-listing-username">{{newInviteUser.username}}</span>
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </perfect-scrollbar>
+            <div class="list-pp-top">
+                <p class="desc">Knowlocker supports up to 6 people in a room.</p>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- List of participants showing here -->
+<div *ngIf="channelsForm" class="list-pp list-pp-presenters">
+    <form>
+        <!-- Top part -->
+        <div class="list-pp-top">
+            <div class="checkboxInput">
+                <input id="check_allpresenters" name="check_all" type="checkbox" [(ngModel)]="checkAllChannels" (change)="onCheckAllChannels($event)">
+                <label for="check_allpresenters"></label>
+            </div>
+            <input type="text" [(ngModel)]="channelFilterName" (keyup)="onChangeFilterName($event)" name="search" class="filter-search" placeholder="Filter by name"/>
+        </div>
+        <!-- Participants listing -->
+        <div class="list-listing">
+            <perfect-scrollbar class="scrollbar-element">
+                <ul>
+                    <li *ngFor="let channel of filteredChannels(); let i = index">
+                        <div class="checkboxInput popups-channels-listing">
+                            <input (change)="onCheckChannels($event, channel)" id="channel_{{channel.id}}" type="checkbox" [checked]="hasChannel(channel)"><!--channel.isMarked-->
+                            <label for="channel_{{channel.id}}">
+                                <div class="list-listing-contact">
+                                    <i class="fa fa-hashtag" aria-hidden="true"></i>
+                                </div>
+                                <span class="popups-users-listing-username">{{channel.name}}</span>
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </perfect-scrollbar>
+        </div>
+    </form>
+</div>
+<!--&lt;!&ndash; List of participants showing here &ndash;&gt;-->
+<!--<div *ngIf="reminderEmails" class="list-pp reminder-emails">-->
+    <!--<form>-->
+        <!--&lt;!&ndash; Reminder email single &ndash;&gt;-->
+        <!--<div class="reminder-email-box">-->
+            <!--<perfect-scrollbar class="scrollbar-element">-->
+                <!--&lt;!&ndash; Reminder email fields repeatable component  &ndash;&gt;-->
+                <!--<email-reminder></email-reminder>-->
+                <!--&lt;!&ndash; Reminder email fields repeatable component  &ndash;&gt;-->
+                <!--<email-reminder></email-reminder>-->
+            <!--</perfect-scrollbar>-->
+            <!--&lt;!&ndash; Create new email &ndash;&gt;-->
+            <!--<div class="create-new-email">-->
+                <!--<a href="javascript:;"><i class="fa fa-plus-square" aria-hidden="true"></i> Add new Email</a>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</form>-->
+<!--</div>-->

@@ -1,0 +1,56 @@
+<router-outlet></router-outlet>
+<div class="main-page-inner feed-page search-page">
+    <left-column
+            [scrollToMeetings]="false"
+            [scrollToContacts]="false"
+            [scrollToFolders]="false"
+            [scrollToVault]="false"
+            *ngIf="global.leftColumnVisibile"></left-column>
+    <!-- Main column -->
+    <div class="right-column" [ngClass]="{'fullwidth': !global.leftColumnVisibile }">
+        <!-- Main feed page -->
+        <div class="main-feed-content clearfix">
+            <!-- First main column -->
+            <div class="third-column columns" [ngClass]="{shorten: global.fourthColumnvisible}">
+                <div class="serp-top" [ngClass]="{full:!global.leftColumnVisibile}">
+                    <div class="table-div"><div class="table-div-cell">
+                        <h1><a href="javascript:;"><i class="fa fa-bars" aria-hidden="true" (click)="closeLeftColumn()"></i></a>Search Results</h1>
+                    </div></div>
+                    <div class="serp-top-navigation">
+                        <ul class="navigation-tabs-div clearfix">
+                            <li (click)="folderService.filterFeeds('all')" [ngClass]="{active: feedServices.filter == 'all' }"><a href="javascript:;">Top Finds</a></li>
+                            <li (click)="folderService.filterFeeds('channels')" [ngClass]="{active: feedServices.filter == 'channels' }"><a href="javascript:;">Channels ({{feedServices.channelsCount}})</a></li>
+                            <li (click)="folderService.filterFeeds('peoples')" [ngClass]="{active: feedServices.filter == 'peoples' }"><a href="javascript:;">People ({{feedServices.peoplesCount}})</a></li>
+                            <li (click)="folderService.filterFeeds('folders')" [ngClass]="{active: feedServices.filter == 'folders' }"><a href="javascript:;">Folders ({{feedServices.foldersCount}})</a></li>
+                            <li class="">
+                                <a href="javascript:;" class="dropdown-link">Files ({{feedServices.filesCount}})<i class="fa fa-caret-down" aria-hidden="true"></i></a>
+                                <ul class="dropdown-menuu clearfix">
+                                    <li (click)="folderService.filterFeeds('image')" [ngClass]="{active: feedServices.filter == 'image' }"><a href="javascript:;">Photos</a></li>
+                                    <li (click)="folderService.filterFeeds('video')" [ngClass]="{active: feedServices.filter == 'video' }"><a href="javascript:;">Videos</a></li>
+                                    <li><a href="javascript:;">Live Streams</a></li>
+                                    <li (click)="folderService.filterFeeds('office')" [ngClass]="{active: feedServices.filter == 'office'}"><a href="javascript:;">Text Documents</a></li>
+                                    <li (click)="folderService.filterFeeds('pdf')" [ngClass]="{active: feedServices.filter == 'pdf'}"><a href="javascript:;">PDFs</a></li>
+                                    <li><a href="javascript:;">Links</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <form novalidate (submit)="submitSearch()" #form="ngForm">
+                            <div class="form-field">
+                                <input  class="search-input"  name="" [(ngModel)]="search" [ngModelOptions]="{standalone: true}" (ngModelChange)="searchChangeInput($event)">
+                                <input class="search-input-submit" type="submit">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="serp-content">
+                    <div class="padding-div">
+                        <feeds></feeds>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Popups -->
+    <router-outlet></router-outlet>
+</div>
